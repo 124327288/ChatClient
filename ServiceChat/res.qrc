@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/res">
+        <file alias="client_cn">client_cn.qm</file>
+        <file alias="client_en">client_en.qm</file>
+    </qresource>
+</RCC>
