@@ -18,7 +18,6 @@ int main(int argc, char *argv[])
     LuaTool::Instance().getConfigs();
     TcpSocket::Instance().TryConnect();
     TimTool::Instance().Init();
-    TimTool::Instance().GetFriendList();
     LoginWindow::Instance().show();
 
     Program::Instance().state = PROGRAMSTATE::LOGINPAGE;

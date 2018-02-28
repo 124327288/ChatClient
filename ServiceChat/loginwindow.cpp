@@ -74,6 +74,7 @@ void LoginWindow::on_loginPushButton_clicked()
 void LoginWindow::onLoginSuccess()
 {
     close();
+    TimTool::Instance().GetFriendList();
     MainWindow::Instance().show();
 }
 
