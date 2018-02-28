@@ -19,6 +19,8 @@ public:
 private slots:
     void on_myPushButton_clicked();
 
+    void on_addFriendBtn_clicked();
+
 private:
     Ui::MainWindow *ui;
 

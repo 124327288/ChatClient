@@ -67,11 +67,12 @@ void TcpSocket::Listen()
         if(!bytes.isEmpty())
         {
             PROTOCOLTYPE type = (PROTOCOLTYPE) bytes.at(0);
+            qDebug() << QString("Protocol Type: %1").arg(type);
             S2CProtocol *prc = nullptr;
             switch (type)
             {
             case PROTOCOLTYPE::SIGNATURE:
-                 ListenCallBack(SignatureProtocol);
+                ListenCallBack(SignatureProtocol);
                 break;
             case PROTOCOLTYPE::LOGINRES:
                 ListenCallBack(LoginResProtocol);

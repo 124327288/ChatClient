@@ -30,6 +30,14 @@ void TimTool::setSig(const QString &value)
     sig = value;
 }
 
+void TimTool::GetFriendList()
+{
+    TIMGetFriendListCallback cb;
+    cb.OnSuccess = onGetFriendListSuccess;
+    cb.OnError = onGetFriendListError;
+    TIMGetFriendList(&cb);
+}
+
 void TimTool::AddSingleFriend(QString id, QString nick, QString remark, QString addWord, QString addSource)
 {
     QByteArray bId = id.toLatin1();
@@ -137,4 +145,43 @@ void onLoginError(int code, const char *desc, void *data)
     qDebug() << QString("Error! code = %1 desc = %2").arg(code).arg(desc);
     QString str = desc;
     emit TimTool::Instance().LoginError(code, str);
+}
+
+void onGetFriendListSuccess(TIMFriendListElemHandle *handles, uint32_t num, void *data)
+{
+    qDebug() << "onGetFriendListSuccess";
+    QStringList list;
+    for(int i = 0; i < num; ++i)
+    {
+        TIMFriendListElemHandle handle = handles[i];
+        char id[16];
+        char nickName[16];
+        char remark[16];
+        uint32_t idLen, nickLen, remarkLen;
+        GetID4FriendListElemHandle(handle, id, &idLen);
+        GetNickName4FriendListElemHandle(handle, nickName, &nickLen);
+        GetRemark4FriendListElemHandle(handle, remark, &remarkLen);
+        QString s;
+        for(int i = 0; i < idLen; ++i)
+            s += id[i];
+        s += ' ';
+        for(int i = 0; i < nickLen; ++i)
+            s += nickName[i];
+        s += ' ';
+        for(int i = 0; i < remarkLen; ++i)
+            s += remark[i];
+        list << s;
+        qDebug() << i << " " << s;
+    }
+    TimTool::Instance().friendList = list;
+//    TIM_DECL int GetID4FriendListElemHandle(TIMFriendListElemHandle handle, char* id, uint32_t* len);
+//	TIM_DECL int GetNickName4FriendListElemHandle(TIMFriendListElemHandle handle, char* buf, uint32_t* len);
+//	TIM_DECL int GetRemark4FriendListElemHandle(TIMFriendListElemHandle handle, char* remark, uint32_t* len);
+//	TIM_DECL int GetFaceURL4FriendListElemHandle(TIMFriendListElemHandle handle, char* face_url, uint32_t* len);
+
+}
+
+void onGetFriendListError(int code, const char *desc, void *data)
+{
+    qDebug() << QString("onGetFriendListError code = %1, desc = %2").arg(code).arg(desc);
 }

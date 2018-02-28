@@ -41,7 +41,8 @@ SOURCES += \
     program.cpp \
     S2C/loginresprotocol.cpp \
     C2S/userpwdprotocol.cpp \
-    C2S/c2sprotocol.cpp
+    C2S/c2sprotocol.cpp \
+    listmodel.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -60,7 +61,8 @@ HEADERS += \
     C2S/userpwdprotocol.h \
     tcpsocket.h \
     program.h \
-    S2C/loginresprotocol.h
+    S2C/loginresprotocol.h \
+    listmodel.h
 
 FORMS += \
         loginwindow.ui \

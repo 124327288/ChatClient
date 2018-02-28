@@ -3,7 +3,9 @@
 #include <QString>
 #include <QDebug>
 #include <QFile>
-using std::string;
+#include <QMessageBox>
+//using std::string;
+using namespace std;
 LuaTool &LuaTool::Instance()
 {
     static LuaTool instance;
@@ -48,6 +50,7 @@ void LuaTool::getUserConfig()
     string pf = path + userCfgFile;
     if(luaL_dofile(L, pf.data()))
     {
+		QMessageBox::information(nullptr, "ERROR!", QString("cannot do file %1").arg(pf.data()));
         qDebug() << QString("cannot do file %1").arg(pf.data());
     }
     getGoBoolean(rememberPassword, "rememberPassword");
@@ -59,6 +62,7 @@ void LuaTool::getAppConfig()
     string pf = path + appCfgFile;
     if(luaL_dofile(L, pf.data()))
     {
+		QMessageBox::information(nullptr, "ERROR!", QString("cannot do file %1").arg(pf.data()));
         qDebug() << QString("cannot do file %1").arg(pf.data());
     }
     getGoString(serverAddress, "serverAddress");
