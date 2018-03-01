@@ -5,11 +5,6 @@ ChatListModel::ChatListModel(QObject *parent)
 {
 }
 
-QVariant ChatListModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    // FIXME: Implement me!
-}
-
 int ChatListModel::rowCount(const QModelIndex &parent) const
 {
     // For list models only the root node (an invalid parent) should return the list's size. For all

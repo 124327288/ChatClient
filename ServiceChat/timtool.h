@@ -20,6 +20,7 @@ public:
     void GetFriendList();
     void AddSingleFriend(QString id, QString nick = nullptr, QString remark = nullptr, QString addWord = nullptr, QString addSource = nullptr);
     void GetSelfProfile();
+    void SetMessageCallback();
 signals:
     void LoginSuccess();
     void LoginError(int code, const QString &desc);

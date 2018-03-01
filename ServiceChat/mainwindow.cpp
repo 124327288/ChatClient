@@ -13,6 +13,7 @@
 #include <QCloseEvent>
 #include "timtool.h"
 #include "linkmanlistmodel.h"
+#include "chatwindow.h"
 MainWindow &MainWindow::Instance()
 {
     static MainWindow instance;
@@ -31,6 +32,11 @@ MainWindow::MainWindow(QWidget *parent) :
     });
     connect(ui->actionAboutQt, &QAction::triggered, [=](){
         QMessageBox::aboutQt(this);
+    });
+
+    connect(ui->listView, &QListView::doubleClicked, [=](const QModelIndex &index){
+        QString id = index.data().toString();
+        (new ChatWindow({id, id, id}, this))->show();
     });
 //    ui->listView->up
 //    ui->listView->

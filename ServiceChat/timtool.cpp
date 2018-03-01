@@ -135,6 +135,77 @@ void TimTool::GetSelfProfile()
     TIMGetSelfProfile(&cb);
 }
 
+void TimTool::SetMessageCallback()
+{
+//    /**
+//    Description:    设置用户新消息回调函数
+//    @param    [in]    callback    新消息回调函数
+//    @return            void
+//    @exception      none
+//    */
+//    TIM_DECL void            TIMSetMessageCallBack(TIMMessageCB *callback);
+
+//        /**
+//    Description:    用户新消息回调函数
+//    @param    [in]    handles        TIMMessageHandle 数组指针
+//    @param    [in]    msg_num        TIMMessageHandle 数组大小
+//    @param    [in]    data        用户自定义数据
+//    @return            void
+//    @exception      none
+//    */
+//    typedef void (*CBOnNewMessage) (TIMMessageHandle* handles, uint32_t msg_num, void* data);
+//    typedef struct _TIMMessageCB_C
+//    {
+//        CBOnNewMessage OnNewMessage;
+//        void* data;
+//    }TIMMessageCB;
+
+//    /**
+//      Description:    获取Message中包含的elem个数
+//      @param    [in]    handle        消息句柄
+//      @return            int            elem个数
+//      @exception      none
+//      */
+//      TIM_DECL int                GetElemCount(TIMMessageHandle handle);
+//      /**
+//      Description:    获取Message中包含的指定elem句柄
+//      @param    [in]    handle        消息句柄
+//      @param    [in]    index        elem索引
+//      @return            TIMMsgElemHandle    elem句柄
+//      @exception      none
+//      */
+//      TIM_DECL TIMMsgElemHandle    GetElem(TIMMessageHandle handle, int index);
+    TIMMessageCB cb;
+    cb.OnNewMessage = [](TIMMessageHandle* handles, uint32_t msg_num, void* data){
+        qDebug() << "OnNewMessage";
+        for(uint32_t i = 0; i < msg_num; ++i)
+        {
+            qDebug() << QString("msg_num : %1").arg(msg_num);
+            TIMMessageHandle handle = handles[i];
+            int cnt = GetElemCount(handle);
+            for(int j = 0; j < cnt; ++j)
+            {
+                TIMMsgElemHandle elem = GetElem(handle, j);
+                TIMElemType type = GetElemType(elem);
+                switch (type) {
+                case TIMElemType::kElemText:
+                    [=](){
+                        uint32_t len = GetContentLen(elem);
+                        char *buffer = new char[len + 1];
+                        GetContent(elem, buffer, &len);
+                        qDebug() << buffer;
+                        delete[] buffer;
+                    }();
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+    };
+    TIMSetMessageCallBack(&cb);
+}
+
 void TimTool::Init()
 {
     TIMSetMode(1);

@@ -42,7 +42,8 @@ SOURCES += \
     C2S/c2sprotocol.cpp \
     chatwindow.cpp \
     linkmanlistmodel.cpp \
-    chatlistmodel.cpp
+    chatlistmodel.cpp \
+    chatlistdelegate.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -61,7 +62,8 @@ HEADERS += \
     S2C/loginresprotocol.h \
     chatwindow.h \
     linkmanlistmodel.h \
-    chatlistmodel.h
+    chatlistmodel.h \
+    chatlistdelegate.h
 
 FORMS += \
         loginwindow.ui \

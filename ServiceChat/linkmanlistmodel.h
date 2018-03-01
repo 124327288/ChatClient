@@ -15,4 +15,8 @@ private slots:
 private:
     QList<Linkman> linkmanList;
 //	QStringList stringList;
+
+    // QAbstractItemModel interface
+public:
+    virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 };

@@ -31,3 +31,11 @@ void LinkmanListModel::updateList(QList<Linkman> list)
         qDebug() << QString("id : %1, nick : %2, remark : %3").arg(man.id).arg(man.nick).arg(man.remark);
     }
 }
+
+QVariant LinkmanListModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if(role != Qt::DisplayRole)
+        return QAbstractListModel::headerData(section, orientation, role);
+    return tr("Linkmanhe");
+
+}
