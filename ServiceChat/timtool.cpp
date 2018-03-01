@@ -175,7 +175,7 @@ void TimTool::SetMessageCallback()
 //      @exception      none
 //      */
 //      TIM_DECL TIMMsgElemHandle    GetElem(TIMMessageHandle handle, int index);
-    TIMMessageCB cb;
+    static TIMMessageCB cb;
     cb.OnNewMessage = [](TIMMessageHandle* handles, uint32_t msg_num, void* data){
         qDebug() << "OnNewMessage";
         for(uint32_t i = 0; i < msg_num; ++i)
