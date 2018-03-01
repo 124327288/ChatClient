@@ -193,7 +193,8 @@ void TimTool::SetMessageCallback()
                     uint32_t len = GetContentLen(elem);
                     char *buffer = new char[len + 1];
                     GetContent(elem, buffer, &len);
-                    qDebug() << buffer;
+                    QString s = QString::fromLatin1(buffer, len+1);
+                    qDebug() << s;
                     delete[] buffer;
                 }
                     break;

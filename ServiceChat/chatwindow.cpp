@@ -48,9 +48,11 @@ void ChatWindow::on_sendBtn_clicked()
     TIMMsgTextElemHandle txtHandle = CreateMsgTextElem();
     QString text = ui->textEdit->toPlainText();
     QByteArray bytes = text.toLatin1();
+    qDebug() << "send: " << bytes.data();
     SetContent(txtHandle, bytes.data());
     AddElem(msgHandle, txtHandle);
     ui->textEdit->clear();
+    qDebug() << "send: " << bytes.data();
     TIMCommCB cb;
     cb.OnSuccess = [](void*){
         qDebug() << "OnSuccess!";
