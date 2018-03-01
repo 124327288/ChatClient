@@ -189,13 +189,13 @@ void TimTool::SetMessageCallback()
                 TIMElemType type = GetElemType(elem);
                 switch (type) {
                 case TIMElemType::kElemText:
-                    [=](){
-                        uint32_t len = GetContentLen(elem);
-                        char *buffer = new char[len + 1];
-                        GetContent(elem, buffer, &len);
-                        qDebug() << buffer;
-                        delete[] buffer;
-                    }();
+                {
+                    uint32_t len = GetContentLen(elem);
+                    char *buffer = new char[len + 1];
+                    GetContent(elem, buffer, &len);
+                    qDebug() << buffer;
+                    delete[] buffer;
+                }
                     break;
                 default:
                     break;
