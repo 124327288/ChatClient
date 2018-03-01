@@ -1,16 +1,16 @@
-#include "listmodel.h"
+#include "linkmanlistmodel.h"
 #include "timtool.h"
-ListModel::ListModel(QObject *parent) :QAbstractListModel(parent)
+LinkmanListModel::LinkmanListModel(QObject *parent) :QAbstractListModel(parent)
 {
-     connect(&TimTool::Instance(), &TimTool::GetFriendListSuccess, this, &ListModel::updateList);
+     connect(&TimTool::Instance(), &TimTool::GetFriendListSuccess, this, &LinkmanListModel::updateList);
 }
 
-int ListModel::rowCount(const QModelIndex & parent) const
+int LinkmanListModel::rowCount(const QModelIndex & parent) const
 {
     return linkmanList.count();
 }
 
-QVariant ListModel::data(const QModelIndex & index, int role) const
+QVariant LinkmanListModel::data(const QModelIndex & index, int role) const
 {
 	switch (role)
 	{
@@ -21,7 +21,7 @@ QVariant ListModel::data(const QModelIndex & index, int role) const
     }
 }
 
-void ListModel::updateList(QList<Linkman> list)
+void LinkmanListModel::updateList(QList<Linkman> list)
 {
     beginInsertRows(QModelIndex(), rowCount(), list.count());
     linkmanList = list;

@@ -33,8 +33,6 @@ SOURCES += \
     timtool.cpp \
     luatool.cpp \
     mainwindow.cpp \
-    bookitem.cpp \
-    booklistdelegate.cpp \
     protocol.cpp \
     S2C/signatureprotocol.cpp \
     tcpsocket.cpp \
@@ -42,31 +40,33 @@ SOURCES += \
     S2C/loginresprotocol.cpp \
     C2S/userpwdprotocol.cpp \
     C2S/c2sprotocol.cpp \
-    listmodel.cpp
+    chatwindow.cpp \
+    linkmanlistmodel.cpp \
+    chatlistmodel.cpp
 
 HEADERS += \
         loginwindow.h \
     timtool.h \
     luatool.h \
     mainwindow.h \
-    bookitem.h \
-    booklistdelegate.h \
     exptype.h \
     protocol.h \
     C2S/c2sprotocol.h \
     S2C/signatureprotocol.h \
     S2C/s2cprotocol.h \
-    sigthread.h \
     expdef.h \
     C2S/userpwdprotocol.h \
     tcpsocket.h \
     program.h \
     S2C/loginresprotocol.h \
-    listmodel.h
+    chatwindow.h \
+    linkmanlistmodel.h \
+    chatlistmodel.h
 
 FORMS += \
         loginwindow.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    chatwindow.ui
 
 win32:CONFIG(release, debug|release): LIBS += -LD:/IM_Windows_SDK_2.5.6/libs/libs/release/ -llibtim
 else:win32:CONFIG(debug, debug|release): LIBS += -LD:/IM_Windows_SDK_2.5.6/libs/libs/debug/ -llibtim

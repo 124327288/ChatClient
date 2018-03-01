@@ -12,7 +12,7 @@
 #include "program.h"
 #include <QCloseEvent>
 #include "timtool.h"
-#include "listmodel.h"
+#include "linkmanlistmodel.h"
 MainWindow &MainWindow::Instance()
 {
     static MainWindow instance;
@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    listModel = new ListModel;
+    listModel = new LinkmanListModel;
     ui->listView->setModel(listModel);
     connect(&TimTool::Instance(), &TimTool::GetSelfNickname, this, [=](QString nick){
         ui->nickLabel->setText(nick.isEmpty()?TimTool::Instance().getId() : nick);

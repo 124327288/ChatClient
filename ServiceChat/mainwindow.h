@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include "exptype.h"
-#include "listmodel.h"
+#include "linkmanlistmodel.h"
 namespace Ui {
 class MainWindow;
 }
@@ -23,7 +23,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    ListModel *listModel;
+    LinkmanListModel *listModel;
     // QWidget interface
 protected:
     void closeEvent(QCloseEvent *event) override;
