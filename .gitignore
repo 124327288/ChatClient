@@ -43,3 +43,12 @@ ServiceChat/ServiceChat.vcxproj
 ServiceChat/ServiceChat.vcxproj.filters
 ServiceChat/ServiceChat.vcxproj.user
 ServiceChat/.qmake.stash
+*.cbt
+*.opendb
+*.obj
+ServiceChat/Win32/Debug/qt.txt
+*.exe
+*.ilk
+*.pdb
+*.tlog
+*.log
