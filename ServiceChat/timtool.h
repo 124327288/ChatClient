@@ -6,6 +6,7 @@
 #include <string>
 #include <QObject>
 #include <QDebug>
+#include "exptype.h"
 class TimTool : public QObject
 {
     Q_OBJECT
@@ -17,10 +18,14 @@ public:
     QString getSig() const;
     void setSig(const QString &value);
     void GetFriendList();
-    void AddSingleFriend(QString id, QString nick, QString remark = nullptr, QString addWord = nullptr, QString addSource = nullptr);
+    void AddSingleFriend(QString id, QString nick = nullptr, QString remark = nullptr, QString addWord = nullptr, QString addSource = nullptr);
+    void GetSelfProfile();
 signals:
     void LoginSuccess();
     void LoginError(int code, const QString &desc);
+    void GetFriendListSuccess(QList<Linkman> friendList);
+    void GetFriendListError(int code, const char *desc);
+    void GetSelfNickname(QString nick);
 private:
     TimTool();
     int          sdk_app_id;
@@ -28,13 +33,16 @@ private:
     std::string  account_type;
     std::string  private_key;
     QString      sig;
+    QString      id;
+    QString      pwd;
 public:
-    QStringList friendList;
+//    QStringList friendList;
+    QString getId() const;
+    QString getPwd() const;
+    void setId(const QString &value);
+    void setPwd(const QString &value);
 };
 
 void onLoginSuccess(void*);
 void onLoginError(int code, const char *desc, void *data);
-
-void onGetFriendListSuccess(TIMFriendListElemHandle* handles, uint32_t num, void* data);
-void onGetFriendListError(int code, const char* desc, void* data);
 #endif // TIMTOOL_H

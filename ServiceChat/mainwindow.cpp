@@ -24,7 +24,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->listView->setModel(new ListModel);
+    listModel = new ListModel;
+    ui->listView->setModel(listModel);
+    connect(&TimTool::Instance(), &TimTool::GetSelfNickname, this, [=](QString nick){
+        ui->nickLabel->setText(nick.isEmpty()?TimTool::Instance().getId() : nick);
+    });
+    connect(ui->actionAboutQt, &QAction::triggered, [=](){
+        QMessageBox::aboutQt(this);
+    });
+//    ui->listView->up
+//    ui->listView->
+//    connect(listModel, &ListModel::updated, ui->listView, &QListView::update);
 //    QTreeWidgetItem *root = new QTreeWidgetItem(ui->treeWidget, QStringList(QString("Root")));
 //    ui->treeWidget->insertTopLevelItems();
 }
@@ -32,13 +42,6 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-QTcpSocket *socket = new QTcpSocket();
-
-
-void MainWindow::on_myPushButton_clicked()
-{
-    TimTool::Instance().AddSingleFriend("ylzf0000", "");
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -49,9 +52,14 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::on_addFriendBtn_clicked()
 {
-   QString id = QInputDialog::getText(this, "Input Friend ID", "Input Friend ID");
+   QString id = QInputDialog::getText(this, "Input Friend ID", "Friend ID");
    if(id.trimmed().isEmpty())
     return;
    TimTool::Instance().AddSingleFriend(id, "hehe");
+
+}
+
+void MainWindow::updateListView()
+{
 
 }

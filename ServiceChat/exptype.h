@@ -1,6 +1,8 @@
 ﻿#ifndef EXPTYPE_H
 #define EXPTYPE_H
 #include "expdef.h"
+#include <QString>
+#include <QMetaType>
 enum PROTOCOLTYPE : byte
 {
     USERPWD = 1,
@@ -20,4 +22,12 @@ enum LOGINRESTYPE : byte
     NOUSER = 1,
     PWDERROR = 2,
 };
+
+struct Linkman
+{
+    QString id;
+    QString nick;
+    QString remark;
+};
+Q_DECLARE_METATYPE(Linkman)
 #endif // EXPTYPE_H

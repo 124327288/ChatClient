@@ -20,6 +20,26 @@ TimTool::TimTool() :
 
 }
 
+void TimTool::setPwd(const QString &value)
+{
+    pwd = value;
+}
+
+void TimTool::setId(const QString &value)
+{
+    id = value;
+}
+
+QString TimTool::getPwd() const
+{
+    return pwd;
+}
+
+QString TimTool::getId() const
+{
+    return id;
+}
+
 QString TimTool::getSig() const
 {
     return sig;
@@ -32,9 +52,35 @@ void TimTool::setSig(const QString &value)
 
 void TimTool::GetFriendList()
 {
+    //  TIM_DECL int GetID4FriendListElemHandle(TIMFriendListElemHandle handle, char* id, uint32_t* len);
+    //	TIM_DECL int GetNickName4FriendListElemHandle(TIMFriendListElemHandle handle, char* buf, uint32_t* len);
+    //	TIM_DECL int GetRemark4FriendListElemHandle(TIMFriendListElemHandle handle, char* remark, uint32_t* len);
+    //	TIM_DECL int GetFaceURL4FriendListElemHandle(TIMFriendListElemHandle handle, char* face_url, uint32_t* len);
     TIMGetFriendListCallback cb;
-    cb.OnSuccess = onGetFriendListSuccess;
-    cb.OnError = onGetFriendListError;
+    cb.OnSuccess = [](TIMFriendListElemHandle *handles, uint32_t num, void *data){
+        qDebug() << "onGetFriendListSuccess";
+        QList<Linkman> friendList;
+        for(uint32_t i = 0; i < num; ++i)
+        {
+            TIMFriendListElemHandle handle = handles[i];
+            char id[16];
+            char nickName[16];
+            char remark[16];
+            uint32_t idLen, nickLen, remarkLen;
+            GetID4FriendListElemHandle(handle, id, &idLen);
+            GetNickName4FriendListElemHandle(handle, nickName, &nickLen);
+            GetRemark4FriendListElemHandle(handle, remark, &remarkLen);
+            QString sId = QString::fromLatin1(id, idLen);
+            QString sNick = QString::fromLatin1(nickName, nickLen);
+            QString sRemark = QString::fromLatin1(remark, remarkLen);
+    //        qDebug() << QString("id : %1, nick : %2, remark : %3").arg(sId).arg(sNick).arg(sRemark);
+            friendList += {sId, sNick, sRemark};
+        }
+        emit TimTool::Instance().GetFriendListSuccess(friendList);
+    };
+    cb.OnError = [](int code, const char *desc, void *data){
+        qDebug() << QString("onGetFriendListError code = %1, desc = %2").arg(code).arg(desc);
+    };
     TIMGetFriendList(&cb);
 }
 
@@ -55,22 +101,38 @@ void TimTool::AddSingleFriend(QString id, QString nick, QString remark, QString 
     TIMAddFriendCallback cb;
     cb.OnSuccess = [](TIMFriendResultHandle* handles, uint32_t num, void* data){
         qDebug() << "AddSingleFriend " "OnSuccess";
-//        TIM_DECL int GetID4FriendResultHandle(TIMFriendResultHandle handle, char* id, uint32_t* len);
-//        TIM_DECL uint64_t GetResult4FriendResultHandle(TIMFriendResultHandle handle);
-        for(int i = 0; i < num; ++i)
-        {
-            char c_id[128] = {0};
-            uint32_t len;
-            GetID4FriendResultHandle(handles[i], c_id, &len);
-            qDebug() << c_id;
-        }
+        TimTool::Instance().GetFriendList();
     };
     cb.OnError = [](int code, const char* desc, void* data){
         qDebug() << "AddSingleFriend " "OnError";
         qDebug() << code << desc;
     };
-
     TIMAddFriend(&handle, 1, &cb);
+}
+
+void TimTool::GetSelfProfile()
+{
+//  typedef void* TIMSelfProfileHandle;
+//	TIM_DECL TIMSelfProfileHandle CloneSelfProfileHandle(TIMSelfProfileHandle handle);
+//	TIM_DECL void DestroySelfProfileHandle(TIMSelfProfileHandle handle);
+//	TIM_DECL int GetNickName4SlefProfileHandle(TIMSelfProfileHandle handle, char* buf, uint32_t* len);
+//	TIM_DECL E_TIMFriendAllowType GetAllowType4SlefProfileHandle(TIMSelfProfileHandle handle);
+
+    TIMGetSelfProfileCallback cb;
+    cb.OnSuccess = [](TIMSelfProfileHandle* handles, uint32_t num, void* data){
+        qDebug() << "GetSelfProfile num: " << num;
+        char nick[16];
+        uint32_t len;
+        GetNickName4SlefProfileHandle(*handles, nick, &len);
+//        for(uint32_t i = 0; i < num; ++i)
+//            DestroySelfProfileHandle(handles[i]);
+        QString sNick = QString::fromLatin1(nick);
+        emit TimTool::Instance().GetSelfNickname(sNick);
+    };
+    cb.OnError = [](int code, const char* desc, void* data){
+        qDebug() << QString("GetSelfProfile Error! code = %1, desc = %2").arg(code).arg(desc);
+    };
+    TIMGetSelfProfile(&cb);
 }
 
 void TimTool::Init()
@@ -97,6 +159,8 @@ void TimTool::SetConnCallBack()
 
 void TimTool::Login(const QString &username, const QString &password)
 {
+    id = username;
+    pwd = password;
     TcpSocket::Instance().TryConnect();
     UserPwdProtocol prc;
     prc.setUsername(username);
@@ -137,6 +201,7 @@ void TimTool::Login(const QString &username, const QString &password)
 void onLoginSuccess(void *data)
 {
     qDebug() << "Success!";
+    TimTool::Instance().GetSelfProfile();
     emit TimTool::Instance().LoginSuccess();
 }
 
@@ -145,43 +210,4 @@ void onLoginError(int code, const char *desc, void *data)
     qDebug() << QString("Error! code = %1 desc = %2").arg(code).arg(desc);
     QString str = desc;
     emit TimTool::Instance().LoginError(code, str);
-}
-
-void onGetFriendListSuccess(TIMFriendListElemHandle *handles, uint32_t num, void *data)
-{
-    qDebug() << "onGetFriendListSuccess";
-    QStringList list;
-    for(int i = 0; i < num; ++i)
-    {
-        TIMFriendListElemHandle handle = handles[i];
-        char id[16];
-        char nickName[16];
-        char remark[16];
-        uint32_t idLen, nickLen, remarkLen;
-        GetID4FriendListElemHandle(handle, id, &idLen);
-        GetNickName4FriendListElemHandle(handle, nickName, &nickLen);
-        GetRemark4FriendListElemHandle(handle, remark, &remarkLen);
-        QString s;
-        for(int i = 0; i < idLen; ++i)
-            s += id[i];
-        s += ' ';
-        for(int i = 0; i < nickLen; ++i)
-            s += nickName[i];
-        s += ' ';
-        for(int i = 0; i < remarkLen; ++i)
-            s += remark[i];
-        list << s;
-        qDebug() << i << " " << s;
-    }
-    TimTool::Instance().friendList = list;
-//    TIM_DECL int GetID4FriendListElemHandle(TIMFriendListElemHandle handle, char* id, uint32_t* len);
-//	TIM_DECL int GetNickName4FriendListElemHandle(TIMFriendListElemHandle handle, char* buf, uint32_t* len);
-//	TIM_DECL int GetRemark4FriendListElemHandle(TIMFriendListElemHandle handle, char* remark, uint32_t* len);
-//	TIM_DECL int GetFaceURL4FriendListElemHandle(TIMFriendListElemHandle handle, char* face_url, uint32_t* len);
-
-}
-
-void onGetFriendListError(int code, const char *desc, void *data)
-{
-    qDebug() << QString("onGetFriendListError code = %1, desc = %2").arg(code).arg(desc);
 }
