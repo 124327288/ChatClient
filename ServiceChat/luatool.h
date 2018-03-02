@@ -9,8 +9,19 @@ class LuaTool
 public:
     static LuaTool &Instance();
     void Init();
+
+    bool isDirExist() const;
+    bool genDir();
+
+    bool isAppCfgFileExist() const;
+    bool isUserCfgFileExist() const;
+
+    void genAppCfgFile() const;
+    void genUserCfgFile() const;
+
     void getAppConfig();
     void getUserConfig();
+
     void getConfigs();
 
     bool getRememberPassword() const;
@@ -28,7 +39,7 @@ public:
 private:
     LuaTool();
     lua_State *L;
-    std::string path;
+    std::string dir;
     std::string appCfgFile;
     std::string userCfgFile;
 

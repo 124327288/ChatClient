@@ -53,3 +53,6 @@ ServiceChat/Win32/Debug/qt.txt
 *.tlog
 *.log
 ServiceChat/.vs/ServiceChat/v14/.suo
+Build/Release/config/app_cfg.lua
+Build/Release/config/user_cfg.lua
+*.qm

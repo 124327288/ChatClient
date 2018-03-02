@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QMessageBox>
+#include <QDir>
 //using std::string;
 using namespace std;
 LuaTool &LuaTool::Instance()
@@ -16,20 +17,76 @@ void LuaTool::Init()
 {
     L = luaL_newstate();
     luaL_openlibs(L);
+    if(!isDirExist())
+        genDir();
+    if(!isAppCfgFileExist())
+        genAppCfgFile();
+    if(!isUserCfgFileExist())
+        genUserCfgFile();
+}
+
+bool LuaTool::isDirExist() const
+{
+    QDir _dir(dir.data());
+    return _dir.exists();
+}
+
+bool LuaTool::genDir()
+{
+    QDir _dir;
+    return _dir.mkdir(dir.data());
+}
+
+bool LuaTool::isAppCfgFileExist() const
+{
+    auto _path = dir + appCfgFile;
+    QFile file(_path.data());
+    return file.exists();
+}
+
+bool LuaTool::isUserCfgFileExist() const
+{
+    auto _path = dir + userCfgFile;
+    QFile file(_path.data());
+    return file.exists();
+}
+
+void LuaTool::genAppCfgFile() const
+{
+    qDebug() << "genAppCfgFile";
+    auto _path = dir + appCfgFile;
+    QFile file(_path.data());
+    if(file.open(QFile::WriteOnly))
+    {
+        QTextStream os(&file);
+//        serverAddress = "127.0.0.1"
+//        port = 2333
+        os << QString("%1 = \"%2\"\n").arg("serverAddress").arg("127.0.0.1");
+        os << QString("%1 = %2\n").arg("port").arg(2333);
+    }
+}
+
+void LuaTool::genUserCfgFile() const
+{
+    qDebug() << "genUserCfgFile";
+    auto _path = dir + userCfgFile;
+    QFile file(_path.data());
+    if(file.open(QFile::WriteOnly))
+    {
+        QTextStream os(&file);
+//        rememberPassword = false
+//        autoLogin = false
+        os << QString("%1 = %2\n").arg("rememberPassword").arg("false");
+        os << QString("%1 = %2\n").arg("autoLogin").arg("false");
+    }
 }
 
 LuaTool::LuaTool()
 {
-    path = ".\\config\\";
+    dir = ".\\config\\";
     appCfgFile = "app_cfg.lua";
     userCfgFile = "user_cfg.lua";
 }
-
-//    QFile data("file.txt");
-//    if (data.open(QFile::WriteOnly | QIODevice::Truncate)) {
-//        QTextStream out(&data);
-//        out << "The answer is " << 42;
-//    }
 
 #define getGlobal(isfunc, tofunc, var, varStr, typeStr) {       \
     lua_getglobal(L, varStr);                                   \
@@ -47,7 +104,7 @@ LuaTool::LuaTool()
 
 void LuaTool::getUserConfig()
 {
-    string pf = path + userCfgFile;
+    string pf = dir + userCfgFile;
     if(luaL_dofile(L, pf.data()))
     {
 		QMessageBox::information(nullptr, "ERROR!", QString("cannot do file %1").arg(pf.data()));
@@ -59,7 +116,7 @@ void LuaTool::getUserConfig()
 
 void LuaTool::getAppConfig()
 {
-    string pf = path + appCfgFile;
+    string pf = dir + appCfgFile;
     if(luaL_dofile(L, pf.data()))
     {
 		QMessageBox::information(nullptr, "ERROR!", QString("cannot do file %1").arg(pf.data()));
