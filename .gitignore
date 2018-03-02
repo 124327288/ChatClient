@@ -46,13 +46,12 @@ ServiceChat/.qmake.stash
 *.cbt
 *.opendb
 *.obj
-ServiceChat/Win32/Debug/qt.txt
 *.exe
 *.ilk
 *.pdb
 *.tlog
 *.log
-ServiceChat/.vs/ServiceChat/v14/.suo
-Build/Release/config/app_cfg.lua
-Build/Release/config/user_cfg.lua
+ServiceChat/.vs/
+Build/Release/config
 *.qm
+Build/Release/TimPath

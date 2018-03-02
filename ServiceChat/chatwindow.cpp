@@ -16,7 +16,7 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     otherId = linkman.id;
     otherNick = !linkman.nick.trimmed().isEmpty() ? linkman.nick : otherId;
     otherRemark = !linkman.remark.trimmed().isEmpty() ? linkman.remark : otherNick;
-    TimTool::Instance().chatMap[otherId] = this;
+    TimTool::Instance().AddChatWindowMap(otherId, this);
     setWindowTitle(tr("%1 - Session").arg(otherRemark));
 //    ui->textBrowser->append();
     GetConversation();
@@ -25,6 +25,8 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
 ChatWindow::~ChatWindow()
 {
     delete ui;
+    TimTool::Instance().RemoveChatWindowMap(otherId);
+    TimTool::Instance().RemoveConvMap(otherId);
     DestroyConversation(convHandle);
 }
 
@@ -39,6 +41,7 @@ void ChatWindow::GetConversation()
     QByteArray bytes = otherId.toLatin1();
     const char* peer = bytes.data();
     convHandle = CreateConversation();
+    TimTool::Instance().AddConvMap(otherId, convHandle);
     int rt = TIMGetConversation(convHandle, kCnvC2C, peer);
     if(rt == 0)
         qDebug() << "GetConversation Success!";
@@ -48,32 +51,7 @@ void ChatWindow::GetConversation()
 
 void ChatWindow::on_sendBtn_clicked()
 {
-//    void SendMsg(TIMConversationHandle conv_handle, TIMMessageHandle msg_handle, TIMCommCB *callback);
-//    typedef void* TIMMsgTextElemHandle;
-//    TIMMsgTextElemHandle    CreateMsgTextElem();
-
-//    void    SetContent(TIMMsgTextElemHandle handle, const char* content);
-//    uint32_t    GetContentLen(TIMMsgTextElemHandle handle);
-//    int    GetContent(TIMMsgTextElemHandle handle, char* content, uint32_t* len);
-    TIMMessageHandle msgHandle = CreateTIMMessage();
-    TIMMsgTextElemHandle txtHandle = CreateMsgTextElem();
     QString text = ui->textEdit->toPlainText();
-    QByteArray bytes = text.toLatin1();
-    qDebug() << "send: " << bytes.data();
-    SetContent(txtHandle, bytes.data());
-    AddElem(msgHandle, txtHandle);
+    TimTool::Instance().SendMsg(otherId, text);
     ui->textEdit->clear();
-    qDebug() << "send: " << bytes.data();
-    TIMCommCB cb;
-    cb.OnSuccess = [](void*){
-        qDebug() << "OnSuccess!";
-    };
-    cb.OnError = [](int code, const char* desc, void* data){
-        qDebug() << QString("OnError! code = %1, desc = %2").arg(code).arg(desc);
-    };
-    cb.data = &cb;
-    SendMsg(convHandle, msgHandle, &cb);
-    Sleep(1);
-    DestroyElem(txtHandle);
-    DestroyTIMMessage(msgHandle);
 }

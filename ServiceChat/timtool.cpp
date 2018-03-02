@@ -5,6 +5,7 @@
 #include "C2S/userpwdprotocol.h"
 #include "tcpsocket.h"
 #include <QTimer>
+#include <Windows.h>
 TimTool &TimTool::Instance()
 {
     static TimTool instance;
@@ -15,9 +16,22 @@ TimTool::TimTool() :
     sdk_app_id(1400067035),
     str_app_id("1400067035"),
     account_type("22342"),
-    private_key("-----BEGIN PRIVATE KEY-----MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgySwtuhI1jDkKvsN71WD/0sNsrT7WlMT64+pk1B7OCqShRANCAASm3KZvAY2ZOh2yLU5suIYjYS1EsKZDz6lboryFZUFMt8HiBb0wPH+vH1law55/q6Imlf9k/73TGHorb4wMONhm-----END PRIVATE KEY-----")
+    private_key("-----BEGIN PRIVATE KEY-----MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgySwtuhI1jDkKvsN71WD/0sNsrT7WlMT64+pk1B7OCqShRANCAASm3KZvAY2ZOh2yLU5suIYjYS1EsKZDz6lboryFZUFMt8HiBb0wPH+vH1law55/q6Imlf9k/73TGHorb4wMONhm-----END PRIVATE KEY-----"),
+    timPath("./TimPath")
 {
     connect(this, &TimTool::NewMsg, this, &TimTool::NewMsgHandler);
+}
+
+bool TimTool::TimPathExist() const
+{
+    QDir dir(timPath.data());
+    return dir.exists();
+}
+
+void TimTool::MakeTimPath()
+{
+    QDir d;
+    d.mkdir(timPath.data());
 }
 
 void TimTool::setPwd(const QString &value)
@@ -221,7 +235,6 @@ void TimTool::SetMessageCallback()
             GetNickName4ProfileHandle(profile, nick, &nickLen);
             QString snick = QString::fromLatin1(nick, nickLen);
 
-            DestroyProfileHandle(profile);
             QString msg;
             int cnt = GetElemCount(handle);
             for(int j = 0; j < cnt; ++j)
@@ -236,7 +249,8 @@ void TimTool::SetMessageCallback()
                     GetContent(elem, buffer, &len);
                     QString s = QString::fromLatin1(buffer, len + 1);
                     msg += s;
-                    qDebug() << s;
+//                    qDebug() << s;
+                    qDebug() << buffer;
 //                    delete[] buffer;
                 }
                     break;
@@ -246,17 +260,90 @@ void TimTool::SetMessageCallback()
             }
 
             emit TimTool::Instance().NewMsg(sid, snick, msgTime, msg);
+            DestroyProfileHandle(profile);
         }
     };
     TIMSetMessageCallBack(&cb);
 }
 
+void TimTool::SendMsg(QString id, QString text)
+{
+    //    void SendMsg(TIMConversationHandle conv_handle, TIMMessageHandle msg_handle, TIMCommCB *callback);
+    //    typedef void* TIMMsgTextElemHandle;
+    //    TIMMsgTextElemHandle    CreateMsgTextElem();
+
+    //    void    SetContent(TIMMsgTextElemHandle handle, const char* content);
+    //    uint32_t    GetContentLen(TIMMsgTextElemHandle handle);
+    //    int    GetContent(TIMMsgTextElemHandle handle, char* content, uint32_t* len);
+    TIMMessageHandle msgHandle = CreateTIMMessage();
+    TIMMsgTextElemHandle txtHandle = CreateMsgTextElem();
+    static QByteArray bytes;
+    bytes = text.toLatin1();
+    qDebug() << "send: " << bytes.data();
+    SetContent(txtHandle, "bytes.data()");
+    AddElem(msgHandle, txtHandle);
+    qDebug() << "send: " << bytes.data();
+    TIMCommCB cb;
+    cb.OnSuccess = [](void*){
+        qDebug() << "OnSuccess!";
+    };
+    cb.OnError = [](int code, const char* desc, void* data){
+        qDebug() << QString("OnError! code = %1, desc = %2").arg(code).arg(desc);
+    };
+    cb.data = &cb;
+    ::SendMsg(convMap[id], msgHandle, &cb);
+    Sleep(1);
+    DestroyElem(txtHandle);
+    DestroyTIMMessage(msgHandle);
+}
+
+int TimTool::AddChatWindowMap(QString id, ChatWindow *window)
+{
+    if(chatWindowMap.contains(id))
+        return 1;
+    chatWindowMap[id] = window;
+    return 0;
+}
+
+void TimTool::UpdateChatWindowMap(QString id, ChatWindow *window)
+{
+    chatWindowMap[id] = window;
+}
+
+int TimTool::RemoveChatWindowMap(QString id)
+{
+    if(!chatWindowMap.contains(id))
+        return 1;
+    chatWindowMap.remove(id);
+    return 0;
+}
+
+int TimTool::AddConvMap(QString id, TIMConversationHandle handle)
+{
+    if(convMap.contains(id))
+        return 1;
+    convMap[id] = handle;
+}
+
+void TimTool::UpdateConvMap(QString id, TIMConversationHandle handle)
+{
+    convMap[id] = handle;
+}
+
+int TimTool::RemoveConvMap(QString id)
+{
+    if(!convMap.contains(id))
+        return 1;
+    convMap.remove(id);
+    return 0;
+}
+
 void TimTool::NewMsgHandler(QString id, QString nick, uint32_t time, QString msg)
 {
-    qDebug() << "chatMap.contains(id): " << chatMap.contains(id);
-    if(chatMap.contains(id))
+    qDebug() << "chatMap.contains(id): " << chatWindowMap.contains(id);
+    if(chatWindowMap.contains(id))
     {
-        ChatWindow *window = chatMap[id];
+        ChatWindow *window = chatWindowMap[id];
         window->AddContent(id, nick, time, msg);
     }
 }
@@ -264,8 +351,10 @@ void TimTool::NewMsgHandler(QString id, QString nick, uint32_t time, QString msg
 void TimTool::Init()
 {
     TIMSetMode(1);
-    TIMSetPath("./TimPath");
-    TIMSetLogLevel(TIMLogLevel::kLogInfo);
+    if(!TimPathExist())
+        MakeTimPath();
+    TIMSetPath(timPath.data());
+    TIMSetLogLevel(TIMLogLevel::kLogWarn);
     SetConnCallBack();
     TIMInit();
 }
