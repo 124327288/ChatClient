@@ -14,7 +14,10 @@ int main(int argc, char *argv[])
     a.installTranslator(&trans);
     Program::Instance().state = PROGRAMSTATE::NOPAGE;
 
-    qRegisterMetaType(new QList<Linkman>);
+    qRegisterMetaType<Linkman>("Linkman");
+    qRegisterMetaType<QList<Linkman>>("QList<Linkman>");
+    qRegisterMetaType<uint32_t>("uint32_t");
+
     LuaTool::Instance().Init();
     LuaTool::Instance().getConfigs();
     TcpSocket::Instance().TryConnect();

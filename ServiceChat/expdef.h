@@ -1,6 +1,6 @@
 ﻿#ifndef EXPDEF_H
 #define EXPDEF_H
-
+#include <qnamespace.h>
 using byte      =   unsigned __int8;
 using ubyte     =   unsigned __int8;
 using sbyte     =   __int8;
@@ -19,4 +19,13 @@ using int64     =   __int64;
 using Int64     =   __int64;
 using uint64    =   unsigned __int64;
 using UInt64    =   unsigned __int64;
+
+enum ChatRole
+{
+    ChatRoleID = Qt::UserRole + 1,
+    ChatRoleNick,
+    ChatRoleData,
+    ChatRoleTime,
+    ChatRoleContent
+};
 #endif // EXPDEF_H

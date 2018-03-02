@@ -15,7 +15,7 @@ class ChatWindow : public QMainWindow
 public:
     explicit ChatWindow(const Linkman &linkman, QWidget *parent = 0);
     ~ChatWindow();
-
+    void AddContent(QString id, QString nick, uint32_t time, QString msg);
 private slots:
     void on_sendBtn_clicked();
 

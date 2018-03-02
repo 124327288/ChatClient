@@ -2,7 +2,7 @@
 #define CHATLISTMODEL_H
 
 #include <QAbstractListModel>
-
+#include "exptype.h"
 class ChatListModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -16,6 +16,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
 private:
+    QList<ChatContent> chatList;
 };
 
 #endif // CHATLISTMODEL_H

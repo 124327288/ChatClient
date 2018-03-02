@@ -2,6 +2,7 @@
 #define EXPTYPE_H
 #include "expdef.h"
 #include <QString>
+#include <QList>
 #include <QMetaType>
 enum PROTOCOLTYPE : byte
 {
@@ -30,4 +31,20 @@ struct Linkman
     QString remark;
 };
 Q_DECLARE_METATYPE(Linkman)
+Q_DECLARE_METATYPE(QList<Linkman>)
+Q_DECLARE_METATYPE(uint32_t)
+
+struct ChatTitle
+{
+    QString id;
+    QString nick;
+    QString data;
+    QString time;
+};
+
+struct ChatContent
+{
+    ChatTitle title;
+    QString text;
+};
 #endif // EXPTYPE_H

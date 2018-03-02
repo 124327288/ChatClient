@@ -17,7 +17,7 @@ TimTool::TimTool() :
     account_type("22342"),
     private_key("-----BEGIN PRIVATE KEY-----MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgySwtuhI1jDkKvsN71WD/0sNsrT7WlMT64+pk1B7OCqShRANCAASm3KZvAY2ZOh2yLU5suIYjYS1EsKZDz6lboryFZUFMt8HiBb0wPH+vH1law55/q6Imlf9k/73TGHorb4wMONhm-----END PRIVATE KEY-----")
 {
-
+    connect(this, &TimTool::NewMsg, this, &TimTool::NewMsgHandler);
 }
 
 void TimTool::setPwd(const QString &value)
@@ -108,6 +108,7 @@ void TimTool::AddSingleFriend(QString id, QString nick, QString remark, QString 
         qDebug() << code << desc;
     };
     TIMAddFriend(&handle, 1, &cb);
+    DestroyAddFriendHandle(handle);
 }
 
 void TimTool::GetSelfProfile()
@@ -175,13 +176,53 @@ void TimTool::SetMessageCallback()
 //      @exception      none
 //      */
 //      TIM_DECL TIMMsgElemHandle    GetElem(TIMMessageHandle handle, int index);
+//    /**
+//    Description:    当前消息的时间戳
+//    @param    [in]    handle    TIMMessageHandle
+//    @return            uint32_t    时间戳
+//    @exception      none
+//    */
+//    TIM_DECL uint32_t            GetMsgTime(TIMMessageHandle handle);
+//    /**
+//       Description:    获取发送方
+//       @param    [in]    handle    TIMMessageHandle
+//       @param    [in]    buf        发送方ID buffer
+//       @param    [in]    len        发送方ID 长
+//       @return            int        0:成功 非0:失败
+//       @exception      none
+//       */
+//       TIM_DECL int                GetMsgSender(TIMMessageHandle handle, char* buf, uint32_t* len);
+//       /**
+//       Description:    获取发送者资料
+//       @param    [in]    handle    TIMMessageHandle
+//       @param    [in]    profile    发送者资料 目前只有字段：identifier、nickname、faceURL、customInfo
+//       @return            int        0:成功 非0:失败
+//       @exception      none
+//       */
+//       TIM_DECL int                GetSenderProfile(TIMMessageHandle handle, TIMProfileHandle profile);
+
     static TIMMessageCB cb;
     cb.OnNewMessage = [](TIMMessageHandle* handles, uint32_t msg_num, void* data){
         qDebug() << "OnNewMessage";
+        qDebug() << QString("msg_num : %1").arg(msg_num);
         for(uint32_t i = 0; i < msg_num; ++i)
         {
-            qDebug() << QString("msg_num : %1").arg(msg_num);
             TIMMessageHandle handle = handles[i];
+            uint32_t msgTime = GetMsgTime(handle);
+
+            TIMProfileHandle profile = CreateProfileHandle();
+            GetSenderProfile(handle, profile);
+
+            char id[16];uint32_t idLen;
+            GetID4ProfileHandle(profile, id, &idLen);
+            QString sid = QString::fromLatin1(id, idLen);
+
+            char nick[16];uint32_t nickLen;
+            GetNickName4ProfileHandle(profile, nick, &nickLen);
+            QString snick = QString::fromLatin1(nick, nickLen);
+
+            DestroyProfileHandle(profile);
+            QString msg;
             int cnt = GetElemCount(handle);
             for(int j = 0; j < cnt; ++j)
             {
@@ -193,18 +234,31 @@ void TimTool::SetMessageCallback()
                     uint32_t len = GetContentLen(elem);
                     char *buffer = new char[len + 1];
                     GetContent(elem, buffer, &len);
-                    QString s = QString::fromLatin1(buffer, len+1);
+                    QString s = QString::fromLatin1(buffer, len + 1);
+                    msg += s;
                     qDebug() << s;
-                    delete[] buffer;
+//                    delete[] buffer;
                 }
                     break;
                 default:
                     break;
                 }
             }
+
+            emit TimTool::Instance().NewMsg(sid, snick, msgTime, msg);
         }
     };
     TIMSetMessageCallBack(&cb);
+}
+
+void TimTool::NewMsgHandler(QString id, QString nick, uint32_t time, QString msg)
+{
+    qDebug() << "chatMap.contains(id): " << chatMap.contains(id);
+    if(chatMap.contains(id))
+    {
+        ChatWindow *window = chatMap[id];
+        window->AddContent(id, nick, time, msg);
+    }
 }
 
 void TimTool::Init()

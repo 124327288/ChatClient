@@ -2,6 +2,9 @@
 #include "ui_chatwindow.h"
 #include "tim_msg_c.h"
 #include "tim_c.h"
+#include "chatlistmodel.h"
+#include "chatlistdelegate.h"
+#include "timtool.h"
 #include <QDebug>
 #include <QWaitCondition>
 #include <Windows.h>
@@ -13,7 +16,9 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     otherId = linkman.id;
     otherNick = !linkman.nick.trimmed().isEmpty() ? linkman.nick : otherId;
     otherRemark = !linkman.remark.trimmed().isEmpty() ? linkman.remark : otherNick;
+    TimTool::Instance().chatMap[otherId] = this;
     setWindowTitle(tr("%1 - Session").arg(otherRemark));
+//    ui->textBrowser->append();
     GetConversation();
 }
 
@@ -21,6 +26,12 @@ ChatWindow::~ChatWindow()
 {
     delete ui;
     DestroyConversation(convHandle);
+}
+
+void ChatWindow::AddContent(QString id, QString nick, uint32_t time, QString msg)
+{
+    ui->textBrowser->append(QString("%1(%2) %3").arg(id).arg(nick).arg(time));
+    ui->textBrowser->append(msg);
 }
 
 void ChatWindow::GetConversation()

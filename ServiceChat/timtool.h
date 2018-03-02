@@ -7,6 +7,7 @@
 #include <QObject>
 #include <QDebug>
 #include "exptype.h"
+#include "chatwindow.h"
 class TimTool : public QObject
 {
     Q_OBJECT
@@ -21,14 +22,19 @@ public:
     void AddSingleFriend(QString id, QString nick = nullptr, QString remark = nullptr, QString addWord = nullptr, QString addSource = nullptr);
     void GetSelfProfile();
     void SetMessageCallback();
+    QMap<QString, ChatWindow*> chatMap;
 signals:
     void LoginSuccess();
     void LoginError(int code, const QString &desc);
     void GetFriendListSuccess(QList<Linkman> friendList);
     void GetFriendListError(int code, const char *desc);
     void GetSelfNickname(QString nick);
+    void NewMsg(QString id, QString nick, uint32_t time, QString msg);
+private slots:
+    void NewMsgHandler(QString id, QString nick, uint32_t time, QString msg);
 private:
     TimTool();
+
     int          sdk_app_id;
     std::string  str_app_id;
     std::string  account_type;
@@ -36,6 +42,7 @@ private:
     QString      sig;
     QString      id;
     QString      pwd;
+
 public:
 //    QStringList friendList;
     QString getId() const;
