@@ -65,6 +65,20 @@ public:
     void setPwd(const QString &value);
 };
 
-void onLoginSuccess(void*);
-void onLoginError(int code, const char *desc, void *data);
+void onErrorDebug(QString name, int code, const char *desc);
+
+void onCommSuccess(void*);
+void onCommError(int code, const char *desc, void *data);
+
+void onGetFriendListSuccess(TIMFriendListElemHandle *handles, uint32_t num, void *data);
+void onGetFriendListError(int code, const char *desc, void *data);
+
+void onAddFriendSuccess(TIMFriendResultHandle* handles, uint32_t num, void* data);
+void onAddFriendError(int code, const char* desc, void* data);
+
+void onGetSelfProfileSuccess(TIMSelfProfileHandle* handles, uint32_t num, void* data);
+void onGetSelfProfileError(int code, const char* desc, void* data);
+
+void onNewMessage(TIMMessageHandle* handles, uint32_t msg_num, void* data);
+
 #endif // TIMTOOL_H
