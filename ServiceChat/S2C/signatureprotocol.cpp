@@ -1,6 +1,4 @@
 ﻿#include "signatureprotocol.h"
-#include <QDebug>
-#include "expdef.h"
 void SignatureProtocol::UnMarshal()
 {
     uint16 len = GetUInt16();

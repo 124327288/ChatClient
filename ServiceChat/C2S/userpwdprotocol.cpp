@@ -1,5 +1,4 @@
 ﻿#include "userpwdprotocol.h"
-#include <QDebug>
 void UserPwdProtocol::Marshal()
 {
 

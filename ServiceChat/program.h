@@ -1,6 +1,6 @@
 ﻿#ifndef PROGRAM_H
 #define PROGRAM_H
-#include "exptype.h"
+#include "stdafx.h"
 
 class Program
 {

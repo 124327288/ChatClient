@@ -1,15 +1,13 @@
 ﻿#ifndef EXPTYPE_H
 #define EXPTYPE_H
-#include "expdef.h"
-#include <QString>
-#include <QList>
-#include <QMetaType>
+
 enum PROTOCOLTYPE : byte
 {
     USERPWD = 1,
     SIGNATURE = 2,
     LOGINRES
 };
+
 enum PROGRAMSTATE
 {
     NOPAGE = 0,
@@ -17,6 +15,7 @@ enum PROGRAMSTATE
     MAINPAGE,
     EXIT,
 };
+
 enum LOGINRESTYPE : byte
 {
     SUCCESS = 0,
@@ -30,9 +29,6 @@ struct Linkman
     QString nick;
     QString remark;
 };
-Q_DECLARE_METATYPE(Linkman)
-Q_DECLARE_METATYPE(QList<Linkman>)
-Q_DECLARE_METATYPE(uint32_t)
 
 struct ChatTitle
 {
@@ -47,4 +43,9 @@ struct ChatContent
     ChatTitle title;
     QString text;
 };
+
+Q_DECLARE_METATYPE(Linkman)
+Q_DECLARE_METATYPE(QList<Linkman>)
+Q_DECLARE_METATYPE(uint32_t)
+
 #endif // EXPTYPE_H

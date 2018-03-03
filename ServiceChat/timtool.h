@@ -1,26 +1,32 @@
 ﻿#ifndef TIMTOOL_H
 #define TIMTOOL_H
+#include "stdafx.h"
 #include <tim_c.h>
 #include <tim_friend_c.h>
-#include <QString>
 #include <string>
-#include <QObject>
-#include <QDebug>
-#include "exptype.h"
 #include "chatwindow.h"
 class TimTool : public QObject
 {
     Q_OBJECT
+private:
+    TimTool();
+
 public:
     static TimTool &Instance();
     void Init();
     void SetConnCallBack();
     void SetMessageCallback();
+
+private:
+    bool TimPathExist() const;
+    void MakeTimPath();
+
+public:
     void Login(const QString &username, const QString &password);
-    QString getSig() const;
-    void setSig(const QString &value);
+
     void GetFriendList();
     void AddSingleFriend(QString id, QString nick = nullptr, QString remark = nullptr, QString addWord = nullptr, QString addSource = nullptr);
+
     void GetSelfProfile();
 
     void SendMsg(QString id, QString text);
@@ -42,9 +48,6 @@ signals:
 private slots:
     void NewMsgHandler(QString id, QString nick, uint32_t time, QString msg);
 private:
-    TimTool();
-    bool TimPathExist() const;
-    void MakeTimPath();
     int          sdk_app_id;
     std::string  str_app_id;
     std::string  account_type;
@@ -58,27 +61,11 @@ private:
     QMap<QString, TIMConversationHandle> convMap;
 
 public:
-//    QStringList friendList;
+    QString getSig() const;
     QString getId() const;
     QString getPwd() const;
     void setId(const QString &value);
     void setPwd(const QString &value);
+    void setSig(const QString &value);
 };
-
-void onErrorDebug(QString name, int code, const char *desc);
-
-void onCommSuccess(void*);
-void onCommError(int code, const char *desc, void *data);
-
-void onGetFriendListSuccess(TIMFriendListElemHandle *handles, uint32_t num, void *data);
-void onGetFriendListError(int code, const char *desc, void *data);
-
-void onAddFriendSuccess(TIMFriendResultHandle* handles, uint32_t num, void* data);
-void onAddFriendError(int code, const char* desc, void* data);
-
-void onGetSelfProfileSuccess(TIMSelfProfileHandle* handles, uint32_t num, void* data);
-void onGetSelfProfileError(int code, const char* desc, void* data);
-
-void onNewMessage(TIMMessageHandle* handles, uint32_t msg_num, void* data);
-
 #endif // TIMTOOL_H

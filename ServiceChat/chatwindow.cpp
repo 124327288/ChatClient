@@ -1,4 +1,4 @@
-#include "chatwindow.h"
+﻿#include "chatwindow.h"
 #include "ui_chatwindow.h"
 #include "tim_msg_c.h"
 #include "tim_c.h"

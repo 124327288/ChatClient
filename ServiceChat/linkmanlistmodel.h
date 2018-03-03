@@ -1,7 +1,7 @@
-#pragma once
+﻿#ifndef LINKMAINLISTMODEL_H
+#define LINKMAINLISTMODEL_H
+#include "stdafx.h"
 #include <QAbstractListModel>
-#include <QList>
-#include "exptype.h"
 class LinkmanListModel : public QAbstractListModel
 {
 	Q_OBJECT
@@ -20,3 +20,4 @@ private:
 public:
     virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 };
+#endif // LINKMAINLISTMODEL_H

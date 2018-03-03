@@ -1,9 +1,8 @@
 ﻿#ifndef LUATOOL_H
 #define LUATOOL_H
+#include "stdafx.h"
 #include <string>
 #include <lua.hpp>
-#include <QString>
-#include <QDebug>
 class LuaTool
 {
 public:

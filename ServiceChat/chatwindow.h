@@ -1,9 +1,9 @@
-#ifndef CHATWINDOW_H
+﻿#ifndef CHATWINDOW_H
 #define CHATWINDOW_H
 
+#include "stdafx.h"
 #include <QMainWindow>
-#include "exptype.h"
-#include "tim_conv_c.h"
+#include <tim_conv_c.h>
 namespace Ui {
 class ChatWindow;
 }

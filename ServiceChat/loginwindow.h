@@ -1,5 +1,6 @@
 ﻿#ifndef LOGINWINDOW_H
 #define LOGINWINDOW_H
+#include "stdafx.h"
 #include <QMainWindow>
 
 namespace Ui {

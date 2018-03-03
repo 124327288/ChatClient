@@ -1,13 +1,24 @@
 ﻿#ifndef TCPSOCKET_H
 #define TCPSOCKET_H
+#include "stdafx.h"
 #include <QtNetwork>
-#include <thread>
-#include <QObject>
-//#include "S2C/s2cprotocol.h"
+
+#define ListenCallBack(prcClassName)    \
+    prc = new prcClassName(bytes);      \
+    prc->UnMarshal();                   \
+    On##prcClassName(prc);
+
+#define PrcDynamicCast(prcClassName)                            \
+    prcClassName *castPrc = dynamic_cast<prcClassName*>(prc);   \
+    if(castPrc == nullptr) return;
+
+
 class S2CProtocol;
 class TcpSocket : public QObject
 {
     Q_OBJECT
+private:
+    TcpSocket();
 public:
     static TcpSocket &Instance();
     void TryConnect();
@@ -15,7 +26,6 @@ public:
     QTcpSocket *getSocket() const;
     ~TcpSocket();
 private:
-    TcpSocket();
     QTcpSocket *socket;
     std::string serverAddress;
     int port;
@@ -23,5 +33,4 @@ private:
     void OnSignatureProtocol(S2CProtocol *prc);
     void OnLoginResProtocol(S2CProtocol *prc);
 };
-
 #endif // TCPSOCKET_H

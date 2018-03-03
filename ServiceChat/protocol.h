@@ -1,6 +1,6 @@
 ﻿#ifndef PROTOCOL_H
 #define PROTOCOL_H
-#include "exptype.h"
+#include "stdafx.h"
 #include <QtNetwork>
 class Protocol
 {

@@ -5,7 +5,6 @@
 #include "tcpsocket.h"
 #include "timtool.h"
 #include "program.h"
-#include "exptype.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

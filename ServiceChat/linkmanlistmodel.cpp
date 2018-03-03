@@ -1,4 +1,4 @@
-#include "linkmanlistmodel.h"
+﻿#include "linkmanlistmodel.h"
 #include "timtool.h"
 LinkmanListModel::LinkmanListModel(QObject *parent) :QAbstractListModel(parent)
 {

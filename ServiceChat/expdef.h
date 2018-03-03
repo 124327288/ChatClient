@@ -1,6 +1,6 @@
 ﻿#ifndef EXPDEF_H
 #define EXPDEF_H
-#include <qnamespace.h>
+
 using byte      =   unsigned __int8;
 using ubyte     =   unsigned __int8;
 using sbyte     =   __int8;

@@ -1,8 +1,7 @@
 ﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include "stdafx.h"
 #include <QMainWindow>
-#include "exptype.h"
 #include "linkmanlistmodel.h"
 namespace Ui {
 class MainWindow;

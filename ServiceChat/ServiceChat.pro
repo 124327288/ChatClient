@@ -7,6 +7,11 @@
 QT       += core gui
 QT       += network
 
+# Use Precompiled headers (PCH)
+PRECOMPILED_HEADER  = stdafx.h
+
+QMAKE_CXXFLAGS += /MP
+
 TRANSLATIONS += client_en.ts
 TRANSLATIONS += client_cn.ts
 
@@ -42,8 +47,8 @@ SOURCES += \
     C2S/c2sprotocol.cpp \
     chatwindow.cpp \
     linkmanlistmodel.cpp \
-    chatlistmodel.cpp \
-    chatlistdelegate.cpp
+    timcallback.cpp \
+    stdafx.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -62,8 +67,8 @@ HEADERS += \
     S2C/loginresprotocol.h \
     chatwindow.h \
     linkmanlistmodel.h \
-    chatlistmodel.h \
-    chatlistdelegate.h
+    timcallback.h \
+    stdafx.h
 
 FORMS += \
         loginwindow.ui \
