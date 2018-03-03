@@ -20,7 +20,7 @@ public:
 private:
     bool TimPathExist() const;
     void MakeTimPath();
-
+    void _Login();
 public:
     void Login(const QString &username, const QString &password);
 
@@ -45,6 +45,8 @@ signals:
     void GetFriendListError(int code, const char *desc);
     void GetSelfNickname(QString nick);
     void NewMsg(QString id, QString nick, uint32_t time, QString msg);
+    void GetSignature(QString sig);
+    void SetSignatureSuccess();
 private slots:
     void NewMsgHandler(QString id, QString nick, uint32_t time, QString msg);
 private:
@@ -57,15 +59,12 @@ private:
     QString      id;
     QString      pwd;
 
-    QMap<QString, ChatWindow*> chatWindowMap;
-    QMap<QString, TIMConversationHandle> convMap;
+    QMap<QString, ChatWindow*>            chatWindowMap;
+    QMap<QString, TIMConversationHandle>  convMap;
 
 public:
     QString getSig() const;
     QString getId() const;
     QString getPwd() const;
-    void setId(const QString &value);
-    void setPwd(const QString &value);
-    void setSig(const QString &value);
 };
 #endif // TIMTOOL_H

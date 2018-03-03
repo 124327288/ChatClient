@@ -61,7 +61,7 @@ void TcpSocket::OnSignatureProtocol(S2CProtocol *prc)
 {
     PrcDynamicCast(SignatureProtocol);
     qDebug() << castPrc->getSig();
-    TimTool::Instance().setSig(castPrc->getSig());
+    emit TimTool::Instance().GetSignature(castPrc->getSig());
 }
 
 void TcpSocket::OnLoginResProtocol(S2CProtocol *prc)

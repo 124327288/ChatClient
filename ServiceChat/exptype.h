@@ -1,6 +1,7 @@
 ﻿#ifndef EXPTYPE_H
 #define EXPTYPE_H
-
+#include "expdef.h"
+#include <QMetaType>
 enum PROTOCOLTYPE : byte
 {
     USERPWD = 1,

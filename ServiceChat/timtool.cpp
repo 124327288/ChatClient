@@ -14,6 +14,11 @@ TimTool::TimTool() :
     timPath("./TimPath")
 {
     connect(this, &TimTool::NewMsg, this, &TimTool::NewMsgHandler);
+    connect(this, &TimTool::GetSignature, [=](QString _sig){
+        sig = _sig;
+        emit SetSignatureSuccess();
+    });
+    connect(this, &TimTool::SetSignatureSuccess, this, &TimTool::_Login);
 }
 
 TimTool &TimTool::Instance()
@@ -62,6 +67,21 @@ void TimTool::MakeTimPath()
     d.mkdir(timPath.data());
 }
 
+void TimTool::_Login()
+{
+    TIMUserInfo user;
+    user.account_type =  const_cast<char*>(account_type.data());
+    user.app_id_at_3rd = const_cast<char*>(str_app_id.data());
+    QByteArray bytes = id.toLatin1();
+    user.identifier = bytes.data();
+    QByteArray sigByte = sig.toLatin1();
+    static TIMCommCB cb;
+    cb.OnSuccess = &onLoginSuccess;
+    cb.OnError = &onLoginError;
+    cb.data = &cb;
+    TIMLogin(sdk_app_id, &user, sigByte.data(), &cb);
+}
+
 void TimTool::Login(const QString &username, const QString &password)
 {
     id = username;
@@ -72,36 +92,36 @@ void TimTool::Login(const QString &username, const QString &password)
     prc.setPassword(password);
     prc.SendData();
 
-    QTimer *timer200 = new QTimer();
-    timer200->setInterval(200);
-    QTimer *timer5000 = new QTimer();
-    timer5000->setInterval(5000);
-    timer5000->setSingleShot(true);
-    QObject::connect(timer200, &QTimer::timeout, [=]{
-        emit LoginWindow::Instance().RemainTime(timer5000->remainingTime());
-        if(!sig.isEmpty())
-        {
-            TIMUserInfo user;
-            user.account_type =  const_cast<char*>(account_type.data());
-            user.app_id_at_3rd = const_cast<char*>(str_app_id.data());
-            QByteArray bytes = username.toLatin1();
-            user.identifier = bytes.data();
-            QByteArray sigByte = sig.toLatin1();
-            static TIMCommCB cb;
-            cb.OnSuccess = &onCommSuccess;
-            cb.OnError = &onCommError;
-            cb.data = &cb;
-            TIMLogin(sdk_app_id, &user, sigByte.data(), &cb);
-            timer200->stop();
-        }
-    });
-    QObject::connect(timer5000, &QTimer::timeout, [=]{
-        emit LoginWindow::Instance().RemainTime(0);
-        if(timer200->isActive())
-            timer200->stop();
-    });
-    timer5000->start();
-    timer200->start();
+//    QTimer *timer200 = new QTimer();
+//    timer200->setInterval(200);
+//    QTimer *timer5000 = new QTimer();
+//    timer5000->setInterval(5000);
+//    timer5000->setSingleShot(true);
+//    QObject::connect(timer200, &QTimer::timeout, [=]{
+//        emit LoginWindow::Instance().RemainTime(timer5000->remainingTime());
+//        if(!sig.isEmpty())
+//        {
+//            TIMUserInfo user;
+//            user.account_type =  const_cast<char*>(account_type.data());
+//            user.app_id_at_3rd = const_cast<char*>(str_app_id.data());
+//            QByteArray bytes = username.toLatin1();
+//            user.identifier = bytes.data();
+//            QByteArray sigByte = sig.toLatin1();
+//            static TIMCommCB cb;
+//            cb.OnSuccess = &onLoginSuccess;
+//            cb.OnError = &onLoginError;
+//            cb.data = &cb;
+//            TIMLogin(sdk_app_id, &user, sigByte.data(), &cb);
+//            timer200->stop();
+//        }
+//    });
+//    QObject::connect(timer5000, &QTimer::timeout, [=]{
+//        emit LoginWindow::Instance().RemainTime(0);
+//        if(timer200->isActive())
+//            timer200->stop();
+//    });
+//    timer5000->start();
+//    timer200->start();
 }
 
 void TimTool::GetFriendList()
@@ -224,16 +244,6 @@ void TimTool::NewMsgHandler(QString id, QString nick, uint32_t time, QString msg
     }
 }
 
-void TimTool::setPwd(const QString &value)
-{
-    pwd = value;
-}
-
-void TimTool::setId(const QString &value)
-{
-    id = value;
-}
-
 QString TimTool::getPwd() const
 {
     return pwd;
@@ -247,9 +257,4 @@ QString TimTool::getId() const
 QString TimTool::getSig() const
 {
     return sig;
-}
-
-void TimTool::setSig(const QString &value)
-{
-    sig = value;
 }
