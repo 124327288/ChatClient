@@ -68,7 +68,8 @@ HEADERS += \
     chatwindow.h \
     linkmanlistmodel.h \
     timcallback.h \
-    stdafx.h
+    stdafx.h \
+    tim.h
 
 FORMS += \
         loginwindow.ui \

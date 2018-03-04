@@ -1,8 +1,7 @@
 ﻿#ifndef TIMTOOL_H
 #define TIMTOOL_H
 #include "stdafx.h"
-#include <tim_c.h>
-#include <tim_friend_c.h>
+#include "tim.h"
 #include <string>
 #include "chatwindow.h"
 class TimTool : public QObject
@@ -34,10 +33,14 @@ public:
     int AddChatWindowMap(QString id, ChatWindow *window);
     void UpdateChatWindowMap(QString id, ChatWindow *window);
     int RemoveChatWindowMap(QString id);
+    ChatWindow *GetChatWindow(QString id);
+    bool ContainInChatWindowMap(QString id);
 
     int AddConvMap(QString id, TIMConversationHandle handle);
     void UpdateConvMap(QString id, TIMConversationHandle handle);
     int RemoveConvMap(QString id);
+    TIMConversationHandle GetConvHandle(QString id);
+    bool ContainInConvMap(QString id);
 signals:
     void LoginSuccess();
     void LoginError(int code, const QString &desc);
@@ -57,6 +60,7 @@ private:
     std::string  timPath;
     QString      sig;
     QString      id;
+    QString      nick;
     QString      pwd;
 
     QMap<QString, ChatWindow*>            chatWindowMap;
@@ -66,5 +70,6 @@ public:
     QString getSig() const;
     QString getId() const;
     QString getPwd() const;
+    QString getNick() const;
 };
 #endif // TIMTOOL_H

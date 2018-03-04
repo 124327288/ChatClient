@@ -103,31 +103,8 @@ void onGetSelfProfileError(int code, const char *desc, void *data)
     ERROR_DEBUG
 }
 
-void onNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
+void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
 {
-    //    /**
-    //    Description:    设置用户新消息回调函数
-    //    @param    [in]    callback    新消息回调函数
-    //    @return            void
-    //    @exception      none
-    //    */
-    //    TIM_DECL void            TIMSetMessageCallBack(TIMMessageCB *callback);
-
-    //        /**
-    //    Description:    用户新消息回调函数
-    //    @param    [in]    handles        TIMMessageHandle 数组指针
-    //    @param    [in]    msg_num        TIMMessageHandle 数组大小
-    //    @param    [in]    data        用户自定义数据
-    //    @return            void
-    //    @exception      none
-    //    */
-    //    typedef void (*CBOnNewMessage) (TIMMessageHandle* handles, uint32_t msg_num, void* data);
-    //    typedef struct _TIMMessageCB_C
-    //    {
-    //        CBOnNewMessage OnNewMessage;
-    //        void* data;
-    //    }TIMMessageCB;
-
     //    /**
     //      Description:    获取Message中包含的elem个数
     //      @param    [in]    handle        消息句柄
@@ -185,6 +162,9 @@ void onNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
         GetNickName4ProfileHandle(profile, nick, &nickLen);
         QString snick = QString::fromLatin1(nick, nickLen);
 
+        TIMConversationHandle conv = CreateConversation();
+        GetConversationFromMsg(conv, handle);
+
         QString msg;
         int cnt = GetElemCount(handle);
         for(int j = 0; j < cnt; ++j)
@@ -194,13 +174,17 @@ void onNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
             switch (type) {
             case TIMElemType::kElemText:
             {
-                uint32_t len = GetContentLen(elem);
-                char *buffer = new char[len + 1];
-                GetContent(elem, buffer, &len);
-                QString s = QString::fromLatin1(buffer, len + 1);
+//                uint32_t len = GetContentLen(elem);
+                uint32_t len = 100;
+                qDebug() << QString("length: %1").arg(len);
+                char buffer[1024];
+                memset(buffer, 0, sizeof(buffer));
+                int ret = GetContent(elem, buffer, &len);
+                qDebug() << QString("ret = %1, len = %2").arg(ret).arg(len);
+//                for(int i = 0;i < len + 1; ++i)
+//                    qDebug() << int(buffer[i]);
+                QString s = QString::fromUtf8(buffer, len + 1);
                 msg += s;
-                qDebug() << buffer;
-                delete[] buffer;
             }
                 break;
             default:
@@ -210,5 +194,6 @@ void onNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
 
         emit TimTool::Instance().NewMsg(sid, snick, msgTime, msg);
         DestroyProfileHandle(profile);
+        DestroyConversation(conv);
     }
 }

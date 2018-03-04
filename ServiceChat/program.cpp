@@ -1,12 +1,18 @@
 ﻿#include "program.h"
 
-Program &Program::Instance()
-{
-    static Program instance;
-    return instance;
-}
+//Program *Program::program = nullptr;
 
-Program::Program()
-{
+//Program *Program::Instance()
+//{
+//    return program;
+//}
 
-}
+//QWidget *Program::Widget()
+//{
+//    return static_cast<QWidget*>(program);
+//}
+
+//void Program::setProgram(Program *value)
+//{
+//    program = value;
+//}

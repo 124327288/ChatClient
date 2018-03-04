@@ -1,6 +1,6 @@
-﻿#include "loginwindow.h"
+﻿#include <QApplication>
+#include "loginwindow.h"
 #include "mainwindow.h"
-#include <QApplication>
 #include "luatool.h"
 #include "tcpsocket.h"
 #include "timtool.h"
@@ -11,11 +11,13 @@ int main(int argc, char *argv[])
     QTranslator trans;
     trans.load(":/res/client_cn");
     a.installTranslator(&trans);
-    Program::Instance().state = PROGRAMSTATE::NOPAGE;
 
     qRegisterMetaType<Linkman>("Linkman");
     qRegisterMetaType<QList<Linkman>>("QList<Linkman>");
     qRegisterMetaType<uint32_t>("uint32_t");
+
+//    Program program;
+//    program.setProgram(&program);
 
     LuaTool::Instance().Init();
     LuaTool::Instance().getConfigs();
@@ -24,6 +26,5 @@ int main(int argc, char *argv[])
     TimTool::Instance().SetMessageCallback();
     LoginWindow::Instance().show();
 
-    Program::Instance().state = PROGRAMSTATE::LOGINPAGE;
     return a.exec();
 }

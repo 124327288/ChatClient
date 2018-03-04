@@ -8,7 +8,7 @@
 #include <QObject>
 
 TcpSocket::TcpSocket():
-    socket(new QTcpSocket()),
+    socket(new QTcpSocket),
     serverAddress(LuaTool::Instance().getServerAddress()),
     port(LuaTool::Instance().getPort())
 {
@@ -29,11 +29,9 @@ void TcpSocket::TryConnect()
 
 void TcpSocket::Listen()
 {
-    QTimer *timer = new QTimer();
+    QTimer *timer = new QTimer(this);
     timer->setInterval(200);
     QObject::connect(timer, &QTimer::timeout, [=]{
-        if(Program::Instance().state == PROGRAMSTATE::EXIT)
-            timer->stop();
         QByteArray bytes = socket->readAll();
         if(!bytes.isEmpty())
         {

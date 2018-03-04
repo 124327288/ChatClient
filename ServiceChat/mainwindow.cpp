@@ -36,7 +36,18 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->listView, &QListView::doubleClicked, [=](const QModelIndex &index){
         QString id = index.data().toString();
-        (new ChatWindow({id, id, id}, this))->show();
+        ChatWindow *window;
+        if(TimTool::Instance().ContainInChatWindowMap(id))
+        {
+            window = TimTool::Instance().GetChatWindow(id);
+            window->activateWindow();
+        }
+        else
+        {
+            window = new ChatWindow({id, id, id}, this);
+            window->show();
+        }
+
     });
 //    ui->listView->up
 //    ui->listView->

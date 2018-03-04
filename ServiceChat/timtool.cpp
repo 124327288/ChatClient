@@ -50,7 +50,7 @@ void TimTool::SetConnCallBack()
 void TimTool::SetMessageCallback()
 {
     static TIMMessageCB cb;
-    cb.OnNewMessage = onNewMessage;
+    cb.OnNewMessage = onGetNewMessage;
     cb.data = &cb;
     TIMSetMessageCallBack(&cb);
 }
@@ -177,11 +177,9 @@ void TimTool::SendMsg(QString id, QString text)
     TIMMessageHandle msgHandle = CreateTIMMessage();
     TIMMsgTextElemHandle txtHandle = CreateMsgTextElem();
     static QByteArray bytes;
-    bytes = text.toLatin1();
-    qDebug() << "send: " << bytes.data();
-    SetContent(txtHandle, "bytes.data()");
+    bytes = text.toUtf8();
+    SetContent(txtHandle, bytes.data());
     AddElem(msgHandle, txtHandle);
-    qDebug() << "send: " << bytes.data();
     static TIMCommCB cb;
     cb.OnSuccess = onCommSuccess;
     cb.OnError = onCommError;
@@ -213,6 +211,18 @@ int TimTool::RemoveChatWindowMap(QString id)
     return 0;
 }
 
+ChatWindow *TimTool::GetChatWindow(QString id)
+{
+    if(chatWindowMap.contains(id))
+        return chatWindowMap.value(id);
+    return nullptr;
+}
+
+bool TimTool::ContainInChatWindowMap(QString id)
+{
+    return chatWindowMap.contains(id);
+}
+
 int TimTool::AddConvMap(QString id, TIMConversationHandle handle)
 {
     if(convMap.contains(id))
@@ -234,6 +244,18 @@ int TimTool::RemoveConvMap(QString id)
     return 0;
 }
 
+TIMConversationHandle TimTool::GetConvHandle(QString id)
+{
+    if(convMap.contains(id))
+        return convMap.value(id);
+    return nullptr;
+}
+
+bool TimTool::ContainInConvMap(QString id)
+{
+    return convMap.contains(id);
+}
+
 void TimTool::NewMsgHandler(QString id, QString nick, uint32_t time, QString msg)
 {
     qDebug() << "chatMap.contains(id): " << chatWindowMap.contains(id);
@@ -242,6 +264,11 @@ void TimTool::NewMsgHandler(QString id, QString nick, uint32_t time, QString msg
         ChatWindow *window = chatWindowMap[id];
         window->AddContent(id, nick, time, msg);
     }
+}
+
+QString TimTool::getNick() const
+{
+    return nick;
 }
 
 QString TimTool::getPwd() const

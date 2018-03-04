@@ -1,10 +1,7 @@
 ﻿#ifndef TIMCALLBACK_H
 #define TIMCALLBACK_H
 #include "stdafx.h"
-#include <tim_c.h>
-#include <tim_friend_c.h>
-#include <QString>
-#include <QDebug>
+#include "tim.h"
 
 void onDebug(QString name);
 void onErrorDebug(QString name, int code, const char *desc);
@@ -29,6 +26,6 @@ void onAddFriendError(int code, const char* desc, void* data);
 void onGetSelfProfileSuccess(TIMSelfProfileHandle* handles, uint32_t num, void* data);
 void onGetSelfProfileError(int code, const char* desc, void* data);
 
-void onNewMessage(TIMMessageHandle* handles, uint32_t msg_num, void* data);
+void onGetNewMessage(TIMMessageHandle* handles, uint32_t msg_num, void* data);
 
 #endif // TIMCALLBACK_H
