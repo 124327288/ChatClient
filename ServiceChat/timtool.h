@@ -41,6 +41,9 @@ public:
     int RemoveConvMap(QString id);
     TIMConversationHandle GetConvHandle(QString id);
     bool ContainInConvMap(QString id);
+
+    QVector<ChatContentEX>  GetContentEX(QString id);
+    void                    ClearContentEX();
 signals:
     void LoginSuccess();
     void LoginError(int code, const QString &desc);
@@ -63,8 +66,9 @@ private:
     QString      nick;
     QString      pwd;
 
-    QMap<QString, ChatWindow*>            chatWindowMap;
-    QMap<QString, TIMConversationHandle>  convMap;
+    QMap<QString, ChatWindow*>              chatWindowMap;
+    QMap<QString, TIMConversationHandle>    convMap;
+    QMap<QString, QVector<ChatContentEX>>   contentMap;
 
 public:
     QString getSig() const;

@@ -19,6 +19,14 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     TimTool::Instance().UpdateChatWindowMap(otherId, this);
     setWindowTitle(tr("%1 - Session").arg(otherRemark));
     GetConversation();
+    if(!TimTool::Instance().GetContentEX(otherId).isEmpty())
+    {
+        auto list = TimTool::Instance().GetContentEX(otherId);
+        for(auto s : list)
+        {
+            AddContent(otherId, otherNick, s.time, s.text);
+        }
+    }
 }
 
 ChatWindow::~ChatWindow()
@@ -31,7 +39,11 @@ ChatWindow::~ChatWindow()
 
 void ChatWindow::AddContent(QString id, QString nick, uint32_t time, QString msg)
 {
-    ui->textBrowser->append(QString("%1(%2) %3").arg(id).arg(nick).arg(time));
+    QPalette pal = ui->textBrowser->palette();
+    QColor c;
+    pal.setColor(QPalette::Base, c.blue());
+    ui->textBrowser->append(QString(R"(<font color="blue">%1(%2) %3</font>)").arg(id).arg(nick).arg(time));
+    pal.setColor(QPalette::Base, c.black());
     ui->textBrowser->append(msg);
     ui->textBrowser->append("");
 }

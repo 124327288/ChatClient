@@ -35,13 +35,20 @@ struct ChatTitle
 {
     QString id;
     QString nick;
-    QString data;
-    QString time;
+//    QString data;
+    uint32_t time;
 };
 
 struct ChatContent
 {
     ChatTitle title;
+    QString text;
+};
+
+struct ChatContentEX
+{
+//    QString nick;
+    uint32_t time;
     QString text;
 };
 

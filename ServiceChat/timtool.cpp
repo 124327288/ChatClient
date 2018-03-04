@@ -256,6 +256,16 @@ bool TimTool::ContainInConvMap(QString id)
     return convMap.contains(id);
 }
 
+QVector<ChatContentEX> TimTool::GetContentEX(QString id)
+{
+    return contentMap[id];
+}
+
+void TimTool::ClearContentEX()
+{
+    contentMap.clear();
+}
+
 void TimTool::NewMsgHandler(QString id, QString nick, uint32_t time, QString msg)
 {
     qDebug() << "chatMap.contains(id): " << chatWindowMap.contains(id);
@@ -263,6 +273,10 @@ void TimTool::NewMsgHandler(QString id, QString nick, uint32_t time, QString msg
     {
         ChatWindow *window = chatWindowMap[id];
         window->AddContent(id, nick, time, msg);
+    }
+    else
+    {
+        contentMap[id] += { time, msg };
     }
 }
 
