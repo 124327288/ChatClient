@@ -59,9 +59,9 @@ void onGetFriendListSuccess(TIMFriendListElemHandle *handles, uint32_t num, void
         GetID4FriendListElemHandle(handle, id, &idLen);
         GetNickName4FriendListElemHandle(handle, nickName, &nickLen);
         GetRemark4FriendListElemHandle(handle, remark, &remarkLen);
-        QString sId = QString::fromLatin1(id, idLen);
-        QString sNick = QString::fromLatin1(nickName, nickLen);
-        QString sRemark = QString::fromLatin1(remark, remarkLen);
+        QString sId = QString::fromUtf8(id, idLen);
+        QString sNick = QString::fromUtf8(nickName, nickLen);
+        QString sRemark = QString::fromUtf8(remark, remarkLen);
         friendList += {sId, sNick, sRemark};
     }
     emit TimTool::Instance().GetFriendListSuccess(friendList);
@@ -94,7 +94,7 @@ void onGetSelfProfileSuccess(TIMSelfProfileHandle *handles, uint32_t num, void *
     char nick[16];
     uint32_t len;
     GetNickName4SlefProfileHandle(*handles, nick, &len);
-    QString sNick = QString::fromLatin1(nick);
+    QString sNick = QString::fromUtf8(nick);
     emit TimTool::Instance().GetSelfNickname(sNick);
 }
 
@@ -156,11 +156,11 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
 
         char id[16];uint32_t idLen;
         GetID4ProfileHandle(profile, id, &idLen);
-        QString sid = QString::fromLatin1(id, idLen);
+        QString sid = QString::fromUtf8(id, idLen);
 
         char nick[16];uint32_t nickLen;
         GetNickName4ProfileHandle(profile, nick, &nickLen);
-        QString snick = QString::fromLatin1(nick, nickLen);
+        QString snick = QString::fromUtf8(nick, nickLen);
 
         TIMConversationHandle conv = CreateConversation();
         GetConversationFromMsg(conv, handle);

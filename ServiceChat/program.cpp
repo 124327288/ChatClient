@@ -16,3 +16,10 @@
 //{
 //    program = value;
 //}
+
+time_t GetTime()
+{
+    static time_t t;
+    std::time(&t);
+    return t;
+}

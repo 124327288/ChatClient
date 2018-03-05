@@ -72,9 +72,10 @@ void TimTool::_Login()
     TIMUserInfo user;
     user.account_type =  const_cast<char*>(account_type.data());
     user.app_id_at_3rd = const_cast<char*>(str_app_id.data());
-    QByteArray bytes = id.toLatin1();
+    QByteArray bytes = id.toUtf8();
+    qDebug() << "id: " << bytes.data();
     user.identifier = bytes.data();
-    QByteArray sigByte = sig.toLatin1();
+    QByteArray sigByte = sig.toUtf8();
     static TIMCommCB cb;
     cb.OnSuccess = &onLoginSuccess;
     cb.OnError = &onLoginError;
@@ -135,11 +136,11 @@ void TimTool::GetFriendList()
 
 void TimTool::AddSingleFriend(QString id, QString nick, QString remark, QString addWord, QString addSource)
 {
-    QByteArray bId = id.toLatin1();
-    QByteArray bNick = nick.toLatin1();
-    QByteArray bRemark = remark.toLatin1();
-    QByteArray bAddSource = addSource.toLatin1();
-    QByteArray bAddWord = addWord.toLatin1();
+    QByteArray bId = id.toUtf8();
+    QByteArray bNick = nick.toUtf8();
+    QByteArray bRemark = remark.toUtf8();
+    QByteArray bAddSource = addSource.toUtf8();
+    QByteArray bAddWord = addWord.toUtf8();
     TIMAddFriendHandle handle = CreateAddFriendHandle();
     SetID4AddFriendHandle(handle, bId.data());
     SetNickName4AddFriendHandle(handle, bNick.data(), nick.size());

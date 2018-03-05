@@ -3,7 +3,7 @@
 #include "stdafx.h"
 
 #include <QWidget>
-
+#include <ctime>
 //class Program : public QWidget
 //{
 //    Q_OBJECT
@@ -18,5 +18,5 @@
 //private:
 //    static Program *program;
 //};
-
+time_t GetTime();
 #endif // PROGRAM_H

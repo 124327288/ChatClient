@@ -15,7 +15,7 @@ class ChatWindow : public QMainWindow
 public:
     explicit ChatWindow(const Linkman &linkman, QWidget *parent = 0);
     ~ChatWindow();
-    void AddContent(QString id, QString nick, uint32_t time, QString msg);
+    void AddContent(QString id, QString nick, time_t time, QString msg);
 private slots:
     void on_sendBtn_clicked();
 
@@ -28,6 +28,10 @@ private:
     TIMConversationHandle convHandle;
 
     void GetConversation();
+
+    // QWidget interface
+protected:
+    virtual void closeEvent(QCloseEvent *event) override;
 };
 
 #endif // CHATWINDOW_H

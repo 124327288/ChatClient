@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <QWaitCondition>
 #include <Windows.h>
+#include <ctime>
 ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ChatWindow)
@@ -32,17 +33,22 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
 ChatWindow::~ChatWindow()
 {
     delete ui;
-    TimTool::Instance().RemoveChatWindowMap(otherId);
-    TimTool::Instance().RemoveConvMap(otherId);
-    DestroyConversation(convHandle);
 }
 
-void ChatWindow::AddContent(QString id, QString nick, uint32_t time, QString msg)
+void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
 {
     QPalette pal = ui->textBrowser->palette();
     QColor c;
     pal.setColor(QPalette::Base, c.blue());
-    ui->textBrowser->append(QString(R"(<font color="blue">%1(%2) %3</font>)").arg(id).arg(nick).arg(time));
+    std::tm *p_tm = std::localtime(&time);
+    QString str_time = QString("%1-%2 %3:%4:%5").
+            arg(p_tm->tm_mon + 1, 2, 10, QChar('0')).
+            arg(p_tm->tm_mday, 2, 10, QChar('0')).
+            arg(p_tm->tm_hour, 2, 10, QChar('0')).
+            arg(p_tm->tm_min, 2, 10, QChar('0')).
+            arg(p_tm->tm_sec, 2, 10, QChar('0'));
+
+    ui->textBrowser->append(QString(R"(<font color="blue">%1(%2) %3</font>)").arg(id).arg(nick).arg(str_time));
     pal.setColor(QPalette::Base, c.black());
     ui->textBrowser->append(msg);
     ui->textBrowser->append("");
@@ -50,7 +56,7 @@ void ChatWindow::AddContent(QString id, QString nick, uint32_t time, QString msg
 
 void ChatWindow::GetConversation()
 {
-    QByteArray bytes = otherId.toLatin1();
+    QByteArray bytes = otherId.toUtf8();
     const char* peer = bytes.data();
     convHandle = CreateConversation();
     TimTool::Instance().AddConvMap(otherId, convHandle);
@@ -61,10 +67,17 @@ void ChatWindow::GetConversation()
         qDebug() << "GetConversation Error!";
 }
 
+void ChatWindow::closeEvent(QCloseEvent *event)
+{
+    TimTool::Instance().RemoveChatWindowMap(otherId);
+    TimTool::Instance().RemoveConvMap(otherId);
+    DestroyConversation(convHandle);
+}
+
 void ChatWindow::on_sendBtn_clicked()
 {
     QString text = ui->textEdit->toPlainText();
     TimTool::Instance().SendMsg(otherId, text);
-    AddContent(TimTool::Instance().getId(), TimTool::Instance().getNick(), 0, text);
+    AddContent(TimTool::Instance().getId(), TimTool::Instance().getNick(), GetTime(), text);
     ui->textEdit->clear();
 }

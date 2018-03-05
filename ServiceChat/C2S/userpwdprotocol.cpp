@@ -4,11 +4,12 @@ void UserPwdProtocol::Marshal()
 
 //    QByteArray arr;
 //    arr += (byte)type;
-
-    byte ul = username.length();
+    QByteArray uarr = username.toUtf8();
+    byte ul = uarr.length();
     Add(ul);
     Add(username);
-    byte pl = password.length();
+    QByteArray parr = password.toUtf8();
+    byte pl = parr.length();
     Add(pl);
     Add(password);
 //    arr += ul;
