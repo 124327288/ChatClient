@@ -21,6 +21,8 @@ private slots:
 
     void on_closeBtn_clicked();
 
+    void on_selectPicBtn_clicked();
+
 private:
     Ui::ChatWindow *ui;
     QString otherId;

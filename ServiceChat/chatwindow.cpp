@@ -6,6 +6,7 @@
 #include "chatlistdelegate.h"
 #include "timtool.h"
 #include <QDebug>
+#include <QFileDialog>
 #include <QScrollBar>
 #include <QWaitCondition>
 #include <Windows.h>
@@ -49,15 +50,23 @@ void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
             arg(p_tm->tm_min, 2, 10, QChar('0')).
             arg(p_tm->tm_sec, 2, 10, QChar('0'));
 
-    ui->textBrowser->append(QString(R"(<font color="blue">%1(%2) %3</font>)").arg(id).arg(nick).arg(str_time));
+    ui->textBrowser->append(QString(R"(
+                                    <font color="blue">%1(%2) %3</font>
+                                    )").arg(id).arg(nick).arg(str_time));
     pal.setColor(QPalette::Base, c.black());
     ui->textBrowser->append(msg);
     ui->textBrowser->append("");
 
-    QScrollBar *scrollBar = ui->textBrowser->verticalScrollBar();
-    if(scrollBar)
+    QScrollBar *verticalScrollBar = ui->textBrowser->verticalScrollBar();
+    if(verticalScrollBar)
     {
-        scrollBar->setSliderPosition(scrollBar->maximum());
+        verticalScrollBar->setSliderPosition(verticalScrollBar->maximum());
+    }
+
+    QScrollBar *horizontalScrollBar = ui->textBrowser->horizontalScrollBar();
+    if(horizontalScrollBar)
+    {
+        horizontalScrollBar->setSliderPosition(verticalScrollBar->minimum());
     }
 }
 
@@ -91,5 +100,19 @@ void ChatWindow::on_sendBtn_clicked()
 
 void ChatWindow::on_closeBtn_clicked()
 {
-    ui->textEdit->append(R"(<img src = "D:\keys\201995-120HG1030762.jpg" />")");
+    ui->textEdit->append(R"(
+                         <img src = "D:\keys\201995-120HG1030762.jpg" />
+                         )");
+}
+
+void ChatWindow::on_selectPicBtn_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString(), tr("Images (*.jpg *.xpm *.png);;"));
+    if(!fileName.isNull())
+    {
+        QString html = QString(R"(
+                               <img src = "%1" />
+                               )").arg(fileName);
+        ui->textEdit->append(html);
+    }
 }
