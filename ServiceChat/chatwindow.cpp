@@ -6,6 +6,7 @@
 #include "chatlistdelegate.h"
 #include "timtool.h"
 #include <QDebug>
+#include <QScrollBar>
 #include <QWaitCondition>
 #include <Windows.h>
 #include <ctime>
@@ -52,6 +53,12 @@ void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
     pal.setColor(QPalette::Base, c.black());
     ui->textBrowser->append(msg);
     ui->textBrowser->append("");
+
+    QScrollBar *scrollBar = ui->textBrowser->verticalScrollBar();
+    if(scrollBar)
+    {
+        scrollBar->setSliderPosition(scrollBar->maximum());
+    }
 }
 
 void ChatWindow::GetConversation()
@@ -76,8 +83,13 @@ void ChatWindow::closeEvent(QCloseEvent *event)
 
 void ChatWindow::on_sendBtn_clicked()
 {
-    QString text = ui->textEdit->toPlainText();
+    QString text = ui->textEdit->toHtml();
     TimTool::Instance().SendMsg(otherId, text);
     AddContent(TimTool::Instance().getId(), TimTool::Instance().getNick(), GetTime(), text);
     ui->textEdit->clear();
+}
+
+void ChatWindow::on_closeBtn_clicked()
+{
+    ui->textEdit->append(R"(<img src = "D:\keys\201995-120HG1030762.jpg" />")");
 }
