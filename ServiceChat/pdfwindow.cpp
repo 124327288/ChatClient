@@ -2,6 +2,7 @@
 #include "ui_pdfwindow.h"
 
 #include <QFileDialog>
+#include <QLabel>
 #include <mupdf/fitz.h>
 #include <mupdf/pdf.h>
 PDFWindow::PDFWindow(QWidget *parent) :
@@ -64,27 +65,38 @@ void PDFWindow::ShowPDF(const QString &fileName)
     fz_scale(&ctm, 1, 1);
     fz_pre_rotate(&ctm, 0);
 
-    fz_pixmap *pix;
-    int page_number = 0;
-    fz_try(ctx)
-        pix = fz_new_pixmap_from_page_number(ctx, doc, page_number, &ctm, fz_device_rgb(ctx), 0);
-    FZ_CATCH_EX(ctx, doc, "fz_new_pixmap_from_page_number")
+    int max_width = 0;
 
-    unsigned char *samples = pix->samples;
-    int width = fz_pixmap_width(ctx, pix);
-    int height = fz_pixmap_height(ctx, pix);
+    for(int i = 0; i < page_count; ++i)
+    {
+        fz_pixmap *pix;
+        fz_try(ctx)
+            pix = fz_new_pixmap_from_page_number(ctx, doc, i, &ctm, fz_device_rgb(ctx), 0);
+        FZ_CATCH_EX(ctx, doc, "fz_new_pixmap_from_page_number")
 
-    QImage image(samples, width, height, QImage::Format_RGB888);
+        unsigned char *samples = pix->samples;
+        int width = fz_pixmap_width(ctx, pix);
+        int height = fz_pixmap_height(ctx, pix);
 
-    ui->label->setPixmap(QPixmap::fromImage(image));
+        max_width = max_width > width ? max_width : width;
 
-    fz_drop_pixmap(ctx, pix);
+        QImage image(samples, width, height, QImage::Format_RGB888);
+
+        QLabel *label = new QLabel;
+        label->setPixmap(QPixmap::fromImage(image));
+        ui->verticalLayout->addWidget(label);
+
+        fz_drop_pixmap(ctx, pix);
+    }
+
     fz_drop_document(ctx, doc);
     fz_drop_context(ctx);
+
+    setGeometry(geometry().x(), geometry().y(), max_width, 800);
 }
 
 void PDFWindow::on_actionOpen_triggered()
 {
-   QString fileName = QFileDialog::getOpenFileName(this, tr("Open PDF file"), QString(), "*.pdf");
+   QString fileName = QFileDialog::getOpenFileName(this, tr("Open PDF file"), "D:/", "*.pdf");
    ShowPDF(fileName);
 }
