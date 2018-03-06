@@ -81,18 +81,19 @@ void PDFWindow::ShowPDF(const QString &fileName)
         max_width = max_width > width ? max_width : width;
 
         QImage image(samples, width, height, QImage::Format_RGB888);
+//        image = image.scaledToWidth(2);
 
         QLabel *label = new QLabel;
         label->setPixmap(QPixmap::fromImage(image));
         ui->verticalLayout->addWidget(label);
-
+        ui->verticalLayout->setAlignment(label, Qt::AlignHCenter);
         fz_drop_pixmap(ctx, pix);
     }
 
     fz_drop_document(ctx, doc);
     fz_drop_context(ctx);
 
-    setGeometry(geometry().x(), geometry().y(), max_width, 800);
+    setGeometry(geometry().x(), geometry().y(), max_width  + 100, 800);
 }
 
 void PDFWindow::on_actionOpen_triggered()
