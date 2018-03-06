@@ -1,6 +1,7 @@
 ﻿#include <QApplication>
 #include "loginwindow.h"
 #include "mainwindow.h"
+#include "pdfwindow.h"
 #include "luatool.h"
 #include "tcpsocket.h"
 #include "timtool.h"
@@ -24,7 +25,9 @@ int main(int argc, char *argv[])
     TcpSocket::Instance().TryConnect();
     TimTool::Instance().Init();
     TimTool::Instance().SetMessageCallback();
-    LoginWindow::Instance().show();
+    PDFWindow window;
+    window.show();
+//    LoginWindow::Instance().show();
 
     return a.exec();
 }
