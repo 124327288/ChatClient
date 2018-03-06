@@ -7,7 +7,6 @@
 *.la
 *.lai
 *.so
-*.dll
 *.dylib
 
 # Qt-es
@@ -52,9 +51,7 @@ ServiceChat/.qmake.stash
 *.tlog
 *.log
 ServiceChat/.vs/
-Build/Release/config
-Build/Release/TimPath
-Build/Debug/TimPath
-Build/Debug/config
+Build/Release
+Build/Debug
 *.msgstore
 *.qm
