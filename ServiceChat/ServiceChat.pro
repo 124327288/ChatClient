@@ -79,50 +79,44 @@ FORMS += \
     chatwindow.ui \
     pdfwindow.ui
 
-win32:CONFIG(release, debug|release): LIBS += -LD:/IM_Windows_SDK_2.5.6/libs/libs/release/ -llibtim
-else:win32:CONFIG(debug, debug|release): LIBS += -LD:/IM_Windows_SDK_2.5.6/libs/libs/debug/ -llibtim
-
-INCLUDEPATH += D:/IM_Windows_SDK_2.5.6/libs/c_includes
-DEPENDPATH += D:/IM_Windows_SDK_2.5.6/libs/c_includes
-
-win32: LIBS += -L'C:/Program Files (x86)/Lua/5.1/lib/' -llua5.1
-win32: LIBS += -L'C:/Program Files (x86)/Lua/5.1/lib/' -llua51
-
-INCLUDEPATH += 'C:/Program Files (x86)/Lua/5.1/include'
-DEPENDPATH += 'C:/Program Files (x86)/Lua/5.1/include'
-
 RESOURCES += \
     res.qrc
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/mupdf/lib/release/ -llibmupdf
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/mupdf/lib/debug/ -llibmupdf
+# IM_Windows_SDK
 
-INCLUDEPATH += $$PWD/mupdf/include
-DEPENDPATH += $$PWD/mupdf/include
+INCLUDEPATH += $$PWD/thirdparty/IM_Windows_SDK_2.5.6/libs/c_includes
+DEPENDPATH += $$PWD/thirdparty/IM_Windows_SDK_2.5.6/libs/c_includes
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/mupdf/lib/release/liblibmupdf.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/mupdf/lib/debug/liblibmupdf.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/mupdf/lib/release/libmupdf.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/mupdf/lib/debug/libmupdf.lib
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/thirdparty/IM_Windows_SDK_2.5.6/libs/libs/release/ -llibtim
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/thirdparty/IM_Windows_SDK_2.5.6/libs/libs/debug/ -llibtim
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/mupdf/lib/release/ -llibresources
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/mupdf/lib/debug/ -llibresources
+# Lua5.1
 
-INCLUDEPATH += $$PWD/mupdf/include
-DEPENDPATH += $$PWD/mupdf/include
+INCLUDEPATH += $$PWD/thirdparty/Lua/include
+DEPENDPATH += $$PWD/thirdparty/Lua/include
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/mupdf/lib/release/liblibresources.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/mupdf/lib/debug/liblibresources.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/mupdf/lib/release/libresources.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/mupdf/lib/debug/libresources.lib
+win32: LIBS += -L$$PWD/thirdparty/Lua/lib/ -llua5.1
+win32: LIBS += -L$$PWD/thirdparty/Lua/lib/ -llua51
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/mupdf/lib/release/ -llibthirdparty
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/mupdf/lib/debug/ -llibthirdparty
+# MuPdf
 
-INCLUDEPATH += $$PWD/mupdf/include
-DEPENDPATH += $$PWD/mupdf/include
+INCLUDEPATH += $$PWD/thirdparty/mupdf/include
+DEPENDPATH += $$PWD/thirdparty/mupdf/include
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/mupdf/lib/release/liblibthirdparty.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/mupdf/lib/debug/liblibthirdparty.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/mupdf/lib/release/libthirdparty.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/mupdf/lib/debug/libthirdparty.lib
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/thirdparty/mupdf/lib/release/ -llibmupdf
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/thirdparty/mupdf/lib/debug/ -llibmupdf
+
+win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/thirdparty/mupdf/lib/release/libmupdf.lib
+else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/thirdparty/mupdf/lib/debug/libmupdf.lib
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/thirdparty/mupdf/lib/release/ -llibresources
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/thirdparty/mupdf/lib/debug/ -llibresources
+
+win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/thirdparty/mupdf/lib/release/libresources.lib
+else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/thirdparty/mupdf/lib/debug/libresources.lib
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/thirdparty/mupdf/lib/release/ -llibthirdparty
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/thirdparty/mupdf/lib/debug/ -llibthirdparty
+
+win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/thirdparty/mupdf/lib/release/libthirdparty.lib
+else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/thirdparty/mupdf/lib/debug/libthirdparty.lib
