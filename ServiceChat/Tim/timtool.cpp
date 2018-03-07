@@ -1,8 +1,8 @@
 ﻿#include "timtool.h"
 #include "timcallback.h"
 #include "loginwindow.h"
-#include "tcpsocket.h"
-#include "C2S/userpwdprotocol.h"
+#include "Protocol/tcpsocket.h"
+#include "Protocol/C2S/userpwdprotocol.h"
 #include <QTimer>
 #include <Windows.h>
 
@@ -269,7 +269,7 @@ void TimTool::ClearContentEX()
 
 void TimTool::NewMsgHandler(QString id, QString nick, uint32_t time, QString msg)
 {
-    qDebug() << "chatMap.contains(id): " << chatWindowMap.contains(id);
+//    qDebug() << "chatMap.contains(id): " << chatWindowMap.contains(id);
     if(chatWindowMap.contains(id))
     {
         ChatWindow *window = chatWindowMap[id];

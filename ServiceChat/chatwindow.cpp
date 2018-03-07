@@ -2,9 +2,7 @@
 #include "ui_chatwindow.h"
 #include "tim_msg_c.h"
 #include "tim_c.h"
-#include "chatlistmodel.h"
-#include "chatlistdelegate.h"
-#include "timtool.h"
+#include "Tim/timtool.h"
 #include <QDebug>
 #include <QFileDialog>
 #include <QScrollBar>

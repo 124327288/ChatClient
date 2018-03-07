@@ -162,8 +162,8 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
         GetNickName4ProfileHandle(profile, nick, &nickLen);
         QString snick = QString::fromUtf8(nick, nickLen);
 
-        TIMConversationHandle conv = CreateConversation();
-        GetConversationFromMsg(conv, handle);
+//        TIMConversationHandle conv = CreateConversation();
+//        GetConversationFromMsg(conv, handle);
 
         QString msg;
         int cnt = GetElemCount(handle);
@@ -174,15 +174,12 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
             switch (type) {
             case TIMElemType::kElemText:
             {
-//                uint32_t len = GetContentLen(elem);
                 uint32_t len = 100;
                 qDebug() << QString("length: %1").arg(len);
                 char buffer[1024];
                 memset(buffer, 0, sizeof(buffer));
                 int ret = GetContent(elem, buffer, &len);
                 qDebug() << QString("ret = %1, len = %2").arg(ret).arg(len);
-//                for(int i = 0;i < len + 1; ++i)
-//                    qDebug() << int(buffer[i]);
                 QString s = QString::fromUtf8(buffer, len + 1);
                 msg += s;
             }
@@ -194,6 +191,6 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
 
         emit TimTool::Instance().NewMsg(sid, snick, msgTime, msg);
         DestroyProfileHandle(profile);
-        DestroyConversation(conv);
+//        DestroyConversation(conv);
     }
 }

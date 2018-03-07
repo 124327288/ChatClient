@@ -1,5 +1,5 @@
-﻿#include "C2S/c2sprotocol.h"
-#include "tcpsocket.h"
+﻿#include "Protocol/C2S/c2sprotocol.h"
+#include "Protocol/tcpsocket.h"
 
 void C2SProtocol::SendData()
 {

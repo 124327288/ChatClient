@@ -31,6 +31,14 @@ struct Linkman
     QString remark;
 };
 
+struct Session
+{
+    QString id;
+    QString nick;
+    QString remark;
+    time_t  time;
+};
+
 struct ChatTitle
 {
     QString id;

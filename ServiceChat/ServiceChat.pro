@@ -35,43 +35,49 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         loginwindow.cpp \
-    timtool.cpp \
     luatool.cpp \
     mainwindow.cpp \
-    protocol.cpp \
-    S2C/signatureprotocol.cpp \
-    tcpsocket.cpp \
     program.cpp \
-    S2C/loginresprotocol.cpp \
-    C2S/userpwdprotocol.cpp \
-    C2S/c2sprotocol.cpp \
     chatwindow.cpp \
-    linkmanlistmodel.cpp \
-    timcallback.cpp \
     stdafx.cpp \
-    pdfwindow.cpp
+    pdfwindow.cpp \
+    Protocol/C2S/c2sprotocol.cpp \
+    Protocol/C2S/userpwdprotocol.cpp \
+    Protocol/S2C/loginresprotocol.cpp \
+    Protocol/S2C/signatureprotocol.cpp \
+    Model/friendlistmodel.cpp \
+    Model/sessionlistmodel.cpp \
+    Protocol/protocol.cpp \
+    Protocol/tcpsocket.cpp \
+    Tim/timcallback.cpp \
+    Tim/timtool.cpp \
+    Delegate/friendlistdelegate.cpp \
+    View/friendlistview.cpp
 
 HEADERS += \
         loginwindow.h \
-    timtool.h \
     luatool.h \
     mainwindow.h \
     exptype.h \
-    protocol.h \
-    C2S/c2sprotocol.h \
-    S2C/signatureprotocol.h \
-    S2C/s2cprotocol.h \
     expdef.h \
-    C2S/userpwdprotocol.h \
-    tcpsocket.h \
     program.h \
-    S2C/loginresprotocol.h \
     chatwindow.h \
-    linkmanlistmodel.h \
-    timcallback.h \
     stdafx.h \
-    tim.h \
-    pdfwindow.h
+    pdfwindow.h \
+    Protocol/C2S/c2sprotocol.h \
+    Protocol/C2S/userpwdprotocol.h \
+    Protocol/S2C/loginresprotocol.h \
+    Protocol/S2C/s2cprotocol.h \
+    Protocol/S2C/signatureprotocol.h \
+    Model/friendlistmodel.h \
+    Model/sessionlistmodel.h \
+    Protocol/protocol.h \
+    Protocol/tcpsocket.h \
+    Tim/tim.h \
+    Tim/timcallback.h \
+    Tim/timtool.h \
+    Delegate/friendlistdelegate.h \
+    View/friendlistview.h
 
 FORMS += \
         loginwindow.ui \

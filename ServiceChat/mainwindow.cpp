@@ -6,13 +6,13 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QInputDialog>
-#include "C2S/userpwdprotocol.h"
-#include "S2C/signatureprotocol.h"
-#include <thread>
-#include "program.h"
 #include <QCloseEvent>
-#include "timtool.h"
-#include "linkmanlistmodel.h"
+#include "program.h"
+#include "Protocol/C2S/userpwdprotocol.h"
+#include "Protocol/S2C/signatureprotocol.h"
+#include "Tim/timtool.h"
+#include "Model/friendlistmodel.h"
+#include "Delegate/friendlistdelegate.h"
 #include "chatwindow.h"
 MainWindow &MainWindow::Instance()
 {
@@ -25,8 +25,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    listModel = new LinkmanListModel;
-    ui->listView->setModel(listModel);
+    InitUI();
+    friendListModel = new FriendListModel;
+    friendListView->setModel(friendListModel);
+    friendListView->setItemDelegate(new FriendListDelegate);
     connect(&TimTool::Instance(), &TimTool::GetSelfNickname, this, [=](QString nick){
         ui->nickLabel->setText(nick.isEmpty()?TimTool::Instance().getId() : nick);
     });
@@ -34,8 +36,11 @@ MainWindow::MainWindow(QWidget *parent) :
         QMessageBox::aboutQt(this);
     });
 
-    connect(ui->listView, &QListView::doubleClicked, [=](const QModelIndex &index){
-        QString id = index.data().toString();
+    connect(friendListView, &QListView::doubleClicked, [=](const QModelIndex &index){
+
+        QString id = index.data(Role::RoleID).toString();
+        QString nick = index.data(Role::RoleNick).toString();
+        QString remark = index.data(Role::RoleRemark).toString();
         ChatWindow *window;
         if(TimTool::Instance().ContainInChatWindowMap(id))
         {
@@ -44,16 +49,28 @@ MainWindow::MainWindow(QWidget *parent) :
         }
         else
         {
-            window = new ChatWindow({id, id, id}, this);
+            window = new ChatWindow({id, nick, remark}, this);
             window->show();
         }
 
     });
-//    ui->listView->up
-//    ui->listView->
-//    connect(listModel, &ListModel::updated, ui->listView, &QListView::update);
-//    QTreeWidgetItem *root = new QTreeWidgetItem(ui->treeWidget, QStringList(QString("Root")));
-//    ui->treeWidget->insertTopLevelItems();
+}
+
+void MainWindow::InitUI()
+{
+    QWidget *page1 = new QWidget;
+    QVBoxLayout *vLayout1 = new QVBoxLayout;
+    sessionListView = new QListView;
+    vLayout1->addWidget(sessionListView);
+    page1->setLayout(vLayout1);
+    ui->tabWidget->addTab(page1, tr("Session"));
+
+    QWidget *page2 = new QWidget;
+    QVBoxLayout *vLayout2 = new QVBoxLayout;
+    friendListView = new QListView;
+    vLayout2->addWidget(friendListView);
+    page2->setLayout(vLayout2);
+    ui->tabWidget->addTab(page2, tr("Friend"));
 }
 
 MainWindow::~MainWindow()
@@ -63,7 +80,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-//    Program::Instance().state = PROGRAMSTATE::EXIT;
     event->accept();
 }
 

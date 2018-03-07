@@ -1,5 +1,5 @@
 ﻿#include "luatool.h"
-#include "timtool.h"
+#include "Tim/timtool.h"
 #include <QString>
 #include <QDebug>
 #include <QFile>

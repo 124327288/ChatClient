@@ -20,12 +20,13 @@ using Int64     =   __int64;
 using uint64    =   unsigned __int64;
 using UInt64    =   unsigned __int64;
 
-enum ChatRole
+enum Role
 {
-    ChatRoleID = Qt::UserRole + 1,
-    ChatRoleNick,
-    ChatRoleData,
-    ChatRoleTime,
-    ChatRoleContent
+    RoleID = Qt::UserRole + 1,
+    RoleNick,
+    RoleRemark,
+    RoleData,
+    RoleTime,
+    RoleContent
 };
 #endif // EXPDEF_H

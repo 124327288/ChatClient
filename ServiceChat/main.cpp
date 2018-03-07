@@ -3,8 +3,8 @@
 #include "mainwindow.h"
 #include "pdfwindow.h"
 #include "luatool.h"
-#include "tcpsocket.h"
-#include "timtool.h"
+#include "Protocol/tcpsocket.h"
+#include "Tim/timtool.h"
 #include "program.h"
 int main(int argc, char *argv[])
 {
@@ -25,9 +25,9 @@ int main(int argc, char *argv[])
     TcpSocket::Instance().TryConnect();
     TimTool::Instance().Init();
     TimTool::Instance().SetMessageCallback();
-    PDFWindow window;
-    window.show();
-//    LoginWindow::Instance().show();
+//    PDFWindow window;
+//    window.show();
+    LoginWindow::Instance().show();
 
     return a.exec();
 }

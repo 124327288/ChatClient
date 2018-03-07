@@ -1,7 +1,7 @@
 ﻿#include "tcpsocket.h"
 #include "S2C/signatureprotocol.h"
 #include "S2C/loginresprotocol.h"
-#include "timtool.h"
+#include "Tim/timtool.h"
 #include "luatool.h"
 #include "program.h"
 #include <QTimer>

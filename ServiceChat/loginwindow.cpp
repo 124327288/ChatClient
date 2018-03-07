@@ -1,6 +1,6 @@
 ﻿#include "loginwindow.h"
 #include "ui_loginwindow.h"
-#include "timtool.h"
+#include "Tim/timtool.h"
 #include "mainwindow.h"
 #include <QDebug>
 #include <QMessageBox>
