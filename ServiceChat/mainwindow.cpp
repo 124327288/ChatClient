@@ -61,6 +61,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     });
 
+    connect(friendListView, &QListView::customContextMenuRequested,[]{});
+
     connect(ui->actionSetting, &QAction::triggered, [=]{SettingDialog *dialog = new SettingDialog(this);dialog->show();});
 }
 
