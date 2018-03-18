@@ -1,24 +1,25 @@
 ﻿#ifndef EXPDEF_H
 #define EXPDEF_H
 #include "qnamespace.h"
-using byte      =   unsigned __int8;
-using ubyte     =   unsigned __int8;
-using sbyte     =   __int8;
+#include <stdint.h>
+using byte      =   unsigned char;
+using ubyte     =   unsigned char;
+using sbyte     =   char;
 
-using int16     =   __int16;
-using Int16     =   __int16;
-using uint16    =   unsigned __int16;
-using UInt16    =   unsigned __int16;
+using int16     =   int16_t;
+using Int16     =   int16_t;
+using uint16    =   uint16_t;
+using UInt16    =   uint16_t;
 
-using int32     =   __int32;
-using Int32     =   __int32;
-using uint32    =   unsigned __int32;
-using UInt32    =   unsigned __int32;
+using int32     =   int32_t;
+using Int32     =   int32_t;
+using uint32    =   uint32_t;
+using UInt32    =   uint32_t;
 
-using int64     =   __int64;
-using Int64     =   __int64;
-using uint64    =   unsigned __int64;
-using UInt64    =   unsigned __int64;
+using int64     =   int64_t;
+using Int64     =   int64_t;
+using uint64    =   uint64_t;
+using UInt64    =   uint64_t;
 
 enum Role
 {
@@ -29,4 +30,8 @@ enum Role
     RoleTime,
     RoleContent
 };
+
+constexpr int MAXLENID = 64;
+constexpr int MAXLENNICK = 64;
+constexpr int MAXLENCONTENT = 10240;
 #endif // EXPDEF_H

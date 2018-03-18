@@ -9,19 +9,19 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    QTranslator trans;
-    trans.load(":/res/client_cn");
-    a.installTranslator(&trans);
-
     qRegisterMetaType<Linkman>("Linkman");
     qRegisterMetaType<QList<Linkman>>("QList<Linkman>");
     qRegisterMetaType<uint32_t>("uint32_t");
 
-//    Program program;
-//    program.setProgram(&program);
-
     LuaTool::Instance().Init();
     LuaTool::Instance().getConfigs();
+    QTranslator trans;
+    qDebug() << LuaTool::Instance().getLanguage().data();
+    if(LuaTool::Instance().getLanguage() == "en")
+        trans.load(":/client_en.qm");
+    else if(LuaTool::Instance().getLanguage() == "cn")
+        trans.load(":/client_cn.qm");
+    a.installTranslator(&trans);
     TcpSocket::Instance().TryConnect();
     TimTool::Instance().Init();
     TimTool::Instance().SetMessageCallback();

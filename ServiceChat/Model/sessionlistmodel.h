@@ -1,4 +1,4 @@
-#ifndef SESSIONLISTMODEL_H
+﻿#ifndef SESSIONLISTMODEL_H
 #define SESSIONLISTMODEL_H
 
 #include <QAbstractListModel>
@@ -22,6 +22,14 @@ public:
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 
     void Sort();
+
+    void UpdateData();
+
+    bool IsContainInSessionList(const QString &id);
+
+    void AddSingleSession(const QString &id, const QString &nick, time_t time);
+
+    void UpdateSingleSession(const QString &id, const QString &nick, time_t time);
 
 private:
     QList<Session> sessionList;

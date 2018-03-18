@@ -18,5 +18,11 @@
 //private:
 //    static Program *program;
 //};
+#ifdef _DEBUG
+#define DEBUG_FUNCNAME   qDebug() << __func__;
+#else
+#define DEBUG_FUNCNAME
+#endif // _DEBUG
+
 time_t GetTime();
 #endif // PROGRAM_H

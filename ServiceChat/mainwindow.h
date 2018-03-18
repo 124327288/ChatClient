@@ -25,10 +25,11 @@ private slots:
     void updateListView();
 
 private:
-    Ui::MainWindow  *ui;
-    QListView       *sessionListView;
-    QListView       *friendListView;
-    FriendListModel *friendListModel;
+    Ui::MainWindow      *ui;
+    QListView           *sessionListView;
+    SessionListModel    *sessionListModel;
+    QListView           *friendListView;
+    FriendListModel     *friendListModel;
     // QWidget interface
 protected:
     void closeEvent(QCloseEvent *event) override;

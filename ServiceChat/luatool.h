@@ -3,8 +3,9 @@
 #include "stdafx.h"
 #include <string>
 #include <lua.hpp>
-class LuaTool
+class LuaTool : public QObject
 {
+    Q_OBJECT
 public:
     static LuaTool &Instance();
     void Init();
@@ -12,11 +13,17 @@ public:
     bool isDirExist() const;
     bool genDir();
 
+    bool isUserDirExist() const;
+    bool genUserDir();
+
     bool isAppCfgFileExist() const;
     bool isUserCfgFileExist() const;
 
     void genAppCfgFile() const;
     void genUserCfgFile() const;
+
+    void updateAppCfgFile() const;
+    void updateUserCfgFile() const;
 
     void getAppConfig();
     void getUserConfig();
@@ -35,15 +42,23 @@ public:
     int getPort() const;
     void setPort(int value);
 
+    std::string getUserDir() const;
+    void setUserDir(const std::string &value);
+
+    std::string getLanguage() const;
+    void setLanguage(const std::string &value);
+
 private:
     LuaTool();
     lua_State *L;
     std::string dir;
+    std::string userDir;
     std::string appCfgFile;
     std::string userCfgFile;
 
     bool rememberPassword;
     bool autoLogin;
+    std::string language;
 
     std::string serverAddress;
     int port;

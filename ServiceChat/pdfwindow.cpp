@@ -1,8 +1,9 @@
-#include "pdfwindow.h"
+﻿#include "pdfwindow.h"
 #include "ui_pdfwindow.h"
 
 #include <QFileDialog>
 #include <QLabel>
+#include <QDebug>
 #include <mupdf/fitz.h>
 #include <mupdf/pdf.h>
 PDFWindow::PDFWindow(QWidget *parent) :

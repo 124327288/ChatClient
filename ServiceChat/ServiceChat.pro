@@ -52,7 +52,9 @@ SOURCES += \
     Tim/timcallback.cpp \
     Tim/timtool.cpp \
     Delegate/friendlistdelegate.cpp \
-    View/friendlistview.cpp
+    View/friendlistview.cpp \
+    View/settingdialog.cpp \
+    Delegate/sessionlistdelegate.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -77,7 +79,9 @@ HEADERS += \
     Tim/timcallback.h \
     Tim/timtool.h \
     Delegate/friendlistdelegate.h \
-    View/friendlistview.h
+    View/friendlistview.h \
+    View/settingdialog.h \
+    Delegate/sessionlistdelegate.h
 
 FORMS += \
         loginwindow.ui \
@@ -86,7 +90,8 @@ FORMS += \
     pdfwindow.ui
 
 RESOURCES += \
-    res.qrc
+    img.qrc \
+    language.qrc
 
 # IM_Windows_SDK
 

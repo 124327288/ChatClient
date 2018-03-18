@@ -21,7 +21,19 @@ private slots:
 
     void on_closeBtn_clicked();
 
-    void on_selectPicBtn_clicked();
+//    void on_selectPicBtn_clicked();
+
+    void on_fontComboBox_currentFontChanged(const QFont &f);
+
+    void on_comboBox_currentIndexChanged(const QString &arg1);
+
+    void on_boldToolButton_clicked(bool checked);
+
+    void on_italicToolButton_clicked(bool checked);
+
+    void on_lineToolButton_clicked(bool checked);
+
+    void on_colorToolButton_clicked(bool checked);
 
 private:
     Ui::ChatWindow *ui;
@@ -30,6 +42,8 @@ private:
     QString otherRemark;
 
     TIMConversationHandle convHandle;
+
+
 
     void GetConversation();
 

@@ -3,11 +3,16 @@
 #include "tim_msg_c.h"
 #include "tim_c.h"
 #include "Tim/timtool.h"
+#include <QColorDialog>
 #include <QDebug>
 #include <QFileDialog>
 #include <QScrollBar>
 #include <QWaitCondition>
+
+#ifdef _WIN32
 #include <Windows.h>
+#endif
+
 #include <ctime>
 ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     QMainWindow(parent),
@@ -17,7 +22,7 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     otherId = linkman.id;
     otherNick = !linkman.nick.trimmed().isEmpty() ? linkman.nick : otherId;
     otherRemark = !linkman.remark.trimmed().isEmpty() ? linkman.remark : otherNick;
-    TimTool::Instance().UpdateChatWindowMap(otherId, this);
+    TimTool::Instance().AddChatWindowMap(otherId, this);
     setWindowTitle(tr("%1 - Session").arg(otherRemark));
     GetConversation();
     if(!TimTool::Instance().GetContentEX(otherId).isEmpty())
@@ -70,13 +75,20 @@ void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
 
 void ChatWindow::GetConversation()
 {
+    if(TimTool::Instance().ContainInConvMap(otherId))
+    {
+        convHandle = TimTool::Instance().GetConvHandle(otherId);
+        return;
+    }
     QByteArray bytes = otherId.toUtf8();
-    const char* peer = bytes.data();
     convHandle = CreateConversation();
-    TimTool::Instance().AddConvMap(otherId, convHandle);
-    int rt = TIMGetConversation(convHandle, kCnvC2C, peer);
+    int rt = TIMGetConversation(convHandle, kCnvC2C, bytes.data());
     if(rt == 0)
+    {
         qDebug() << "GetConversation Success!";
+        TimTool::Instance().AddConvMap(otherId, convHandle);
+        emit TimTool::Instance().NewConversation(otherId, otherNick, GetTime());
+    }
     else
         qDebug() << "GetConversation Error!";
 }
@@ -91,6 +103,7 @@ void ChatWindow::closeEvent(QCloseEvent *event)
 void ChatWindow::on_sendBtn_clicked()
 {
     QString text = ui->textEdit->toHtml();
+    qDebug() << text;
     TimTool::Instance().SendMsg(otherId, text);
     AddContent(TimTool::Instance().getId(), TimTool::Instance().getNick(), GetTime(), text);
     ui->textEdit->clear();
@@ -103,14 +116,61 @@ void ChatWindow::on_closeBtn_clicked()
                          )");
 }
 
-void ChatWindow::on_selectPicBtn_clicked()
+//void ChatWindow::on_selectPicBtn_clicked()
+//{
+//    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString(), tr("Images (*.jpg *.xpm *.png);;"));
+//    if(!fileName.isNull())
+//    {
+//        QString html = QString(R"(
+//                               <img src = "%1" />
+//                               )").arg(fileName);
+//        ui->textEdit->append(html);
+//    }
+//}
+
+void ChatWindow::on_fontComboBox_currentFontChanged(const QFont &f)
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString(), tr("Images (*.jpg *.xpm *.png);;"));
-    if(!fileName.isNull())
+    ui->textEdit->setCurrentFont(f);
+    ui->textEdit->setFocus();
+}
+
+void ChatWindow::on_comboBox_currentIndexChanged(const QString &arg1)
+{
+    ui->textEdit->setFontPointSize(arg1.toDouble());
+    ui->textEdit->setFocus();
+}
+
+void ChatWindow::on_boldToolButton_clicked(bool checked)
+{
+    if(checked)
     {
-        QString html = QString(R"(
-                               <img src = "%1" />
-                               )").arg(fileName);
-        ui->textEdit->append(html);
+        ui->textEdit->setFontWeight(QFont::Bold);
+    }
+    else
+    {
+        ui->textEdit->setFontWeight(QFont::Normal);
+    }
+    ui->textEdit->setFocus();
+}
+
+void ChatWindow::on_italicToolButton_clicked(bool checked)
+{
+    ui->textEdit->setFontItalic(checked);
+    ui->textEdit->setFocus();
+}
+
+void ChatWindow::on_lineToolButton_clicked(bool checked)
+{
+    ui->textEdit->setFontUnderline(checked);
+    ui->textEdit->setFocus();
+}
+
+void ChatWindow::on_colorToolButton_clicked(bool checked)
+{
+    auto color = QColorDialog::getColor();
+    if(color.isValid())
+    {
+        ui->textEdit->setTextColor(color);
+        ui->textEdit->setFocus();
     }
 }

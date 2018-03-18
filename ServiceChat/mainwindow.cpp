@@ -13,6 +13,8 @@
 #include "Tim/timtool.h"
 #include "Model/friendlistmodel.h"
 #include "Delegate/friendlistdelegate.h"
+#include "Delegate/sessionlistdelegate.h"
+#include "View/settingdialog.h"
 #include "chatwindow.h"
 MainWindow &MainWindow::Instance()
 {
@@ -26,21 +28,25 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     InitUI();
+    sessionListModel = new SessionListModel;
+    sessionListView->setModel(sessionListModel);
+    sessionListView->setItemDelegate(new SessionListDelegate);
     friendListModel = new FriendListModel;
     friendListView->setModel(friendListModel);
     friendListView->setItemDelegate(new FriendListDelegate);
     connect(&TimTool::Instance(), &TimTool::GetSelfNickname, this, [=](QString nick){
-        ui->nickLabel->setText(nick.isEmpty()?TimTool::Instance().getId() : nick);
+//        qDebug() << "nick: " << nick;
+        QString title = QString("%1(%2)").arg(TimTool::Instance().getId()).arg(TimTool::Instance().getNick());
+        setWindowTitle(title);
+        ui->nickLabel->setText(nick.isEmpty() ? TimTool::Instance().getId() : nick);
     });
-    connect(ui->actionAboutQt, &QAction::triggered, [=](){
-        QMessageBox::aboutQt(this);
-    });
+    connect(ui->actionAboutQt, &QAction::triggered, [=]{QMessageBox::aboutQt(this);});
 
     connect(friendListView, &QListView::doubleClicked, [=](const QModelIndex &index){
 
         QString id = index.data(Role::RoleID).toString();
         QString nick = index.data(Role::RoleNick).toString();
-        QString remark = index.data(Role::RoleRemark).toString();
+//        QString remark = index.data(Role::RoleRemark).toString();
         ChatWindow *window;
         if(TimTool::Instance().ContainInChatWindowMap(id))
         {
@@ -49,11 +55,13 @@ MainWindow::MainWindow(QWidget *parent) :
         }
         else
         {
-            window = new ChatWindow({id, nick, remark}, this);
+            window = new ChatWindow({id, nick}, this);
             window->show();
         }
 
     });
+
+    connect(ui->actionSetting, &QAction::triggered, [=]{SettingDialog *dialog = new SettingDialog(this);dialog->show();});
 }
 
 void MainWindow::InitUI()

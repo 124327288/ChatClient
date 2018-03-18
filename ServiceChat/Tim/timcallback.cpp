@@ -52,8 +52,8 @@ void onGetFriendListSuccess(TIMFriendListElemHandle *handles, uint32_t num, void
     for(uint32_t i = 0; i < num; ++i)
     {
         TIMFriendListElemHandle handle = handles[i];
-        char id[16];
-        char nickName[16];
+        char id[MAXLENID];
+        char nickName[MAXLENNICK];
         char remark[16];
         uint32_t idLen, nickLen, remarkLen;
         GetID4FriendListElemHandle(handle, id, &idLen);
@@ -90,11 +90,12 @@ void onGetSelfProfileSuccess(TIMSelfProfileHandle *handles, uint32_t num, void *
     //	TIM_DECL int GetNickName4SlefProfileHandle(TIMSelfProfileHandle handle, char* buf, uint32_t* len);
     //	TIM_DECL E_TIMFriendAllowType GetAllowType4SlefProfileHandle(TIMSelfProfileHandle handle);
 
-    qDebug() << "GetSelfProfile num: " << num;
+//    qDebug() << "GetSelfProfile num: " << num;
     char nick[16];
     uint32_t len;
     GetNickName4SlefProfileHandle(*handles, nick, &len);
     QString sNick = QString::fromUtf8(nick);
+    TimTool::Instance().setNick(sNick);
     emit TimTool::Instance().GetSelfNickname(sNick);
 }
 
@@ -154,16 +155,17 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
         TIMProfileHandle profile = CreateProfileHandle();
         GetSenderProfile(handle, profile);
 
-        char id[16];uint32_t idLen;
+        char id[MAXLENID];uint32_t idLen;
         GetID4ProfileHandle(profile, id, &idLen);
         QString sid = QString::fromUtf8(id, idLen);
 
-        char nick[16];uint32_t nickLen;
+        char nick[MAXLENNICK];uint32_t nickLen;
         GetNickName4ProfileHandle(profile, nick, &nickLen);
         QString snick = QString::fromUtf8(nick, nickLen);
 
-//        TIMConversationHandle conv = CreateConversation();
-//        GetConversationFromMsg(conv, handle);
+        TIMConversationHandle conv = CreateConversation();
+        GetConversationFromMsg(conv, handle);
+        TimTool::Instance().AddConvMap(sid, conv);
 
         QString msg;
         int cnt = GetElemCount(handle);
@@ -174,9 +176,8 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
             switch (type) {
             case TIMElemType::kElemText:
             {
-                uint32_t len = 100;
-                qDebug() << QString("length: %1").arg(len);
-                char buffer[1024];
+                uint32_t len = MAXLENCONTENT;
+                char buffer[MAXLENCONTENT];
                 memset(buffer, 0, sizeof(buffer));
                 int ret = GetContent(elem, buffer, &len);
                 qDebug() << QString("ret = %1, len = %2").arg(ret).arg(len);
@@ -193,4 +194,14 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
         DestroyProfileHandle(profile);
 //        DestroyConversation(conv);
     }
+}
+
+void onSetNickNameSuccess(void *data)
+{
+    TimTool::Instance().GetSelfProfile();
+}
+
+void onSetNickNameError(int code, const char *desc, void *data)
+{
+    ERROR_DEBUG
 }

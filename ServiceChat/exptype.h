@@ -2,6 +2,7 @@
 #define EXPTYPE_H
 #include "expdef.h"
 #include <QMetaType>
+#include <QString>
 enum PROTOCOLTYPE : byte
 {
     USERPWD = 1,
@@ -35,7 +36,7 @@ struct Session
 {
     QString id;
     QString nick;
-    QString remark;
+//    QString remark;
     time_t  time;
 };
 

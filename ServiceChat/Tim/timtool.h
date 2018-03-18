@@ -28,6 +28,8 @@ public:
 
     void GetSelfProfile();
 
+    void SetNickName(const QString &nick);
+
     void SendMsg(QString id, QString text);
 
     int AddChatWindowMap(QString id, ChatWindow *window);
@@ -53,6 +55,7 @@ signals:
     void NewMsg(QString id, QString nick, uint32_t time, QString msg);
     void GetSignature(QString sig);
     void SetSignatureSuccess();
+    void NewConversation(const QString &id, QString &nick, time_t time);
 private slots:
     void NewMsgHandler(QString id, QString nick, uint32_t time, QString msg);
 private:
@@ -75,5 +78,12 @@ public:
     QString getId() const;
     QString getPwd() const;
     QString getNick() const;
+    void setNick(const QString &value);
+    QMap<QString, ChatWindow *> getChatWindowMap() const;
+    void setChatWindowMap(const QMap<QString, ChatWindow *> &value);
+    QMap<QString, TIMConversationHandle> getConvMap() const;
+    void setConvMap(const QMap<QString, TIMConversationHandle> &value);
+    QMap<QString, QVector<ChatContentEX> > getContentMap() const;
+    void setContentMap(const QMap<QString, QVector<ChatContentEX> > &value);
 };
 #endif // TIMTOOL_H

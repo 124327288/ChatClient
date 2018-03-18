@@ -32,9 +32,9 @@ QVariant FriendListModel::data(const QModelIndex & index, int role) const
 
 void FriendListModel::updateList(QList<Linkman> list)
 {
-    beginInsertRows(QModelIndex(), rowCount(), list.count());
+    beginResetModel();
     linkmanList = list;
-    endInsertRows();
+    endResetModel();
 //    for(auto man : list)
 //    {
 //        qDebug() << QString("id : %1, nick : %2, remark : %3").arg(man.id).arg(man.nick).arg(man.remark);

@@ -33,16 +33,6 @@
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="linkmanLabel">
-      <property name="text">
-       <string>Linkman</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
        <number>-1</number>

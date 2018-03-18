@@ -4,7 +4,15 @@
 #include "Protocol/tcpsocket.h"
 #include "Protocol/C2S/userpwdprotocol.h"
 #include <QTimer>
+
+#ifdef _WIN32
 #include <Windows.h>
+#endif
+
+#ifdef __GNUC__
+#include <unistd.h>
+#endif
+
 
 TimTool::TimTool() :
     sdk_app_id(1400067035),
@@ -166,6 +174,26 @@ void TimTool::GetSelfProfile()
     TIMGetSelfProfile(&cb);
 }
 
+void TimTool::SetNickName(const QString &nick)
+{
+//    /**
+//    Description:    设置自己的昵称
+//    @param    [in]    nick    昵称
+//    @param    [in]    len        昵称长度
+//    @param    [in]    cb        回调
+//    @return            void
+//    @exception      none
+//    */
+//    TIM_DECL void TIMSetNickName(char* nick, uint32_t len, TIMCommCB * cb);
+    QByteArray arr = nick.toUtf8();
+    static TIMCommCB cb;
+    cb.OnSuccess = onSetNickNameSuccess;
+    cb.OnError = onSetNickNameError;
+    cb.data = &cb;
+    TIMSetNickName(arr.data(), arr.size(), &cb);
+
+}
+
 void TimTool::SendMsg(QString id, QString text)
 {
     //    void SendMsg(TIMConversationHandle conv_handle, TIMMessageHandle msg_handle, TIMCommCB *callback);
@@ -279,6 +307,41 @@ void TimTool::NewMsgHandler(QString id, QString nick, uint32_t time, QString msg
     {
         contentMap[id] += { time, msg };
     }
+}
+
+QMap<QString, QVector<ChatContentEX> > TimTool::getContentMap() const
+{
+    return contentMap;
+}
+
+void TimTool::setContentMap(const QMap<QString, QVector<ChatContentEX> > &value)
+{
+    contentMap = value;
+}
+
+QMap<QString, TIMConversationHandle> TimTool::getConvMap() const
+{
+    return convMap;
+}
+
+void TimTool::setConvMap(const QMap<QString, TIMConversationHandle> &value)
+{
+    convMap = value;
+}
+
+QMap<QString, ChatWindow *> TimTool::getChatWindowMap() const
+{
+    return chatWindowMap;
+}
+
+void TimTool::setChatWindowMap(const QMap<QString, ChatWindow *> &value)
+{
+    chatWindowMap = value;
+}
+
+void TimTool::setNick(const QString &value)
+{
+    nick = value;
 }
 
 QString TimTool::getNick() const
