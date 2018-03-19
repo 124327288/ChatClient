@@ -298,6 +298,7 @@ void TimTool::ClearContentEX()
 void TimTool::NewMsgHandler(QString id, QString nick, uint32_t time, QString msg)
 {
 //    qDebug() << "chatMap.contains(id): " << chatWindowMap.contains(id);
+    contentMap[id] += { time, msg };
     if(chatWindowMap.contains(id))
     {
         ChatWindow *window = chatWindowMap[id];
@@ -305,7 +306,7 @@ void TimTool::NewMsgHandler(QString id, QString nick, uint32_t time, QString msg
     }
     else
     {
-        contentMap[id] += { time, msg };
+
     }
 }
 

@@ -151,20 +151,26 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
     {
         TIMMessageHandle handle = handles[i];
         uint32_t msgTime = GetMsgTime(handle);
-
+        int ret = -1;
         TIMProfileHandle profile = CreateProfileHandle();
-        GetSenderProfile(handle, profile);
+        ret = GetSenderProfile(handle, profile);
+        onGetElementReturn("GetSenderProfile", ret);
 
-        char id[MAXLENID];uint32_t idLen;
-        GetID4ProfileHandle(profile, id, &idLen);
+        char id[MAXLENID];
+        char nick[MAXLENNICK];
+        uint32_t idLen;
+        uint32_t nickLen;
+        ret = GetID4ProfileHandle(profile, id, &idLen);
+        onGetElementReturn("GetID4ProfileHandle", ret);
+        ret = GetNickName4ProfileHandle(profile, nick, &nickLen);
+        onGetElementReturn("GetNickName4ProfileHandle", ret);
         QString sid = QString::fromUtf8(id, idLen);
-
-        char nick[MAXLENNICK];uint32_t nickLen;
-        GetNickName4ProfileHandle(profile, nick, &nickLen);
         QString snick = QString::fromUtf8(nick, nickLen);
+        qDebug() << QString("%1(%2)").arg(sid).arg(snick);
 
         TIMConversationHandle conv = CreateConversation();
         GetConversationFromMsg(conv, handle);
+//        GetConversationPeer
         TimTool::Instance().AddConvMap(sid, conv);
 
         QString msg;
@@ -180,11 +186,11 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
                 char buffer[MAXLENCONTENT];
                 memset(buffer, 0, sizeof(buffer));
                 int ret = GetContent(elem, buffer, &len);
-                qDebug() << QString("ret = %1, len = %2").arg(ret).arg(len);
                 QString s = QString::fromUtf8(buffer, len + 1);
+                qDebug() << QString("ret = %1, content = %2").arg(ret).arg(s);
                 msg += s;
-            }
                 break;
+            }
             default:
                 break;
             }
@@ -204,4 +210,12 @@ void onSetNickNameSuccess(void *data)
 void onSetNickNameError(int code, const char *desc, void *data)
 {
     ERROR_DEBUG
+}
+
+void onGetElementReturn(const char *funcName, int ret)
+{
+    if(ret)
+    {
+        qDebug() << QString("On %1 Error! Return = %2").arg(funcName).arg(ret);
+    }
 }

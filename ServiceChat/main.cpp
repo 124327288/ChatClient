@@ -21,6 +21,8 @@ int main(int argc, char *argv[])
         trans.load(":/client_en.qm");
     else if(LuaTool::Instance().getLanguage() == "cn")
         trans.load(":/client_cn.qm");
+    else
+        trans.load(":/client_cn.qm");
     a.installTranslator(&trans);
     TcpSocket::Instance().TryConnect();
     TimTool::Instance().Init();

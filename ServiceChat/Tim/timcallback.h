@@ -8,6 +8,8 @@ void onErrorDebug(QString name, int code, const char *desc);
 #define ON_DEBUG    onDebug(__func__);
 #define ERROR_DEBUG onErrorDebug(__func__, code, desc);
 
+void onGetElementReturn(const char *funcName, int ret);
+
 void onConnected(void*);
 void onDisconnected(void*);
 

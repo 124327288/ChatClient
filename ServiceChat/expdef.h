@@ -31,7 +31,7 @@ enum Role
     RoleContent
 };
 
-constexpr int MAXLENID = 64;
-constexpr int MAXLENNICK = 64;
+constexpr int MAXLENID = 1024;
+constexpr int MAXLENNICK = 1024;
 constexpr int MAXLENCONTENT = 10240;
 #endif // EXPDEF_H
