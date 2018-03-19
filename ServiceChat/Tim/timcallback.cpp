@@ -209,11 +209,3 @@ void onSetNickNameError(int code, const char *desc, void *data)
 {
     ERROR_DEBUG
 }
-
-void onGetElementReturn(const char *funcName, int ret)
-{
-    if(ret)
-    {
-        qDebug() << QString("On %1 Error! Return = %2").arg(funcName).arg(ret);
-    }
-}
