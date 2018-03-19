@@ -9,6 +9,10 @@ void onErrorDebug(QString name, int code, const char *desc);
 #define ERROR_DEBUG onErrorDebug(__func__, code, desc);
 
 void onGetElementReturn(const char *funcName, int ret);
+#define ON_INVOKE(func, ...)                        \
+{                                                   \
+    onGetElementReturn(#func, func(__VA_ARGS__));   \
+}
 
 void onConnected(void*);
 void onDisconnected(void*);

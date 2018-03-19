@@ -103,76 +103,74 @@ void onGetSelfProfileError(int code, const char *desc, void *data)
 {
     ERROR_DEBUG
 }
+//    /**
+//      Description:    获取Message中包含的elem个数
+//      @param    [in]    handle        消息句柄
+//      @return            int            elem个数
+//      @exception      none
+//      */
+//      TIM_DECL int                GetElemCount(TIMMessageHandle handle);
+//      /**
+//      Description:    获取Message中包含的指定elem句柄
+//      @param    [in]    handle        消息句柄
+//      @param    [in]    index        elem索引
+//      @return            TIMMsgElemHandle    elem句柄
+//      @exception      none
+//      */
+//      TIM_DECL TIMMsgElemHandle    GetElem(TIMMessageHandle handle, int index);
+//    /**
+//    Description:    当前消息的时间戳
+//    @param    [in]    handle    TIMMessageHandle
+//    @return            uint32_t    时间戳
+//    @exception      none
+//    */
+//    TIM_DECL uint32_t            GetMsgTime(TIMMessageHandle handle);
+//    /**
+//       Description:    获取发送方
+//       @param    [in]    handle    TIMMessageHandle
+//       @param    [in]    buf        发送方ID buffer
+//       @param    [in]    len        发送方ID 长
+//       @return            int        0:成功 非0:失败
+//       @exception      none
+//       */
+//       TIM_DECL int                GetMsgSender(TIMMessageHandle handle, char* buf, uint32_t* len);
+//       /**
+//       Description:    获取发送者资料
+//       @param    [in]    handle    TIMMessageHandle
+//       @param    [in]    profile    发送者资料 目前只有字段：identifier、nickname、faceURL、customInfo
+//       @return            int        0:成功 非0:失败
+//       @exception      none
+//       */
+//       TIM_DECL int                GetSenderProfile(TIMMessageHandle handle, TIMProfileHandle profile);
 
 void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
 {
-    //    /**
-    //      Description:    获取Message中包含的elem个数
-    //      @param    [in]    handle        消息句柄
-    //      @return            int            elem个数
-    //      @exception      none
-    //      */
-    //      TIM_DECL int                GetElemCount(TIMMessageHandle handle);
-    //      /**
-    //      Description:    获取Message中包含的指定elem句柄
-    //      @param    [in]    handle        消息句柄
-    //      @param    [in]    index        elem索引
-    //      @return            TIMMsgElemHandle    elem句柄
-    //      @exception      none
-    //      */
-    //      TIM_DECL TIMMsgElemHandle    GetElem(TIMMessageHandle handle, int index);
-    //    /**
-    //    Description:    当前消息的时间戳
-    //    @param    [in]    handle    TIMMessageHandle
-    //    @return            uint32_t    时间戳
-    //    @exception      none
-    //    */
-    //    TIM_DECL uint32_t            GetMsgTime(TIMMessageHandle handle);
-    //    /**
-    //       Description:    获取发送方
-    //       @param    [in]    handle    TIMMessageHandle
-    //       @param    [in]    buf        发送方ID buffer
-    //       @param    [in]    len        发送方ID 长
-    //       @return            int        0:成功 非0:失败
-    //       @exception      none
-    //       */
-    //       TIM_DECL int                GetMsgSender(TIMMessageHandle handle, char* buf, uint32_t* len);
-    //       /**
-    //       Description:    获取发送者资料
-    //       @param    [in]    handle    TIMMessageHandle
-    //       @param    [in]    profile    发送者资料 目前只有字段：identifier、nickname、faceURL、customInfo
-    //       @return            int        0:成功 非0:失败
-    //       @exception      none
-    //       */
-    //       TIM_DECL int                GetSenderProfile(TIMMessageHandle handle, TIMProfileHandle profile);
-
     qDebug() << QString("OnNewMessage msg num : %1").arg(msg_num);
     for(uint32_t i = 0; i < msg_num; ++i)
     {
         TIMMessageHandle handle = handles[i];
         uint32_t msgTime = GetMsgTime(handle);
-        int ret = -1;
         TIMProfileHandle profile = CreateProfileHandle();
-        ret = GetSenderProfile(handle, profile);
-        onGetElementReturn("GetSenderProfile", ret);
+        ON_INVOKE(GetSenderProfile, handle, profile);
+//        ret = GetSenderProfile(handle, profile);
+//        onGetElementReturn("GetSenderProfile", ret);
 
         char id[MAXLENID];
         char nick[MAXLENNICK];
         uint32_t idLen;
         uint32_t nickLen;
-        ret = GetID4ProfileHandle(profile, id, &idLen);
-        onGetElementReturn("GetID4ProfileHandle", ret);
-        ret = GetNickName4ProfileHandle(profile, nick, &nickLen);
-        onGetElementReturn("GetNickName4ProfileHandle", ret);
+        ON_INVOKE(GetID4ProfileHandle, profile, id, &idLen);
+        ON_INVOKE(GetNickName4ProfileHandle, profile, nick, &nickLen);
+//        ret = onGetElementReturn("GetID4ProfileHandle", GetID4ProfileHandle(profile, id, &idLen));
+//        ret = GetNickName4ProfileHandle(profile, nick, &nickLen);
+//        onGetElementReturn("GetNickName4ProfileHandle", ret);
         QString sid = QString::fromUtf8(id, idLen);
         QString snick = QString::fromUtf8(nick, nickLen);
         qDebug() << QString("%1(%2)").arg(sid).arg(snick);
 
         TIMConversationHandle conv = CreateConversation();
         GetConversationFromMsg(conv, handle);
-//        GetConversationPeer
         TimTool::Instance().AddConvMap(sid, conv);
-
         QString msg;
         int cnt = GetElemCount(handle);
         for(int j = 0; j < cnt; ++j)
