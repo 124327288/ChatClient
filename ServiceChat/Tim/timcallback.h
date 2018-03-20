@@ -40,6 +40,9 @@ void onGetSelfProfileError(int code, const char* desc, void* data);
 
 void onGetNewMessage(TIMMessageHandle* handles, uint32_t msg_num, void* data);
 
+void onGetImageFileSuccess(void*data);
+void onGetImageFileError(int code, const char *desc, void *data);
+
 void onSetNickNameSuccess(void* data);
 void onSetNickNameError(int code, const char* desc, void* data);
 
