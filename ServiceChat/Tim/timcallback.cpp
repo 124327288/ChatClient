@@ -157,8 +157,8 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
 
         char id[MAXLENID];
         char nick[MAXLENNICK];
-        uint32_t idLen;
-        uint32_t nickLen;
+        uint32_t idLen = MAXLENID;
+        uint32_t nickLen = MAXLENNICK;
         ON_INVOKE(GetID4ProfileHandle, profile, id, &idLen);
         ON_INVOKE(GetNickName4ProfileHandle, profile, nick, &nickLen);
 //        ret = onGetElementReturn("GetID4ProfileHandle", GetID4ProfileHandle(profile, id, &idLen));
@@ -184,7 +184,7 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
                 char buffer[MAXLENCONTENT];
                 memset(buffer, 0, sizeof(buffer));
                 int ret = GetContent(elem, buffer, &len);
-                QString s = QString::fromUtf8(buffer, len + 1);
+                QString s = QString::fromUtf8(buffer, len);
                 qDebug() << QString("ret = %1, content = %2").arg(ret).arg(s);
                 msg += s;
                 break;
