@@ -12,7 +12,7 @@ inline void onGetElementReturn(const char *funcName, int ret)
 {
     if(ret)
     {
-        qDebug() << QString("On %1 Error! Return = %2").arg(funcName).arg(ret);
+        qDebug() << QString("On %1 Error! RetCode = %2").arg(funcName).arg(ret);
     }
 }
 #define ON_INVOKE(func, ...)                        \
