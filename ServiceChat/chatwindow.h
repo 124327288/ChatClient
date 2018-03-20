@@ -19,8 +19,6 @@ public:
 private slots:
     void on_sendBtn_clicked();
 
-    void on_closeBtn_clicked();
-
 //    void on_selectPicBtn_clicked();
 
     void on_fontComboBox_currentFontChanged(const QFont &f);
@@ -35,6 +33,8 @@ private slots:
 
     void on_colorToolButton_clicked(bool checked);
 
+    void on_picToolButton_clicked(bool checked);
+
 private:
     Ui::ChatWindow *ui;
     QString otherId;
@@ -43,7 +43,7 @@ private:
 
     TIMConversationHandle convHandle;
 
-
+    QVector<TIMElemType> sendMsgTypeList;
 
     void GetConversation();
 

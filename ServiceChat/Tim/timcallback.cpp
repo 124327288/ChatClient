@@ -1,5 +1,6 @@
 ﻿#include "timcallback.h"
 #include "timtool.h"
+#include <QUuid>
 void onDebug(QString name)
 {
     qDebug() << name;
@@ -55,8 +56,8 @@ void onGetFriendListSuccess(TIMFriendListElemHandle *handles, uint32_t num, void
         char id[MAXLENID];
         char nickName[MAXLENNICK];
 //        char remark[16];
-        uint32_t idLen;
-        uint32_t nickLen;
+        uint32_t idLen = MAXLENID;
+        uint32_t nickLen = MAXLENNICK;
 //        uint32_t remarkLen;
         ON_INVOKE(GetID4FriendListElemHandle, handle, id, &idLen);
         ON_INVOKE(GetNickName4FriendListElemHandle, handle, nickName, &nickLen);
@@ -178,12 +179,39 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
             case TIMElemType::kElemText:
             {
                 uint32_t len = MAXLENCONTENT;
-                char buffer[MAXLENCONTENT];
-                memset(buffer, 0, sizeof(buffer));
-                int ret = GetContent(elem, buffer, &len);
+                char buffer[MAXLENCONTENT] = {0};
+                ON_INVOKE(GetContent, elem, buffer, &len);
                 QString s = QString::fromUtf8(buffer, len);
-                qDebug() << QString("ret = %1, content = %2").arg(ret).arg(s);
+                qDebug() << QString("content = %1").arg(s);
                 msg += s;
+                break;
+            }
+            case TIMElemType::kElemImage:
+            {
+                uint32_t len = MAXLENIMAGE;
+                TIMImageHandle imgHandles[MAXLENIMAGE] = {0};
+                ON_INVOKE(GetImages, elem, imgHandles, &len);
+                for(uint32_t i = 0; i < len; ++i)
+                {
+                    TIMImageHandle imgHandle = imgHandles[i];
+                    TIMImageType imgType = GetImageType(imgHandle);
+                    if(imgType == TIMImageType::kOriginalImage)
+                    {
+//                      TIM_DECL int  GetImageFile(TIMImageHandle handle, char* filename, TIMCommCB* cb);
+                        QUuid uuid = QUuid::createUuid();
+                        QString str_uuid = uuid.toString();
+                        QByteArray uuid_byte = str_uuid.toUtf8();
+                        TIMCommCB cb;
+                        cb.OnSuccess = &onCommSuccess;
+                        cb.OnError = &onCommError;
+//                        uint32_t urlLen = MAXLENURL;
+//                        char url[MAXLENURL] = {0};
+//                        ON_INVOKE(GetImageURL, imgHandle, url, &urlLen);
+                        qDebug() << QString("url: %1").arg(str_uuid);
+                        ON_INVOKE(GetImageFile, imgHandle, uuid_byte.data(), &cb);
+                        msg += QString(R"(<img src = "%1" />)").arg(str_uuid);
+                    }
+                }
                 break;
             }
             default:

@@ -13,6 +13,7 @@
 #include <Windows.h>
 #endif
 
+#include <QMessageBox>
 #include <ctime>
 ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     QMainWindow(parent),
@@ -42,9 +43,9 @@ ChatWindow::~ChatWindow()
 
 void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
 {
-    QPalette pal = ui->textBrowser->palette();
-    QColor c;
-    pal.setColor(QPalette::Base, c.blue());
+//    QPalette pal = ui->textBrowser->palette();
+//    QColor c;
+//    pal.setColor(QPalette::Base, c.blue());
     std::tm *p_tm = std::localtime(&time);
     QString str_time = QString("%1-%2 %3:%4:%5").
             arg(p_tm->tm_mon + 1, 2, 10, QChar('0')).
@@ -56,7 +57,7 @@ void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
     ui->textBrowser->append(QString(R"(
                                     <font color="blue">%1(%2) %3</font>
                                     )").arg(id).arg(nick).arg(str_time));
-    pal.setColor(QPalette::Base, c.black());
+//    pal.setColor(QPalette::Base, c.black());
     ui->textBrowser->append(msg);
     ui->textBrowser->append("");
 
@@ -102,18 +103,13 @@ void ChatWindow::closeEvent(QCloseEvent *event)
 
 void ChatWindow::on_sendBtn_clicked()
 {
+    if(ui->textEdit->toPlainText().isEmpty())
+        return;
     QString text = ui->textEdit->toHtml();
     qDebug() << text;
     TimTool::Instance().SendMsg(otherId, text);
     AddContent(TimTool::Instance().getId(), TimTool::Instance().getNick(), GetTime(), text);
     ui->textEdit->clear();
-}
-
-void ChatWindow::on_closeBtn_clicked()
-{
-    ui->textEdit->append(R"(
-                         <img src = "D:\keys\201995-120HG1030762.jpg" />
-                         )");
 }
 
 //void ChatWindow::on_selectPicBtn_clicked()
@@ -172,5 +168,20 @@ void ChatWindow::on_colorToolButton_clicked(bool checked)
     {
         ui->textEdit->setTextColor(color);
         ui->textEdit->setFocus();
+    }
+}
+
+void ChatWindow::on_picToolButton_clicked(bool checked)
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString(), tr("Images (*.jpg *.xpm *.png);;"));
+    if(!fileName.isNull())
+    {
+        if(!QMessageBox::information(this, tr("Send this Image?"), tr("Send this Image?"), tr("Ok"), tr("Cancel")))
+        {
+            QString html = QString(R"(<img src = "%1" />)").arg(fileName);
+            AddContent(TimTool::Instance().getId(), TimTool::Instance().getNick(), GetTime(), html);
+            TimTool::Instance().SendImage(otherId, fileName);
+    //        ui->textEdit->append(html);
+        }
     }
 }

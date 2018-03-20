@@ -92,8 +92,8 @@
         <location filename="chatwindow.ui" line="114"/>
         <location filename="chatwindow.ui" line="140"/>
         <location filename="chatwindow.ui" line="166"/>
-        <location filename="chatwindow.ui" line="189"/>
-        <location filename="chatwindow.ui" line="215"/>
+        <location filename="chatwindow.ui" line="192"/>
+        <location filename="chatwindow.ui" line="218"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -108,24 +108,29 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="212"/>
+        <location filename="chatwindow.ui" line="189"/>
+        <source>Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.ui" line="215"/>
         <source>Picture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="258"/>
-        <location filename="chatwindow.ui" line="294"/>
-        <location filename="chatwindow.ui" line="299"/>
+        <location filename="chatwindow.ui" line="261"/>
+        <location filename="chatwindow.ui" line="297"/>
+        <location filename="chatwindow.ui" line="302"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="265"/>
+        <location filename="chatwindow.ui" line="268"/>
         <source>Send</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="284"/>
+        <location filename="chatwindow.ui" line="287"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -264,12 +269,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="68"/>
+        <location filename="mainwindow.cpp" line="76"/>
         <source>Session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="75"/>
+        <location filename="mainwindow.cpp" line="83"/>
         <source>Friend</source>
         <translation type="unfinished"></translation>
     </message>
@@ -315,22 +320,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="View/settingdialog.cpp" line="17"/>
+        <location filename="View/settingdialog.cpp" line="21"/>
         <source>nick</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="View/settingdialog.cpp" line="27"/>
+        <location filename="View/settingdialog.cpp" line="33"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="View/settingdialog.cpp" line="39"/>
+        <location filename="View/settingdialog.cpp" line="46"/>
         <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="View/settingdialog.cpp" line="40"/>
+        <location filename="View/settingdialog.cpp" line="47"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>

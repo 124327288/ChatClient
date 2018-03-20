@@ -31,6 +31,7 @@ public:
     void SetNickName(const QString &nick);
 
     void SendMsg(QString id, QString text);
+    void SendImage(const QString &id, const QString &imgPath);
 
     int AddChatWindowMap(QString id, ChatWindow *window);
     void UpdateChatWindowMap(QString id, ChatWindow *window);

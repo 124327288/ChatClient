@@ -205,18 +205,36 @@ void TimTool::SendMsg(QString id, QString text)
     //    int    GetContent(TIMMsgTextElemHandle handle, char* content, uint32_t* len);
     TIMMessageHandle msgHandle = CreateTIMMessage();
     TIMMsgTextElemHandle txtHandle = CreateMsgTextElem();
-    static QByteArray bytes;
-    bytes = text.toUtf8();
+
+    QByteArray bytes = text.toUtf8();
     SetContent(txtHandle, bytes.data());
     AddElem(msgHandle, txtHandle);
-    static TIMCommCB cb;
+
+    TIMCommCB cb;
     cb.OnSuccess = onCommSuccess;
     cb.OnError = onCommError;
-    cb.data = &cb;
     ::SendMsg(convMap[id], msgHandle, &cb);
     Sleep(1);
     DestroyElem(txtHandle);
     DestroyTIMMessage(msgHandle);
+}
+
+void TimTool::SendImage(const QString &id, const QString &imgPath)
+{
+    TIMMessageHandle msg = CreateTIMMessage();
+    TIMMsgImageElemHandle elem = CreateMsgImageElem();
+
+    QByteArray path = imgPath.toUtf8();
+    SetImageElemPath(elem, path.data(), path.size());
+    AddElem(msg, elem);
+
+    TIMCommCB callback;
+    callback.OnSuccess = onCommSuccess;
+    callback.OnError = onCommError;
+    ::SendMsg(convMap[id], msg, &callback);
+    Sleep(1);
+    DestroyTIMMessage(msg);
+    DestroyElem(elem);
 }
 
 int TimTool::AddChatWindowMap(QString id, ChatWindow *window)
