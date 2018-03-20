@@ -35,6 +35,8 @@ private slots:
 
     void on_picToolButton_clicked(bool checked);
 
+    void on_fileToolButton_clicked(bool checked);
+
 private:
     Ui::ChatWindow *ui;
     QString otherId;

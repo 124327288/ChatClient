@@ -185,3 +185,17 @@ void ChatWindow::on_picToolButton_clicked(bool checked)
         }
     }
 }
+
+void ChatWindow::on_fileToolButton_clicked(bool checked)
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString());
+    if(!fileName.isNull())
+    {
+        if(!QMessageBox::information(this, tr("Send this File?"), tr("Send this File?"), tr("Ok"), tr("Cancel")))
+        {
+            QString html = tr("Send File: %1").arg(fileName);
+            AddContent(TimTool::Instance().getId(), TimTool::Instance().getNick(), GetTime(), html);
+            TimTool::Instance().SendFile(otherId, fileName);
+        }
+    }
+}

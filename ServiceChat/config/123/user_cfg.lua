@@ -1,0 +1,2 @@
+rememberPassword = false
+autoLogin = false

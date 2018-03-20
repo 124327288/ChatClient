@@ -37,11 +37,6 @@ Makefile*
 CMakeLists.txt.user*
 
 *.sln
-ServiceChat/ServiceChat.VC.db
-ServiceChat/ServiceChat.vcxproj
-ServiceChat/ServiceChat.vcxproj.filters
-ServiceChat/ServiceChat.vcxproj.user
-ServiceChat/.qmake.stash
 *.cbt
 *.opendb
 *.obj
@@ -50,8 +45,19 @@ ServiceChat/.qmake.stash
 *.pdb
 *.tlog
 *.log
-ServiceChat/.vs/
-Build/Release
-Build/Debug
 *.msgstore
 *.qm
+Build/Release
+Build/Debug
+ServiceChat/ServiceChat.VC.db
+ServiceChat/ServiceChat.vcxproj
+ServiceChat/ServiceChat.vcxproj.filters
+ServiceChat/ServiceChat.vcxproj.user
+ServiceChat/.qmake.stash
+ServiceChat/.vs/
+ServiceChat/TimPath
+ServiceChat/debug
+ServiceChat/release
+ServiceChat/ipch
+ServiceChat/Win32
+ServiceChat/stdafx.h.cpp

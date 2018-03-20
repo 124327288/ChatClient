@@ -4,6 +4,7 @@
 #include "Protocol/tcpsocket.h"
 #include "Protocol/C2S/userpwdprotocol.h"
 #include <QTimer>
+#include <fstream>
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -213,6 +214,10 @@ void TimTool::SendMsg(QString id, QString text)
     TIMCommCB cb;
     cb.OnSuccess = onCommSuccess;
     cb.OnError = onCommError;
+	if (!convMap.contains(id))
+	{
+		convMap.insert(id, CreateConversation());
+	}
     ::SendMsg(convMap[id], msgHandle, &cb);
     Sleep(1);
     DestroyElem(txtHandle);
@@ -231,7 +236,37 @@ void TimTool::SendImage(const QString &id, const QString &imgPath)
     TIMCommCB callback;
     callback.OnSuccess = onCommSuccess;
     callback.OnError = onCommError;
+	if (!convMap.contains(id))
+	{
+		convMap.insert(id, CreateConversation());
+	}
     ::SendMsg(convMap[id], msg, &callback);
+    Sleep(1);
+    DestroyTIMMessage(msg);
+    DestroyElem(elem);
+}
+
+void TimTool::SendFile(const QString &id, const QString &filePath)
+{
+    TIMMessageHandle msg = CreateTIMMessage();
+    TIMMsgFileElemHandle elem = CreateFileElemHandle();
+
+    QByteArray path = filePath.toUtf8();
+    std::fstream send_file(path.data(), std::fstream::in | std::fstream::binary);
+    std::string file_data((std::istreambuf_iterator<char>(send_file)), std::istreambuf_iterator<char>());
+
+    SetFileElemFileName(elem, path.data(), path.length());
+    SetFileElemData(elem, file_data.data(), file_data.length());
+    AddElem(msg, elem);
+
+    static TIMCommCB callback;
+    callback.OnSuccess = onCommSuccess;
+    callback.OnError = onCommError;
+	if (!convMap.contains(id))
+	{
+		convMap.insert(id, CreateConversation());
+	}
+	::SendMsg(convMap[id], msg, &callback);
     Sleep(1);
     DestroyTIMMessage(msg);
     DestroyElem(elem);
