@@ -3,24 +3,14 @@
 #include <QUuid>
 #include <memory>
 
-void onDebug(QString name)
-{
-    qDebug() << name;
-}
-
-void onErrorDebug(QString name, int code, const char *desc)
-{
-    qDebug() << QString("[%1] code = %2, desc = %3").arg(name).arg(code).arg(desc);
-}
-
 void onConnected(void *)
 {
-    ON_DEBUG
+    DEBUG_FUNC
 }
 
 void onDisconnected(void *)
 {
-    ON_DEBUG
+    DEBUG_FUNC
 }
 
 void onLoginSuccess(void *)
@@ -42,15 +32,11 @@ void onCommSuccess(void *data)
 
 void onCommError(int code, const char *desc, void *data)
 {
-    ERROR_DEBUG
+    DEBUG_ERROR
 }
 
 void onGetFriendListSuccess(TIMFriendListElemHandle *handles, uint32_t num, void *data)
 {
-    //  TIM_DECL int GetID4FriendListElemHandle(TIMFriendListElemHandle handle, char* id, uint32_t* len);
-    //	TIM_DECL int GetNickName4FriendListElemHandle(TIMFriendListElemHandle handle, char* buf, uint32_t* len);
-    //	TIM_DECL int GetRemark4FriendListElemHandle(TIMFriendListElemHandle handle, char* remark, uint32_t* len);
-    //	TIM_DECL int GetFaceURL4FriendListElemHandle(TIMFriendListElemHandle handle, char* face_url, uint32_t* len);
     QList<Linkman> friendList;
     for(uint32_t i = 0; i < num; ++i)
     {
@@ -74,7 +60,7 @@ void onGetFriendListSuccess(TIMFriendListElemHandle *handles, uint32_t num, void
 
 void onGetFriendListError(int code, const char *desc, void *data)
 {
-    ERROR_DEBUG
+    DEBUG_ERROR
 }
 
 void onAddFriendSuccess(TIMFriendResultHandle *handles, uint32_t num, void *data)
@@ -84,20 +70,13 @@ void onAddFriendSuccess(TIMFriendResultHandle *handles, uint32_t num, void *data
 
 void onAddFriendError(int code, const char *desc, void *data)
 {
-    ERROR_DEBUG
+    DEBUG_ERROR
 }
 
 void onGetSelfProfileSuccess(TIMSelfProfileHandle *handles, uint32_t num, void *data)
 {
-    //  typedef void* TIMSelfProfileHandle;
-    //	TIM_DECL TIMSelfProfileHandle CloneSelfProfileHandle(TIMSelfProfileHandle handle);
-    //	TIM_DECL void DestroySelfProfileHandle(TIMSelfProfileHandle handle);
-    //	TIM_DECL int GetNickName4SlefProfileHandle(TIMSelfProfileHandle handle, char* buf, uint32_t* len);
-    //	TIM_DECL E_TIMFriendAllowType GetAllowType4SlefProfileHandle(TIMSelfProfileHandle handle);
-
-//    qDebug() << "GetSelfProfile num: " << num;
-    char nick[16];
-    uint32_t len;
+    char nick[MAXLENNICK];
+	uint32_t len = MAXLENNICK;
     ON_INVOKE(GetNickName4SlefProfileHandle, *handles, nick, &len);
     QString sNick = QString::fromUtf8(nick);
     TimTool::Instance().setNick(sNick);
@@ -106,51 +85,12 @@ void onGetSelfProfileSuccess(TIMSelfProfileHandle *handles, uint32_t num, void *
 
 void onGetSelfProfileError(int code, const char *desc, void *data)
 {
-    ERROR_DEBUG
+    DEBUG_ERROR
 }
-//    /**
-//      Description:    获取Message中包含的elem个数
-//      @param    [in]    handle        消息句柄
-//      @return            int            elem个数
-//      @exception      none
-//      */
-//      TIM_DECL int                GetElemCount(TIMMessageHandle handle);
-//      /**
-//      Description:    获取Message中包含的指定elem句柄
-//      @param    [in]    handle        消息句柄
-//      @param    [in]    index        elem索引
-//      @return            TIMMsgElemHandle    elem句柄
-//      @exception      none
-//      */
-//      TIM_DECL TIMMsgElemHandle    GetElem(TIMMessageHandle handle, int index);
-//    /**
-//    Description:    当前消息的时间戳
-//    @param    [in]    handle    TIMMessageHandle
-//    @return            uint32_t    时间戳
-//    @exception      none
-//    */
-//    TIM_DECL uint32_t            GetMsgTime(TIMMessageHandle handle);
-//    /**
-//       Description:    获取发送方
-//       @param    [in]    handle    TIMMessageHandle
-//       @param    [in]    buf        发送方ID buffer
-//       @param    [in]    len        发送方ID 长
-//       @return            int        0:成功 非0:失败
-//       @exception      none
-//       */
-//       TIM_DECL int                GetMsgSender(TIMMessageHandle handle, char* buf, uint32_t* len);
-//       /**
-//       Description:    获取发送者资料
-//       @param    [in]    handle    TIMMessageHandle
-//       @param    [in]    profile    发送者资料 目前只有字段：identifier、nickname、faceURL、customInfo
-//       @return            int        0:成功 非0:失败
-//       @exception      none
-//       */
-//       TIM_DECL int                GetSenderProfile(TIMMessageHandle handle, TIMProfileHandle profile);
 
 void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
 {
-    qDebug() << QString("OnNewMessage msg num : %1").arg(msg_num);
+	qDebug() << QString("%1 ;Msg Num : %2").arg(__func__).arg(msg_num);
     for(uint32_t i = 0; i < msg_num; ++i)
     {
         TIMMessageHandle handle = handles[i];
@@ -166,7 +106,7 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
         ON_INVOKE(GetNickName4ProfileHandle, profile, nick, &nickLen);
         QString sid = QString::fromUtf8(id, idLen);
         QString snick = QString::fromUtf8(nick, nickLen);
-        qDebug() << QString("%1(%2)").arg(sid).arg(snick);
+        //qDebug() << QString("%1(%2)").arg(sid).arg(snick);
 
         TIMConversationHandle conv = CreateConversation();
         ON_INVOKE(GetConversationFromMsg, conv, handle);
@@ -230,7 +170,7 @@ void onSetNickNameSuccess(void *data)
 
 void onSetNickNameError(int code, const char *desc, void *data)
 {
-    ERROR_DEBUG
+    DEBUG_ERROR
 }
 
 void onGetImageFileSuccess(void *data)
@@ -246,6 +186,6 @@ void onGetImageFileSuccess(void *data)
 
 void onGetImageFileError(int code, const char *desc, void *data)
 {
-    ERROR_DEBUG
+    DEBUG_ERROR
     delete data;
 }

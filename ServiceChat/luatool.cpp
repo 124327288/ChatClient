@@ -66,7 +66,7 @@ bool LuaTool::isUserCfgFileExist() const
 
 void LuaTool::genAppCfgFile() const
 {
-    DEBUG_FUNCNAME
+	DEBUG_FUNC
     auto _path = dir + appCfgFile;
     QFile file(_path.data());
     if(file.open(QFile::WriteOnly))
@@ -80,7 +80,7 @@ void LuaTool::genAppCfgFile() const
 
 void LuaTool::genUserCfgFile() const
 {
-    DEBUG_FUNCNAME
+	DEBUG_FUNC
     auto _path = userDir + userCfgFile;
     QFile file(_path.data());
     if(file.open(QFile::WriteOnly))
@@ -94,7 +94,7 @@ void LuaTool::genUserCfgFile() const
 
 void LuaTool::updateAppCfgFile() const
 {
-    DEBUG_FUNCNAME
+	DEBUG_FUNC
     auto _path = dir + appCfgFile;
     QFile file(_path.data());
     if(file.open(QFile::WriteOnly))
@@ -108,7 +108,7 @@ void LuaTool::updateAppCfgFile() const
 
 void LuaTool::updateUserCfgFile() const
 {
-    DEBUG_FUNCNAME
+	DEBUG_FUNC
     auto _path = userDir + userCfgFile;
     QFile file(_path.data());
     if(file.open(QFile::WriteOnly))

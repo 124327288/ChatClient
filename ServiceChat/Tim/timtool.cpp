@@ -177,39 +177,22 @@ void TimTool::GetSelfProfile()
 
 void TimTool::SetNickName(const QString &nick)
 {
-//    /**
-//    Description:    设置自己的昵称
-//    @param    [in]    nick    昵称
-//    @param    [in]    len        昵称长度
-//    @param    [in]    cb        回调
-//    @return            void
-//    @exception      none
-//    */
-//    TIM_DECL void TIMSetNickName(char* nick, uint32_t len, TIMCommCB * cb);
     QByteArray arr = nick.toUtf8();
     static TIMCommCB cb;
     cb.OnSuccess = onSetNickNameSuccess;
     cb.OnError = onSetNickNameError;
     cb.data = &cb;
     TIMSetNickName(arr.data(), arr.size(), &cb);
-
 }
 
 void TimTool::SendMsg(QString id, QString text)
 {
-    //    void SendMsg(TIMConversationHandle conv_handle, TIMMessageHandle msg_handle, TIMCommCB *callback);
-    //    typedef void* TIMMsgTextElemHandle;
-    //    TIMMsgTextElemHandle    CreateMsgTextElem();
-
-    //    void    SetContent(TIMMsgTextElemHandle handle, const char* content);
-    //    uint32_t    GetContentLen(TIMMsgTextElemHandle handle);
-    //    int    GetContent(TIMMsgTextElemHandle handle, char* content, uint32_t* len);
     TIMMessageHandle msgHandle = CreateTIMMessage();
     TIMMsgTextElemHandle txtHandle = CreateMsgTextElem();
 
     QByteArray bytes = text.toUtf8();
     SetContent(txtHandle, bytes.data());
-    AddElem(msgHandle, txtHandle);
+    ON_INVOKE(AddElem, msgHandle, txtHandle);
 
     TIMCommCB cb;
     cb.OnSuccess = onCommSuccess;
@@ -231,7 +214,7 @@ void TimTool::SendImage(const QString &id, const QString &imgPath)
 
     QByteArray path = imgPath.toUtf8();
     SetImageElemPath(elem, path.data(), path.size());
-    AddElem(msg, elem);
+    ON_INVOKE(AddElem, msg, elem);
 
     TIMCommCB callback;
     callback.OnSuccess = onCommSuccess;
@@ -246,8 +229,38 @@ void TimTool::SendImage(const QString &id, const QString &imgPath)
     DestroyElem(elem);
 }
 
+//void DemoSendFile()
+//{
+//	const char* peer = "ylzf0000"; //your conv peer
+//	TIMConversationHandle conv = CreateConversation();
+//	int rt = TIMGetConversation(conv, kCnvC2C, peer);
+//
+//	TIMMessageHandle msg = CreateTIMMessage();
+//	TIMMsgFileElemHandle elem = CreateFileElemHandle();
+//
+//	std::string file_name = R"(C:\Users\Zhang\Downloads\100003858559_500667_1521548504048.txt)";
+//	std::fstream send_file(file_name.c_str(), std::fstream::in | std::fstream::binary);
+//	std::string file_data((std::istream_iterator<char>(send_file)), std::istream_iterator<char>());
+//
+//	SetFileElemFileName(elem, file_name.c_str(), file_name.length());
+//	SetFileElemData(elem, file_data.data(), file_data.length());
+//	AddElem(msg, elem);
+//
+//	TIMCommCB callback;
+//	callback.OnSuccess = &onCommSuccess;
+//	callback.OnError = &onCommError;
+//	SendMsg(conv, msg, &callback);
+//	//....wait for callback
+//	Sleep(1);
+//
+//	DestroyConversation(conv);
+//	DestroyTIMMessage(msg);
+//	DestroyElem(elem);
+//}
+
 void TimTool::SendFile(const QString &id, const QString &filePath)
 {
+	//DemoSendFile();
     TIMMessageHandle msg = CreateTIMMessage();
     TIMMsgFileElemHandle elem = CreateFileElemHandle();
 
@@ -257,7 +270,7 @@ void TimTool::SendFile(const QString &id, const QString &filePath)
 
     SetFileElemFileName(elem, path.data(), path.length());
     SetFileElemData(elem, file_data.data(), file_data.length());
-    AddElem(msg, elem);
+    ON_INVOKE(AddElem, msg, elem);
 
     static TIMCommCB callback;
     callback.OnSuccess = onCommSuccess;
@@ -350,16 +363,11 @@ void TimTool::ClearContentEX()
 
 void TimTool::NewMsgHandler(QString id, QString nick, uint32_t time, QString msg)
 {
-//    qDebug() << "chatMap.contains(id): " << chatWindowMap.contains(id);
     contentMap[id] += { time, msg };
     if(chatWindowMap.contains(id))
     {
         ChatWindow *window = chatWindowMap[id];
         window->AddContent(id, nick, time, msg);
-    }
-    else
-    {
-
     }
 }
 

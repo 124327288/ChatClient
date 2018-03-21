@@ -64,20 +64,4 @@ private:
     int port;
 };
 
-inline void varTypeError(const QString &variable, const QString &type)
-{
-    qDebug() << QString("%1 is not %2 type").arg(variable).arg(type);
-}
-
-template <class T>
-inline T d(T val)
-{
-    return val;
-}
-
-inline QString d(const std::string &val)
-{
-    return val.data();
-}
-
 #endif // LUATOOL_H

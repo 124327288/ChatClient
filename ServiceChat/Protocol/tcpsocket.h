@@ -3,16 +3,6 @@
 #include "stdafx.h"
 #include <QtNetwork>
 
-#define ListenCallBack(prcClassName)    \
-    prc = new prcClassName(bytes);      \
-    prc->UnMarshal();                   \
-    On##prcClassName(prc);
-
-#define PrcDynamicCast(prcClassName)                            \
-    prcClassName *castPrc = dynamic_cast<prcClassName*>(prc);   \
-    if(castPrc == nullptr) return;
-
-
 class S2CProtocol;
 class TcpSocket : public QObject
 {

@@ -3,23 +3,6 @@
 #include "stdafx.h"
 #include "tim.h"
 
-void onDebug(QString name);
-void onErrorDebug(QString name, int code, const char *desc);
-#define ON_DEBUG    onDebug(__func__);
-#define ERROR_DEBUG onErrorDebug(__func__, code, desc);
-
-inline void onGetElementReturn(const char *funcName, int ret)
-{
-    if(ret)
-    {
-        qDebug() << QString("On %1 Error! RetCode = %2").arg(funcName).arg(ret);
-    }
-}
-#define ON_INVOKE(func, ...)                        \
-{                                                   \
-    onGetElementReturn(#func, func(__VA_ARGS__));   \
-}
-
 void onConnected(void*);
 void onDisconnected(void*);
 

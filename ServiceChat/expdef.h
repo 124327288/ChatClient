@@ -26,14 +26,13 @@ enum Role
     RoleID = Qt::UserRole + 1,
     RoleNick,
     RoleRemark,
-    RoleData,
     RoleTime,
     RoleContent
 };
 
-constexpr int MAXLENID = 1024;
-constexpr int MAXLENNICK = 1024;
+constexpr int MAXLENID		= 1024;
+constexpr int MAXLENNICK	= 1024;
 constexpr int MAXLENCONTENT = 10240;
-constexpr int MAXLENIMAGE = 16;
+constexpr int MAXLENIMAGE	= 16;
 constexpr int MAXLENURL     = 1024;
 #endif // EXPDEF_H
