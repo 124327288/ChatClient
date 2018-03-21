@@ -264,11 +264,14 @@ void TimTool::SendFile(const QString &id, const QString &filePath)
     TIMMessageHandle msg = CreateTIMMessage();
     TIMMsgFileElemHandle elem = CreateFileElemHandle();
 
-    QByteArray path = filePath.toUtf8();
+    std::string stdFilePath = filePath.toStdString();
+    std::string fileName = stdFilePath.substr(stdFilePath.find_last_of('/') + 1);
+
+    std::string path = filePath.toStdString();
     std::fstream send_file(path.data(), std::fstream::in | std::fstream::binary);
     std::string file_data((std::istreambuf_iterator<char>(send_file)), std::istreambuf_iterator<char>());
 
-    SetFileElemFileName(elem, path.data(), path.length());
+    SetFileElemFileName(elem, fileName.data(), fileName.length());
     SetFileElemData(elem, file_data.data(), file_data.length());
     ON_INVOKE(AddElem, msg, elem);
 

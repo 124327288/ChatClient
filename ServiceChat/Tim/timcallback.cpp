@@ -2,6 +2,7 @@
 #include "timtool.h"
 #include <QUuid>
 #include <memory>
+#include <fstream>
 
 void onConnected(void *)
 {
@@ -147,7 +148,7 @@ void onSetNickNameError(int code, const char *desc, void *data)
     DEBUG_ERROR
 }
 
-void onGetImageFileSuccess(void *data)
+void onGetImageSuccess(void *data)
 {
 //    ChatContent *p_cc = (ChatContent*)data;
     ChatContent *p_cc = static_cast<ChatContent*>(data);
@@ -158,7 +159,7 @@ void onGetImageFileSuccess(void *data)
     }
 }
 
-void onGetImageFileError(int code, const char *desc, void *data)
+void onGetImageError(int code, const char *desc, void *data)
 {
     DEBUG_ERROR
     delete data;
@@ -191,8 +192,8 @@ void onGetImage(TIMMsgImageElemHandle handle, const QString &id, const QString &
             QString msg = QString(R"(<img src = "%1" />)").arg(str_uuid);
             ChatContent *p_cc = new ChatContent{id, nick, time, msg};
             TIMCommCB cb;
-            cb.OnSuccess = &onGetImageFileSuccess;
-            cb.OnError = &onGetImageFileError;
+            cb.OnSuccess = &onGetImageSuccess;
+            cb.OnError = &onGetImageError;
             cb.data = p_cc;
             qDebug() << QString("url: %1").arg(str_uuid);
             ON_INVOKE(GetImageFile, imgHandle, uuid_byte.data(), &cb);
@@ -214,17 +215,27 @@ void onGetFile(TIMMsgFileElemHandle handle, const QString &id, const QString &ni
     char filename_arr[MAXLENFILENAME] = {0};
     uint32_t len = MAXLENFILENAME;
     ON_INVOKE(GetFileElemFileName, handle, filename_arr, &len);
-    QString fileName = QString::fromUtf8(filename_arr, len);
-    DEBUG_VAR(fileName);
+    QString *fileName = new QString(QString::fromUtf8(filename_arr, len));
+    DEBUG_VAR(*fileName);
     TIMGetMsgDataCB cb;
     cb.OnSuccess = &onGetFileSuccess;
     cb.OnError = &onGetFileError;
+    cb.data = fileName;
     GetFileFromFileElem(handle, &cb);
 }
 
 
 void onGetFileSuccess(const char *buf, uint32_t len, void *data)
 {
+    QString *pFileName = static_cast<QString*>(data);
+    if(pFileName)
+    {
+        std::string fileName = pFileName->toStdString();
+        std::fstream file(fileName.data(), std::fstream::out | std::fstream::binary);
+        std::string str_buf(buf, len);
+        file << str_buf;
+        delete pFileName;
+    }
 
 }
 
