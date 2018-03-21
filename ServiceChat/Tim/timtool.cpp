@@ -195,8 +195,8 @@ void TimTool::SendMsg(QString id, QString text)
     ON_INVOKE(AddElem, msgHandle, txtHandle);
 
     TIMCommCB cb;
-    cb.OnSuccess = onCommSuccess;
-    cb.OnError = onCommError;
+    cb.OnSuccess = &onSendMsgSuccess;
+    cb.OnError = &onSendMsgError;
 	if (!convMap.contains(id))
 	{
 		convMap.insert(id, CreateConversation());
@@ -217,8 +217,8 @@ void TimTool::SendImage(const QString &id, const QString &imgPath)
     ON_INVOKE(AddElem, msg, elem);
 
     TIMCommCB callback;
-    callback.OnSuccess = onCommSuccess;
-    callback.OnError = onCommError;
+    callback.OnSuccess = &onSendImageSuccess;
+    callback.OnError = &onSendImageError;
 	if (!convMap.contains(id))
 	{
 		convMap.insert(id, CreateConversation());
@@ -276,8 +276,8 @@ void TimTool::SendFile(const QString &id, const QString &filePath)
     ON_INVOKE(AddElem, msg, elem);
 
     static TIMCommCB callback;
-    callback.OnSuccess = onCommSuccess;
-    callback.OnError = onCommError;
+    callback.OnSuccess = &onSendFileSuccess;
+    callback.OnError = &onSendFileError;
 	if (!convMap.contains(id))
 	{
 		convMap.insert(id, CreateConversation());

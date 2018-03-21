@@ -162,7 +162,9 @@ void onGetImageSuccess(void *data)
 void onGetImageError(int code, const char *desc, void *data)
 {
     DEBUG_ERROR
-    delete data;
+    ChatContent *p_cc = static_cast<ChatContent*>(data);
+    if(p_cc)
+        delete p_cc;
 }
 
 void onGetText(TIMMsgTextElemHandle handle, const QString &id, const QString &nick, time_t time)
@@ -240,6 +242,36 @@ void onGetFileSuccess(const char *buf, uint32_t len, void *data)
 }
 
 void onGetFileError(int code, const char *desc, void *data)
+{
+    DEBUG_ERROR
+}
+
+void onSendMsgSuccess(void *data)
+{
+
+}
+
+void onSendMsgError(int code, const char *desc, void *data)
+{
+    DEBUG_ERROR
+}
+
+void onSendImageSuccess(void *data)
+{
+
+}
+
+void onSendImageError(int code, const char *desc, void *data)
+{
+    DEBUG_ERROR
+}
+
+void onSendFileSuccess(void *data)
+{
+
+}
+
+void onSendFileError(int code, const char *desc, void *data)
 {
     DEBUG_ERROR
 }

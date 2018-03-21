@@ -32,6 +32,15 @@ void onGetImageError(int code, const char *desc, void *data);
 void onGetFileSuccess(const char* buf, uint32_t len, void* data);
 void onGetFileError(int code, const char* desc, void* data);
 
+void onSendMsgSuccess(void *data);
+void onSendMsgError(int code, const char *desc, void *data);
+
+void onSendImageSuccess(void *data);
+void onSendImageError(int code, const char *desc, void *data);
+
+void onSendFileSuccess(void *data);
+void onSendFileError(int code, const char *desc, void *data);
+
 void onSetNickNameSuccess(void* data);
 void onSetNickNameError(int code, const char* desc, void* data);
 
