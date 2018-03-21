@@ -13,6 +13,17 @@
 
 time_t GetTime();
 
+template <class T>
+inline T d(T &&val)
+{
+    return std::move(val);
+}
+
+inline QString d(const std::string &val)
+{
+    return QString::fromStdString(val);
+}
+
 inline void varTypeError(const QString &variable, const QString &type)
 {
 	qDebug() << QString("%1 is not %2 type").arg(variable).arg(type);
@@ -21,7 +32,7 @@ inline void varTypeError(const QString &variable, const QString &type)
 template <typename T>
 inline void onDebugVariable(const QString &name, const T &val)
 {
-	qDebug() << QString("%1: %2").arg(name).arg(val);
+    qDebug() << QString("%1: %2").arg(name).arg(d(val));
 }
 
 inline void onDebugFunc(QString name)
@@ -41,17 +52,6 @@ inline int onGetElementReturn(const char *funcName, int ret)
 		qDebug() << QString("On %1 Error! RetCode = %2").arg(funcName).arg(ret);
 	}
 	return ret;
-}
-
-template <class T>
-inline T d(T &&val)
-{
-	return std::move(val);
-}
-
-inline QString d(const std::string &val)
-{
-	return QString::fromStdString(val);
 }
 
 #define DEBUG_VAR(x)			onDebugVariable(#x, x)

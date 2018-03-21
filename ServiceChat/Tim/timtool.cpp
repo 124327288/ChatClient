@@ -260,12 +260,13 @@ void TimTool::SendImage(const QString &id, const QString &imgPath)
 
 void TimTool::SendFile(const QString &id, const QString &filePath)
 {
-	//DemoSendFile();
     TIMMessageHandle msg = CreateTIMMessage();
     TIMMsgFileElemHandle elem = CreateFileElemHandle();
 
+//    filePath.indexOf()
     std::string stdFilePath = filePath.toStdString();
     std::string fileName = stdFilePath.substr(stdFilePath.find_last_of('/') + 1);
+    DEBUG_VAR(fileName);
 
     std::string path = filePath.toStdString();
     std::fstream send_file(path.data(), std::fstream::in | std::fstream::binary);
