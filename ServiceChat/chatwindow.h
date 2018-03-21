@@ -19,8 +19,6 @@ public:
 private slots:
     void on_sendBtn_clicked();
 
-//    void on_selectPicBtn_clicked();
-
     void on_fontComboBox_currentFontChanged(const QFont &f);
 
     void on_comboBox_currentIndexChanged(const QString &arg1);

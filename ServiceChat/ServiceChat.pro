@@ -93,13 +93,21 @@ RESOURCES += \
     img.qrc \
     language.qrc
 
-# IM_Windows_SDK
+# IM_Windows_SDK 2.5.6
 
-INCLUDEPATH += $$PWD/thirdparty/IM_Windows_SDK_2.5.6/libs/c_includes
-DEPENDPATH += $$PWD/thirdparty/IM_Windows_SDK_2.5.6/libs/c_includes
+#INCLUDEPATH += $$PWD/thirdparty/IM_Windows_SDK_2.5.6/libs/c_includes
+#DEPENDPATH += $$PWD/thirdparty/IM_Windows_SDK_2.5.6/libs/c_includes
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/thirdparty/IM_Windows_SDK_2.5.6/libs/libs/release/ -llibtim
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/thirdparty/IM_Windows_SDK_2.5.6/libs/libs/debug/ -llibtim
+#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/thirdparty/IM_Windows_SDK_2.5.6/libs/libs/release/ -llibtim
+#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/thirdparty/IM_Windows_SDK_2.5.6/libs/libs/debug/ -llibtim
+
+# IM_Windows_SDK 2.5.7_20180321
+
+INCLUDEPATH += $$PWD/thirdparty/windows_v2.5.7_20180321/c_includes
+DEPENDPATH += $$PWD/thirdparty/windows_v2.5.7_20180321/c_includes
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/thirdparty/windows_v2.5.7_20180321/libs/release/ -llibtim
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/thirdparty/windows_v2.5.7_20180321/libs/debug/ -llibtim
 
 # Lua5.1
 

@@ -98,19 +98,22 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
         TIMProfileHandle profile = CreateProfileHandle();
         ON_INVOKE(GetSenderProfile, handle, profile);
 
-        char id[MAXLENID];
-        char nick[MAXLENNICK];
+        char id_arr[MAXLENID];
+        char nick_arr[MAXLENNICK];
         uint32_t idLen = MAXLENID;
         uint32_t nickLen = MAXLENNICK;
-        ON_INVOKE(GetID4ProfileHandle, profile, id, &idLen);
-        ON_INVOKE(GetNickName4ProfileHandle, profile, nick, &nickLen);
-        QString sid = QString::fromUtf8(id, idLen);
-        QString snick = QString::fromUtf8(nick, nickLen);
+        ON_INVOKE(GetID4ProfileHandle, profile, id_arr, &idLen);
+        ON_INVOKE(GetNickName4ProfileHandle, profile, nick_arr, &nickLen);
+        QString id = QString::fromUtf8(id_arr, idLen);
+        QString nick = QString::fromUtf8(nick_arr, nickLen);
         //qDebug() << QString("%1(%2)").arg(sid).arg(snick);
+        if(!TimTool::Instance().ContainInConvMap(id))
+        {
+            TIMConversationHandle conv = CreateConversation();
+            ON_INVOKE(GetConversationFromMsg, conv, handle);
+            TimTool::Instance().AddConvMap(id, conv);
+        }
 
-        TIMConversationHandle conv = CreateConversation();
-        ON_INVOKE(GetConversationFromMsg, conv, handle);
-        TimTool::Instance().AddConvMap(sid, conv);
         int cnt = GetElemCount(handle);
         for(int j = 0; j < cnt; ++j)
         {
@@ -118,48 +121,19 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
             TIMElemType type = GetElemType(elem);
             switch (type) {
             case TIMElemType::kElemText:
-            {
-                uint32_t len = MAXLENCONTENT;
-                char buffer[MAXLENCONTENT] = {0};
-                ON_INVOKE(GetContent, elem, buffer, &len);
-                QString msg = QString::fromUtf8(buffer, len);
-                qDebug() << QString("content = %1").arg(msg);
-                emit TimTool::Instance().NewMsg(sid, snick, msgTime, msg);
+                onGetText(static_cast<TIMMsgTextElemHandle>(elem), id, nick, msgTime);
                 break;
-            }
             case TIMElemType::kElemImage:
-            {
-                uint32_t len = MAXLENIMAGE;
-                TIMImageHandle imgHandles[MAXLENIMAGE] = {0};
-                ON_INVOKE(GetImages, elem, imgHandles, &len);
-                for(uint32_t i = 0; i < len; ++i)
-                {
-                    TIMImageHandle imgHandle = imgHandles[i];
-                    TIMImageType imgType = GetImageType(imgHandle);
-                    if(imgType == TIMImageType::kOriginalImage)
-                    {
-                        QUuid uuid = QUuid::createUuid();
-                        QString str_uuid = uuid.toString();
-                        QByteArray uuid_byte = str_uuid.toUtf8();
-                        QString msg = QString(R"(<img src = "%1" />)").arg(str_uuid);
-                        ChatContent *p_cc = new ChatContent{sid, snick, msgTime, msg};
-                        TIMCommCB cb;
-                        cb.OnSuccess = &onGetImageFileSuccess;
-                        cb.OnError = &onGetImageFileError;
-                        cb.data = p_cc;
-                        qDebug() << QString("url: %1").arg(str_uuid);
-                        ON_INVOKE(GetImageFile, imgHandle, uuid_byte.data(), &cb);
-                        break;
-                    }
-                }
+                onGetImage(static_cast<TIMMsgImageElemHandle>(elem), id, nick, msgTime);
                 break;
-            }
+            case TIMElemType::kElemFile:
+                onGetFile(static_cast<TIMMsgFileElemHandle>(elem), id, nick, msgTime);
+                break;
             default:
                 break;
             }
         }
         DestroyProfileHandle(profile);
-//        DestroyConversation(conv);
     }
 }
 
@@ -188,4 +162,73 @@ void onGetImageFileError(int code, const char *desc, void *data)
 {
     DEBUG_ERROR
     delete data;
+}
+
+void onGetText(TIMMsgTextElemHandle handle, const QString &id, const QString &nick, time_t time)
+{
+    uint32_t len = MAXLENCONTENT;
+    char buffer[MAXLENCONTENT] = {0};
+    ON_INVOKE(GetContent, handle, buffer, &len);
+    QString msg = QString::fromUtf8(buffer, len);
+    qDebug() << QString("receive content = %1").arg(msg);
+    emit TimTool::Instance().NewMsg(id, nick, time, msg);
+}
+
+void onGetImage(TIMMsgImageElemHandle handle, const QString &id, const QString &nick, time_t time)
+{
+    uint32_t len = MAXLENIMAGE;
+    TIMImageHandle imgHandles[MAXLENIMAGE] = {0};
+    ON_INVOKE(GetImages, handle, imgHandles, &len);
+    for(uint32_t i = 0; i < len; ++i)
+    {
+        TIMImageHandle imgHandle = imgHandles[i];
+        TIMImageType imgType = GetImageType(imgHandle);
+        if(imgType == TIMImageType::kOriginalImage)
+        {
+            QUuid uuid = QUuid::createUuid();
+            QString str_uuid = uuid.toString();
+            QByteArray uuid_byte = str_uuid.toUtf8();
+            QString msg = QString(R"(<img src = "%1" />)").arg(str_uuid);
+            ChatContent *p_cc = new ChatContent{id, nick, time, msg};
+            TIMCommCB cb;
+            cb.OnSuccess = &onGetImageFileSuccess;
+            cb.OnError = &onGetImageFileError;
+            cb.data = p_cc;
+            qDebug() << QString("url: %1").arg(str_uuid);
+            ON_INVOKE(GetImageFile, imgHandle, uuid_byte.data(), &cb);
+            break;
+        }
+    }
+}
+
+//TIM_DECL void		SetFileElemFileName(TIMMsgFileElemHandle handle, const char* name, uint32_t name_len);
+//TIM_DECL int		GetFileElemFileName(TIMMsgFileElemHandle handle, char* name, uint32_t* name_len);
+//TIM_DECL void		SetFileElemFilePath(TIMMsgFileElemHandle handle, const char* path, uint32_t path_len);
+//TIM_DECL void		SetFileElemData(TIMMsgFileElemHandle handle, const char* data, uint32_t data_len);
+//TIM_DECL int		GetFileElemUUID(TIMMsgFileElemHandle handle, char* id, uint32_t* len);
+//TIM_DECL void		GetFileFromFileElem(TIMMsgFileElemHandle handle, TIMGetMsgDataCB* cb);
+//TIM_DECL void		GetFileFromByUUID(const char *uuid, const uint32_t business_id, TIMGetMsgDataCB* cb);
+
+void onGetFile(TIMMsgFileElemHandle handle, const QString &id, const QString &nick, time_t time)
+{
+    char filename_arr[MAXLENFILENAME] = {0};
+    uint32_t len = MAXLENFILENAME;
+    ON_INVOKE(GetFileElemFileName, handle, filename_arr, &len);
+    QString fileName = QString::fromUtf8(filename_arr, len);
+    DEBUG_VAR(fileName);
+    TIMGetMsgDataCB cb;
+    cb.OnSuccess = &onGetFileSuccess;
+    cb.OnError = &onGetFileError;
+    GetFileFromFileElem(handle, &cb);
+}
+
+
+void onGetFileSuccess(const char *buf, uint32_t len, void *data)
+{
+
+}
+
+void onGetFileError(int code, const char *desc, void *data)
+{
+    DEBUG_ERROR
 }

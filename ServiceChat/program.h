@@ -34,12 +34,13 @@ inline void onDebugError(QString name, int code, const char *desc)
 	qDebug() << QString("[%1] code = %2, desc = %3").arg(name).arg(code).arg(desc);
 }
 
-inline void onGetElementReturn(const char *funcName, int ret)
+inline int onGetElementReturn(const char *funcName, int ret)
 {
 	if (ret)
 	{
 		qDebug() << QString("On %1 Error! RetCode = %2").arg(funcName).arg(ret);
 	}
+	return ret;
 }
 
 template <class T>
@@ -56,7 +57,7 @@ inline QString d(const std::string &val)
 #define DEBUG_VAR(x)			onDebugVariable(#x, x)
 #define DEBUG_FUNC				onDebugFunc(__func__);
 #define DEBUG_ERROR				onDebugError(__func__, code, desc);
-#define ON_INVOKE(func, ...)	onGetElementReturn(#func, func(__VA_ARGS__));
+#define ON_INVOKE(func, ...)	onGetElementReturn(#func, func(__VA_ARGS__))
 
 #define ListenCallBack(prcClassName)    \
     prc = new prcClassName(bytes);      \

@@ -44,20 +44,20 @@ struct ChatTitle
 {
     QString id;
     QString nick;
-    uint32_t time;
+    time_t time;
 };
 
 struct ChatContent
 {
     QString id;
     QString nick;
-    uint32_t time;
+    time_t time;
     QString text;
 };
 
 struct ChatContentEX
 {
-    uint32_t time;
+    time_t time;
     QString text;
 };
 

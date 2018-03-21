@@ -16,6 +16,8 @@ class MainWindow : public QMainWindow
 private:
     explicit MainWindow(QWidget *parent = 0);
     void InitUI();
+	void SetNickName(const QString &nick);
+	void PopChatWindow(const QModelIndex &index);
 public:
     static MainWindow &Instance();
     ~MainWindow();

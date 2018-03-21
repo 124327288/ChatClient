@@ -16,11 +16,8 @@ int main(int argc, char *argv[])
     LuaTool::Instance().Init();
     LuaTool::Instance().getConfigs();
     QTranslator trans;
-    qDebug() << LuaTool::Instance().getLanguage().data();
     if(LuaTool::Instance().getLanguage() == "en")
         trans.load(":/client_en.qm");
-    else if(LuaTool::Instance().getLanguage() == "cn")
-        trans.load(":/client_cn.qm");
     else
         trans.load(":/client_cn.qm");
     a.installTranslator(&trans);

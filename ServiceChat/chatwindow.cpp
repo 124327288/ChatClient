@@ -38,14 +38,15 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
 
 ChatWindow::~ChatWindow()
 {
-    delete ui;
+    if(ui)
+    {
+        delete ui;
+        ui = nullptr;
+    }
 }
 
 void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
 {
-//    QPalette pal = ui->textBrowser->palette();
-//    QColor c;
-//    pal.setColor(QPalette::Base, c.blue());
     std::tm *p_tm = std::localtime(&time);
     QString str_time = QString("%1-%2 %3:%4:%5").
             arg(p_tm->tm_mon + 1, 2, 10, QChar('0')).
@@ -54,23 +55,20 @@ void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
             arg(p_tm->tm_min, 2, 10, QChar('0')).
             arg(p_tm->tm_sec, 2, 10, QChar('0'));
 
-    ui->textBrowser->append(QString(R"(
+	ui->textBrowser->append(QString(R"(
                                     <font color="blue">%1(%2) %3</font>
                                     )").arg(id).arg(nick).arg(str_time));
-//    pal.setColor(QPalette::Base, c.black());
     ui->textBrowser->append(msg);
     ui->textBrowser->append("");
 
-    QScrollBar *verticalScrollBar = ui->textBrowser->verticalScrollBar();
-    if(verticalScrollBar)
+    if(auto verticalScrollBar = ui->textBrowser->verticalScrollBar())
     {
         verticalScrollBar->setSliderPosition(verticalScrollBar->maximum());
     }
 
-    QScrollBar *horizontalScrollBar = ui->textBrowser->horizontalScrollBar();
-    if(horizontalScrollBar)
+    if(auto horizontalScrollBar = ui->textBrowser->horizontalScrollBar())
     {
-        horizontalScrollBar->setSliderPosition(verticalScrollBar->minimum());
+        horizontalScrollBar->setSliderPosition(horizontalScrollBar->minimum());
     }
 }
 
@@ -83,15 +81,11 @@ void ChatWindow::GetConversation()
     }
     QByteArray bytes = otherId.toUtf8();
     convHandle = CreateConversation();
-    int rt = TIMGetConversation(convHandle, kCnvC2C, bytes.data());
-    if(rt == 0)
-    {
-        qDebug() << "GetConversation Success!";
-        TimTool::Instance().AddConvMap(otherId, convHandle);
-        emit TimTool::Instance().NewConversation(otherId, otherNick, GetTime());
-    }
-    else
-        qDebug() << "GetConversation Error!";
+	if (!ON_INVOKE(TIMGetConversation, convHandle, kCnvC2C, bytes.data()))
+	{
+		TimTool::Instance().AddConvMap(otherId, convHandle);
+		emit TimTool::Instance().NewConversation(otherId, otherNick, GetTime());
+	}
 }
 
 void ChatWindow::closeEvent(QCloseEvent *event)
@@ -111,18 +105,6 @@ void ChatWindow::on_sendBtn_clicked()
     AddContent(TimTool::Instance().getId(), TimTool::Instance().getNick(), GetTime(), text);
     ui->textEdit->clear();
 }
-
-//void ChatWindow::on_selectPicBtn_clicked()
-//{
-//    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString(), tr("Images (*.jpg *.xpm *.png);;"));
-//    if(!fileName.isNull())
-//    {
-//        QString html = QString(R"(
-//                               <img src = "%1" />
-//                               )").arg(fileName);
-//        ui->textEdit->append(html);
-//    }
-//}
 
 void ChatWindow::on_fontComboBox_currentFontChanged(const QFont &f)
 {

@@ -34,40 +34,23 @@ MainWindow::MainWindow(QWidget *parent) :
     friendListModel = new FriendListModel;
     friendListView->setModel(friendListModel);
     friendListView->setItemDelegate(new FriendListDelegate);
-    connect(&TimTool::Instance(), &TimTool::GetSelfNickname, this, [=](QString nick){
-//        qDebug() << "nick: " << nick;
-        QString title = QString("%1(%2)").arg(TimTool::Instance().getId()).arg(TimTool::Instance().getNick());
-        setWindowTitle(title);
-        ui->nickLabel->setText(nick.isEmpty() ? TimTool::Instance().getId() : nick);
-    });
+
+    connect(&TimTool::Instance(), &TimTool::GetSelfNickname, this, &MainWindow::SetNickName);
     connect(ui->actionAboutQt, &QAction::triggered, [=]{QMessageBox::aboutQt(this);});
-
-    connect(friendListView, &QListView::doubleClicked, [=](const QModelIndex &index){
-
-        QString id = index.data(Role::RoleID).toString();
-        QString nick = index.data(Role::RoleNick).toString();
-//        QString remark = index.data(Role::RoleRemark).toString();
-        ChatWindow *window;
-        if(TimTool::Instance().ContainInChatWindowMap(id))
-        {
-            window = TimTool::Instance().GetChatWindow(id);
-            window->activateWindow();
-        }
-        else
-        {
-            window = new ChatWindow({id, nick}, this);
-            window->show();
-        }
-
-    });
-
+    connect(friendListView, &QListView::doubleClicked, this, &MainWindow::PopChatWindow);
+	connect(sessionListView, &QListView::doubleClicked, this, &MainWindow::PopChatWindow);
     connect(friendListView, &QListView::customContextMenuRequested,[]{});
-
-    connect(ui->actionSetting, &QAction::triggered, [=]{SettingDialog *dialog = new SettingDialog(this);dialog->show();});
+    connect(ui->actionSetting, &QAction::triggered, [=]{auto dialog = new SettingDialog(this);dialog->show();});
 }
 
 void MainWindow::InitUI()
 {
+	if (!TimTool::Instance().getId().isEmpty() && !TimTool::Instance().getNick().isEmpty())
+	{
+		QString title = QString("%1(%2)").arg(TimTool::Instance().getId()).arg(TimTool::Instance().getNick());
+		setWindowTitle(title);
+		ui->nickLabel->setText(TimTool::Instance().getNick().isEmpty() ? TimTool::Instance().getId() : TimTool::Instance().getNick());
+	}
     QWidget *page1 = new QWidget;
     QVBoxLayout *vLayout1 = new QVBoxLayout;
     sessionListView = new QListView;
@@ -83,9 +66,37 @@ void MainWindow::InitUI()
     ui->tabWidget->addTab(page2, tr("Friend"));
 }
 
+void MainWindow::SetNickName(const QString & nick)
+{
+	QString title = QString("%1(%2)").arg(TimTool::Instance().getId()).arg(TimTool::Instance().getNick());
+	setWindowTitle(title);
+	ui->nickLabel->setText(nick.isEmpty() ? TimTool::Instance().getId() : nick);
+}
+
+void MainWindow::PopChatWindow(const QModelIndex & index)
+{
+	QString id = index.data(Role::RoleID).toString();
+	QString nick = index.data(Role::RoleNick).toString();
+	ChatWindow *window;
+	if (TimTool::Instance().ContainInChatWindowMap(id))
+	{
+		window = TimTool::Instance().GetChatWindow(id);
+		window->activateWindow();
+	}
+	else
+	{
+        window = new ChatWindow({ id, nick }, this);
+		window->show();
+	}
+}
+
 MainWindow::~MainWindow()
 {
-    delete ui;
+    if(ui)
+    {
+        delete ui;
+        ui = nullptr;
+    }
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
