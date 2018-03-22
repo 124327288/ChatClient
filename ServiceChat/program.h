@@ -61,6 +61,7 @@ inline int onGetElementReturn(const char *funcName, int ret)
 	return ret;
 }
 
+#define VAR_NAME(x)             #x
 #define DEBUG_VAR(x)			onDebugVariable(#x, x)
 #define DEBUG_FUNC				onDebugFunc(__func__);
 #define DEBUG_ERROR				onDebugError(__func__, code, desc);

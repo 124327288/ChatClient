@@ -57,7 +57,8 @@ SOURCES += \
     View/settingdialog.cpp \
     Delegate/sessionlistdelegate.cpp \
     Tim/tim.cpp \
-    sqlitetool.cpp
+    sqlitetool.cpp \
+    table.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -85,7 +86,8 @@ HEADERS += \
     View/friendlistview.h \
     View/settingdialog.h \
     Delegate/sessionlistdelegate.h \
-    sqlitetool.h
+    sqlitetool.h \
+    table.h
 
 FORMS += \
         loginwindow.ui \
