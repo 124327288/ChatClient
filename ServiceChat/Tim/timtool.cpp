@@ -229,35 +229,6 @@ void TimTool::SendImage(const QString &id, const QString &imgPath)
     DestroyElem(elem);
 }
 
-//void DemoSendFile()
-//{
-//	const char* peer = "ylzf0000"; //your conv peer
-//	TIMConversationHandle conv = CreateConversation();
-//	int rt = TIMGetConversation(conv, kCnvC2C, peer);
-//
-//	TIMMessageHandle msg = CreateTIMMessage();
-//	TIMMsgFileElemHandle elem = CreateFileElemHandle();
-//
-//	std::string file_name = R"(C:\Users\Zhang\Downloads\100003858559_500667_1521548504048.txt)";
-//	std::fstream send_file(file_name.c_str(), std::fstream::in | std::fstream::binary);
-//	std::string file_data((std::istream_iterator<char>(send_file)), std::istream_iterator<char>());
-//
-//	SetFileElemFileName(elem, file_name.c_str(), file_name.length());
-//	SetFileElemData(elem, file_data.data(), file_data.length());
-//	AddElem(msg, elem);
-//
-//	TIMCommCB callback;
-//	callback.OnSuccess = &onCommSuccess;
-//	callback.OnError = &onCommError;
-//	SendMsg(conv, msg, &callback);
-//	//....wait for callback
-//	Sleep(1);
-//
-//	DestroyConversation(conv);
-//	DestroyTIMMessage(msg);
-//	DestroyElem(elem);
-//}
-
 void TimTool::SendFile(const QString &id, const QString &filePath)
 {
     TIMMessageHandle msg = CreateTIMMessage();
