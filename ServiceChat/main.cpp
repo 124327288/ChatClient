@@ -6,6 +6,7 @@
 #include "Protocol/tcpsocket.h"
 #include "Tim/timtool.h"
 #include "program.h"
+#include "sqlitetool.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -27,6 +28,7 @@ int main(int argc, char *argv[])
 //    PDFWindow window;
 //    window.show();
     LoginWindow::Instance().show();
+    SqliteTool::CreateConnect("Chat.db");
 
     return a.exec();
 }

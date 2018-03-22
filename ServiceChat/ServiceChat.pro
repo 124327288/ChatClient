@@ -6,6 +6,7 @@
 
 QT       += core gui
 QT       += network
+QT       += sql
 
 # Use Precompiled headers (PCH)
 PRECOMPILED_HEADER  = stdafx.h
@@ -55,7 +56,8 @@ SOURCES += \
     View/friendlistview.cpp \
     View/settingdialog.cpp \
     Delegate/sessionlistdelegate.cpp \
-    Tim/tim.cpp
+    Tim/tim.cpp \
+    sqlitetool.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -82,7 +84,8 @@ HEADERS += \
     Delegate/friendlistdelegate.h \
     View/friendlistview.h \
     View/settingdialog.h \
-    Delegate/sessionlistdelegate.h
+    Delegate/sessionlistdelegate.h \
+    sqlitetool.h
 
 FORMS += \
         loginwindow.ui \

@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <ctime>
 #include <functional>
+#include <QMessageBox>
 
 //#ifdef _DEBUG
 //#define DEBUG_FUNCNAME   qDebug() << __func__;
@@ -79,6 +80,17 @@ QString GetElement4Handle(GetElement4HandleType func, void *handle)
 	}
 	return nullptr;
 }
+
+//template <class T>
+//inline void ShowSqlErrorMsg(const T &sql)
+//{
+//    QMessageBox::critical(nullptr, QObject::tr("%1 Error").arg(__func__),
+//                      sql.lastError().text());
+//}
+
+#define SQL_ERROR(sql)                                                     \
+    QMessageBox::critical(nullptr, QObject::tr("%1 Error").arg(__func__),   \
+                      sql.lastError().text())
 
 #define ListenCallBack(prcClassName)    \
     prc = new prcClassName(bytes);      \
