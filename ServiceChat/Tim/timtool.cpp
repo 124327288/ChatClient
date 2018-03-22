@@ -23,6 +23,7 @@ TimTool::TimTool() :
     timPath("./TimPath")
 {
     connect(this, &TimTool::NewMsg, this, &TimTool::NewMsgHandler);
+    connect(this, &TimTool::GetFriendListSuccess, this, &TimTool::GetFriendListSuccessHandle);
     connect(this, &TimTool::GetSignature, [=](QString _sig){
         sig = _sig;
         emit SetSignatureSuccess();
@@ -349,6 +350,21 @@ void TimTool::NewMsgHandler(QString id, QString nick, uint32_t time, QString msg
         ChatWindow *window = chatWindowMap[id];
         window->AddContent(id, nick, time, msg);
     }
+}
+
+void TimTool::GetFriendListSuccessHandle(const QList<Linkman>& friendList)
+{
+    this->friendList = friendList;
+}
+
+QList<Linkman> TimTool::getFriendList() const
+{
+    return friendList;
+}
+
+void TimTool::setFriendList(const QList<Linkman> &value)
+{
+    friendList = value;
 }
 
 QMap<QString, QVector<ChatContentEX> > TimTool::getContentMap() const

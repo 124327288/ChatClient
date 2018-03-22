@@ -2,6 +2,8 @@
 #include "Tim/timtool.h"
 FriendListModel::FriendListModel(QObject *parent) :QAbstractListModel(parent)
 {
+    if(!TimTool::Instance().getFriendList().isEmpty())
+        linkmanList = TimTool::Instance().getFriendList();
     connect(&TimTool::Instance(), &TimTool::GetFriendListSuccess, this, &FriendListModel::updateList);
 }
 
@@ -21,8 +23,8 @@ QVariant FriendListModel::data(const QModelIndex & index, int role) const
         return linkmanList[index.row()].id;
     case Role::RoleNick:
         return linkmanList[index.row()].nick;
-    case Role::RoleRemark:
-        return linkmanList[index.row()].remark;
+//    case Role::RoleRemark:
+//        return linkmanList[index.row()].remark;
 //    case Qt::BackgroundColorRole:
 //        return QColor(0x5c, 0xac, 0xee);
 	default:

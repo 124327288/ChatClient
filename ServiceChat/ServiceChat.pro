@@ -54,7 +54,8 @@ SOURCES += \
     Delegate/friendlistdelegate.cpp \
     View/friendlistview.cpp \
     View/settingdialog.cpp \
-    Delegate/sessionlistdelegate.cpp
+    Delegate/sessionlistdelegate.cpp \
+    Tim/tim.cpp
 
 HEADERS += \
         loginwindow.h \

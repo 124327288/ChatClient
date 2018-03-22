@@ -42,19 +42,21 @@ void onGetFriendListSuccess(TIMFriendListElemHandle *handles, uint32_t num, void
     for(uint32_t i = 0; i < num; ++i)
     {
         TIMFriendListElemHandle handle = handles[i];
-        char id[MAXLENID];
-        char nickName[MAXLENNICK];
+//        char id[MAXLENID];
+//        char nickName[MAXLENNICK];
 //        char remark[16];
-        uint32_t idLen = MAXLENID;
-        uint32_t nickLen = MAXLENNICK;
+//        uint32_t idLen = MAXLENID;
+//        uint32_t nickLen = MAXLENNICK;
 //        uint32_t remarkLen;
-        ON_INVOKE(GetID4FriendListElemHandle, handle, id, &idLen);
-        ON_INVOKE(GetNickName4FriendListElemHandle, handle, nickName, &nickLen);
+//        ON_INVOKE(GetID4FriendListElemHandle, handle, id, &idLen);
+//        ON_INVOKE(GetNickName4FriendListElemHandle, handle, nickName, &nickLen);
 //        ON_INVOKE(GetRemark4FriendListElemHandle, handle, remark, &remarkLen);
-        QString sId = QString::fromUtf8(id, idLen);
-        QString sNick = QString::fromUtf8(nickName, nickLen);
+//        QString sId = QString::fromUtf8(id, idLen);
+//        QString sNick = QString::fromUtf8(nickName, nickLen);
 //        QString sRemark = QString::fromUtf8(remark, remarkLen);
-        friendList += {sId, sNick};
+        QString id = Tim::GetID4FriendListElemHandle(handle);
+        QString nick = Tim::GetNickName4FriendListElemHandle(handle);
+        friendList += {id, nick};
     }
     emit TimTool::Instance().GetFriendListSuccess(friendList);
 }
@@ -99,15 +101,16 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
         TIMProfileHandle profile = CreateProfileHandle();
         ON_INVOKE(GetSenderProfile, handle, profile);
 
-        char id_arr[MAXLENID];
-        char nick_arr[MAXLENNICK];
-        uint32_t idLen = MAXLENID;
-        uint32_t nickLen = MAXLENNICK;
-        ON_INVOKE(GetID4ProfileHandle, profile, id_arr, &idLen);
-        ON_INVOKE(GetNickName4ProfileHandle, profile, nick_arr, &nickLen);
-        QString id = QString::fromUtf8(id_arr, idLen);
-        QString nick = QString::fromUtf8(nick_arr, nickLen);
-        //qDebug() << QString("%1(%2)").arg(sid).arg(snick);
+        //char id_arr[MAXLENID];
+        //char nick_arr[MAXLENNICK];
+        //uint32_t idLen = MAXLENID;
+        //uint32_t nickLen = MAXLENNICK;
+        //ON_INVOKE(GetID4ProfileHandle, profile, id_arr, &idLen);
+        //ON_INVOKE(GetNickName4ProfileHandle, profile, nick_arr, &nickLen);
+        //QString id = QString::fromUtf8(id_arr, idLen);
+        //QString nick = QString::fromUtf8(nick_arr, nickLen);
+		QString id = GetElement4Handle(GetID4ProfileHandle, handle);
+		QString nick = GetElement4Handle(GetNickName4ProfileHandle, handle);
         if(!TimTool::Instance().ContainInConvMap(id))
         {
             TIMConversationHandle conv = CreateConversation();

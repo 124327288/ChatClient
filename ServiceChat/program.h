@@ -4,6 +4,7 @@
 
 #include <QWidget>
 #include <ctime>
+#include <functional>
 
 //#ifdef _DEBUG
 //#define DEBUG_FUNCNAME   qDebug() << __func__;
@@ -63,6 +64,21 @@ inline int onGetElementReturn(const char *funcName, int ret)
 #define DEBUG_FUNC				onDebugFunc(__func__);
 #define DEBUG_ERROR				onDebugError(__func__, code, desc);
 #define ON_INVOKE(func, ...)	onGetElementReturn(#func, func(__VA_ARGS__))
+
+using GetElement4HandleType = int(*)(void*, char*, uint32_t*);
+
+template <uint32_t MaxLen = MAXLENBUFFER>
+QString GetElement4Handle(GetElement4HandleType func, void *handle)
+{
+    char buf[MaxLen];
+    uint32_t len = MaxLen;
+	int ret = ON_INVOKE(func, handle, buf, &len);
+	if (!ret)
+	{
+		return QString::fromUtf8(buf, len);
+	}
+	return nullptr;
+}
 
 #define ListenCallBack(prcClassName)    \
     prc = new prcClassName(bytes);      \

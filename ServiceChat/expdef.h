@@ -30,10 +30,15 @@ enum Role
     RoleContent
 };
 
-constexpr int MAXLENID		= 1024;
-constexpr int MAXLENNICK	= 1024;
-constexpr int MAXLENCONTENT = 10240;
-constexpr int MAXLENIMAGE	= 16;
-constexpr int MAXLENURL     = 1024;
-constexpr int MAXLENFILENAME = 1024;
+enum MAXLEN
+{
+	MAXLENBUFFER = 1024,
+	MAXLENID = 1024,
+	MAXLENNICK = 1024,
+	MAXLENCONTENT = 10240,
+	MAXLENIMAGE = 16,
+	MAXLENURL = 1024,
+	MAXLENFILENAME = 1024,
+};
+
 #endif // EXPDEF_H

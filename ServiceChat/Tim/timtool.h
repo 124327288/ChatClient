@@ -60,6 +60,7 @@ signals:
     void NewConversation(const QString &id, QString &nick, time_t time);
 private slots:
     void NewMsgHandler(QString id, QString nick, uint32_t time, QString msg);
+	void GetFriendListSuccessHandle(const QList<Linkman> &friendList);
 private:
     int          sdk_app_id;
     std::string  str_app_id;
@@ -74,6 +75,9 @@ private:
     QMap<QString, ChatWindow*>              chatWindowMap;
     QMap<QString, TIMConversationHandle>    convMap;
     QMap<QString, QVector<ChatContentEX>>   contentMap;
+    QList<Linkman>                          friendList;
+public:
+
 
 public:
     QString getSig() const;
@@ -87,5 +91,7 @@ public:
     void setConvMap(const QMap<QString, TIMConversationHandle> &value);
     QMap<QString, QVector<ChatContentEX> > getContentMap() const;
     void setContentMap(const QMap<QString, QVector<ChatContentEX> > &value);
+    QList<Linkman> getFriendList() const;
+    void setFriendList(const QList<Linkman> &value);
 };
 #endif // TIMTOOL_H
