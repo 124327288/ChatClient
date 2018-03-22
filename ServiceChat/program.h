@@ -14,14 +14,19 @@
 time_t GetTime();
 
 template <class T>
-inline T d(T &&val)
+inline T d(const T &val)
 {
-    return std::move(val);
+    return val;
 }
 
 inline QString d(const std::string &val)
 {
     return QString::fromStdString(val);
+}
+
+inline QString d(const std::wstring &val)
+{
+    return QString::fromStdWString(val);
 }
 
 inline void varTypeError(const QString &variable, const QString &type)

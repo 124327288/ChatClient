@@ -263,17 +263,22 @@ void TimTool::SendFile(const QString &id, const QString &filePath)
     TIMMessageHandle msg = CreateTIMMessage();
     TIMMsgFileElemHandle elem = CreateFileElemHandle();
 
-//    filePath.indexOf()
-    std::string stdFilePath = filePath.toStdString();
-    std::string fileName = stdFilePath.substr(stdFilePath.find_last_of('/') + 1);
-    DEBUG_VAR(fileName);
+    auto setFileName = [=]{
+        std::string stdFilePath = filePath.toStdString();
+        std::string fileName = stdFilePath.substr(stdFilePath.find_last_of('/') + 1);
+        DEBUG_VAR(fileName);
+        SetFileElemFileName(elem, fileName.data(), fileName.length());
+    };
 
-    std::string path = filePath.toStdString();
-    std::fstream send_file(path.data(), std::fstream::in | std::fstream::binary);
-    std::string file_data((std::istreambuf_iterator<char>(send_file)), std::istreambuf_iterator<char>());
+    auto setFileData = [=]{
+        std::wstring stdFilePath = filePath.toStdWString();
+        std::fstream sendFile(stdFilePath.data(), std::fstream::in | std::fstream::binary);
+        std::string fileData((std::istreambuf_iterator<char>(sendFile)), std::istreambuf_iterator<char>());
+        SetFileElemData(elem, fileData.data(), fileData.length());
+    };
 
-    SetFileElemFileName(elem, fileName.data(), fileName.length());
-    SetFileElemData(elem, file_data.data(), file_data.length());
+    setFileName();
+    setFileData();
     ON_INVOKE(AddElem, msg, elem);
 
     static TIMCommCB callback;

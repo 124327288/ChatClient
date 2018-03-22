@@ -232,13 +232,12 @@ void onGetFileSuccess(const char *buf, uint32_t len, void *data)
     QString *pFileName = static_cast<QString*>(data);
     if(pFileName)
     {
-        std::string fileName = pFileName->toStdString();
+        std::wstring fileName = pFileName->toStdWString();
         std::fstream file(fileName.data(), std::fstream::out | std::fstream::binary);
         std::string str_buf(buf, len);
         file << str_buf;
         delete pFileName;
     }
-
 }
 
 void onGetFileError(int code, const char *desc, void *data)
