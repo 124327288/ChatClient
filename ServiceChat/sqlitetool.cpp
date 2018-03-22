@@ -12,6 +12,11 @@ SqliteTool &SqliteTool::Instance()
     return instance;
 }
 
+bool SqliteTool::IsOpen() const
+{
+    return dataBase.isOpen();
+}
+
 bool SqliteTool::CreateConnect()
 {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
@@ -21,12 +26,13 @@ bool SqliteTool::CreateConnect()
         SQL_ERROR(db);
         return false;
     }
+    dataBase = db;
     return true;
 }
 
 bool SqliteTool::CreateAccountTable()
 {
-    if(!CreateConnect())
+    if(!IsOpen())
         return false;
     QSqlQuery query;
     if(!query.exec(QString(R"(
@@ -44,18 +50,19 @@ bool SqliteTool::CreateAccountTable()
 
 bool SqliteTool::Insert2Table(const QString &tableName)
 {
-    if(CreateConnect())
+    if(!IsOpen())
     {
 
     }
+    return true;
 }
 
 bool SqliteTool::Insert2AccountTable(const QString &id, const QString &pwd, const QString &sig)
 {
-    if(!CreateConnect())
+    if(!IsOpen())
         return false;
     QSqlQuery query;
-    query.prepare(QString("INSERT INTO %1 (id, pwd, sig) VALUES (?, ?, ?)"));
+    query.prepare(QString("INSERT INTO %1 (id, pwd, sig) VALUES (?, ?, ?)").arg(accountTableName));
     query.addBindValue(id);
     query.addBindValue(pwd);
     query.addBindValue(sig);
@@ -69,19 +76,29 @@ bool SqliteTool::Insert2AccountTable(const QString &id, const QString &pwd, cons
 
 bool SqliteTool::Select4AccountTable(const QString &id)
 {
-    if(!CreateConnect())
+    if(!IsOpen())
         return false;
     QSqlQuery query;
     query.exec(QString("SELECT id, pwd, sig FROM %1 WHERE id = %2").arg(accountTableName).arg(id));
     while (query.next())
     {
-        QString id = query.value("id");
-        QString pwd = query.value("pwd");
-        QString sig = query.value("sig");
+        QString id = query.value("id").toString();
+        QString pwd = query.value("pwd").toString();
+        QString sig = query.value("sig").toString();
         DEBUG_VAR(id);
         DEBUG_VAR(pwd);
         DEBUG_VAR(sig);
     }
     return true;
 
+}
+
+QSqlDatabase SqliteTool::getDataBase() const
+{
+    return dataBase;
+}
+
+void SqliteTool::setDataBase(const QSqlDatabase &value)
+{
+    dataBase = value;
 }

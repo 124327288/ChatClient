@@ -28,7 +28,10 @@ int main(int argc, char *argv[])
 //    PDFWindow window;
 //    window.show();
     LoginWindow::Instance().show();
-    SqliteTool::CreateConnect("Chat.db");
+//    SqliteTool::Instance().CreateConnect();
+//    SqliteTool::Instance().CreateAccountTable();
+//    SqliteTool::Instance().Insert2AccountTable("123","456","789");
+//    SqliteTool::Instance().Select4AccountTable("123");
 
     return a.exec();
 }
