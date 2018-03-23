@@ -78,12 +78,14 @@ void onAddFriendError(int code, const char *desc, void *data)
 
 void onGetSelfProfileSuccess(TIMSelfProfileHandle *handles, uint32_t num, void *data)
 {
-    char nick[MAXLENNICK];
-	uint32_t len = MAXLENNICK;
-    ON_INVOKE(GetNickName4SlefProfileHandle, *handles, nick, &len);
-    QString sNick = QString::fromUtf8(nick);
-    TimTool::Instance().setNick(sNick);
-    emit TimTool::Instance().GetSelfNickname(sNick);
+//    char nick[MAXLENNICK];
+//	uint32_t len = MAXLENNICK;
+//    ON_INVOKE(GetNickName4SlefProfileHandle, *handles, nick, &len);
+//    QString sNick = QString::fromUtf8(nick);
+    QString nick;
+    GET_ELEMENT(GetNickName4SlefProfileHandle, *handles, nick);
+    TimTool::Instance().setNick(nick);
+    emit TimTool::Instance().GetSelfNickname(nick);
 }
 
 void onGetSelfProfileError(int code, const char *desc, void *data)
@@ -109,8 +111,12 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
         //ON_INVOKE(GetNickName4ProfileHandle, profile, nick_arr, &nickLen);
         //QString id = QString::fromUtf8(id_arr, idLen);
         //QString nick = QString::fromUtf8(nick_arr, nickLen);
-		QString id = GetElement4Handle(GetID4ProfileHandle, handle);
-		QString nick = GetElement4Handle(GetNickName4ProfileHandle, handle);
+//		QString id = GetElement4Handle(GetID4ProfileHandle, handle);
+//		QString nick = GetElement4Handle(GetNickName4ProfileHandle, handle);
+        QString id;
+        QString nick;
+        GET_ELEMENT(GetID4ProfileHandle, handle, id);
+        GET_ELEMENT(GetNickName4ProfileHandle, handle, nick);
         if(!TimTool::Instance().ContainInConvMap(id))
         {
             TIMConversationHandle conv = CreateConversation();

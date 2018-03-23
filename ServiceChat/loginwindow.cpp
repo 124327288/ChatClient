@@ -24,8 +24,9 @@ LoginWindow::LoginWindow(QWidget *parent) :
     for(auto str : idList)
         qDebug() << str;
     ui->usernameComboBox->addItems(idList);
-    ui->autoCheckBox->setChecked(LuaTool::Instance().getAutoLogin());
-    ui->rememberCheckBox->setChecked(LuaTool::Instance().getRememberPassword());
+    /* 需要根据选择的用户id判断*/
+//    ui->autoCheckBox->setChecked(LuaTool::Instance().getAutoLogin());
+//    ui->rememberCheckBox->setChecked(LuaTool::Instance().getRememberPassword());
     connect(&TimTool::Instance(), &TimTool::LoginSuccess, this, &LoginWindow::onLoginSuccess);
     connect(&TimTool::Instance(), &TimTool::LoginError, this, &LoginWindow::onLoginError);
     connect(this, &LoginWindow::RemainTime, [=](int msec){

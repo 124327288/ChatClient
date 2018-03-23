@@ -67,31 +67,45 @@ inline int onGetElementReturn(const char *funcName, int ret)
 #define DEBUG_ERROR				onDebugError(__func__, code, desc);
 #define ON_INVOKE(func, ...)	onGetElementReturn(#func, func(__VA_ARGS__))
 
-using GetElement4HandleType = int(*)(void*, char*, uint32_t*);
-
-template <uint32_t MaxLen = MAXLENBUFFER>
-QString GetElement4Handle(GetElement4HandleType func, void *handle)
-{
-    char buf[MaxLen];
-    uint32_t len = MaxLen;
-	int ret = ON_INVOKE(func, handle, buf, &len);
-	if (!ret)
-	{
-		return QString::fromUtf8(buf, len);
-	}
-	return nullptr;
+#define GET_ELEMENT(func, handle, elem)        {        \
+    char buf[MAXLENBUFFER];                             \
+    uint32_t len = MAXLENBUFFER;                        \
+    int ret = ON_INVOKE(func, handle, buf, &len);       \
+    if(!ret)                                            \
+    {                                                   \
+        elem = QString::fromUtf8(buf, len);             \
+    }                                                   \
 }
+//using GetElement4HandleType = int(*)(void*, char*, uint32_t*);
 
-//template <class T>
-//inline void ShowSqlErrorMsg(const T &sql)
+//template <uint32_t MaxLen = MAXLENBUFFER>
+//QString GetElement4Handle(GetElement4HandleType func, void *handle)
 //{
-//    QMessageBox::critical(nullptr, QObject::tr("%1 Error").arg(__func__),
-//                      sql.lastError().text());
+//    char buf[MaxLen];
+//    uint32_t len = MaxLen;
+//	int ret = ON_INVOKE(func, handle, buf, &len);
+//	if (!ret)
+//	{
+//		return QString::fromUtf8(buf, len);
+//	}
+//	return nullptr;
 //}
+
+template <class T>
+inline void SqlError(const T &sql, const QString &funcName)
+{
+    QMessageBox::critical(nullptr, QObject::tr("%1 Error").arg(funcName),
+                      sql.lastError().text());
+}
 
 #define SQL_ERROR(sql)                                                     \
     QMessageBox::critical(nullptr, QObject::tr("%1 Error").arg(__func__),   \
                       sql.lastError().text())
+
+
+//#define SQL_ERROR_EX(sql, funcName)                                                     \
+//    QMessageBox::critical(nullptr, QObject::tr("%1 Error").arg(funcName),   \
+//                      sql.lastError().text())
 
 #define ListenCallBack(prcClassName)    \
     prc = new prcClassName(bytes);      \

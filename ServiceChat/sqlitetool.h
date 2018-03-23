@@ -10,9 +10,13 @@ private:
     SqliteTool();
 public:
     static SqliteTool &Instance();
+    void Init();
     bool IsOpen() const;
     bool CreateConnect();
-
+    void ShowAllTableName();
+private:
+    bool IsTableExist(const QString &tableName, const QString &funcName);
+public:
     bool IsIdTableExist();
     bool IsAccountTableExist();
     bool IsSignTableExist();
@@ -27,8 +31,8 @@ public:
 
     bool SelectAll4IdTable(QStringList *idList);
     bool Select4IdTable(const QString &id);
-    bool Select4AccountTable(const QString &id, QString *pwd);
-    bool Select4SignTable(const QString &id, QString *sig);
+    bool Select4AccountTable(const QString &id, QString *pwd = nullptr);
+    bool Select4SignTable(const QString &id, QString *sig = nullptr);
 
     bool Update2AccountTable(const QString &id, const QString &pwd);
     bool Update2SignTable(const QString &id, const QString &sig);

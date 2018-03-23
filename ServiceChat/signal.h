@@ -6,13 +6,13 @@ class Signal : public QObject
 {
     Q_OBJECT
 private:
-    Signal() = default;
+    Signal();
 public:
     static Signal &Instance();
 private slots:
     void RemPwdAndAutoLoginHandle(bool isRemPwd, bool isAutoLogin);
-    void SetRememberPasswordHandle(bool checked);
-    void SetAutoLoginHandle(bool checked);
+//    void SetRememberPasswordHandle(bool checked);
+//    void SetAutoLoginHandle(bool checked);
 signals:
     void LoginSuccess();
     void LoginError(int code, const QString &desc);
@@ -29,8 +29,8 @@ signals:
 
     void NewConversation(const QString &id, QString &nick, time_t time);
 
-    void SetRememberPassword(bool checked);
-    void SetAutoLogin(bool checked);
+//    void SetRememberPassword(bool checked);
+//    void SetAutoLogin(bool checked);
     void RemPwdAndAutoLogin(bool isRemPwd, bool isAutoLogin);
 };
 #endif // SIGNAL_H

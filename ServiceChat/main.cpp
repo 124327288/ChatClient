@@ -28,6 +28,8 @@ int main(int argc, char *argv[])
 //    PDFWindow window;
 //    window.show();
     SqliteTool::Instance().CreateConnect();
+    SqliteTool::Instance().Init();
+    SqliteTool::Instance().ShowAllTableName();
     LoginWindow::Instance().show();
 
 //    SqliteTool::Instance().CreateAccountTable();
