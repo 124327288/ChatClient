@@ -26,6 +26,7 @@ private slots:
 private:
     explicit LoginWindow(QWidget *parent = 0);
     Ui::LoginWindow *ui;
+    QStringList idList;
 };
 
 #endif // LOGINWINDOW_H

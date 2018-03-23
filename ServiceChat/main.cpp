@@ -27,8 +27,9 @@ int main(int argc, char *argv[])
     TimTool::Instance().SetMessageCallback();
 //    PDFWindow window;
 //    window.show();
+    SqliteTool::Instance().CreateConnect();
     LoginWindow::Instance().show();
-//    SqliteTool::Instance().CreateConnect();
+
 //    SqliteTool::Instance().CreateAccountTable();
 //    SqliteTool::Instance().Insert2AccountTable("123","456","789");
 //    SqliteTool::Instance().Select4AccountTable("123");

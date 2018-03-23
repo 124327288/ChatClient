@@ -58,7 +58,8 @@ SOURCES += \
     Delegate/sessionlistdelegate.cpp \
     Tim/tim.cpp \
     sqlitetool.cpp \
-    table.cpp
+    table.cpp \
+    signal.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -87,7 +88,8 @@ HEADERS += \
     View/settingdialog.h \
     Delegate/sessionlistdelegate.h \
     sqlitetool.h \
-    table.h
+    table.h \
+    signal.h
 
 FORMS += \
         loginwindow.ui \

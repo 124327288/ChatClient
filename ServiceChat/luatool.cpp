@@ -151,6 +151,15 @@ void LuaTool::setLanguage(const std::string &value)
     language = value;
 }
 
+void LuaTool::RemPwdAndAutoLoginHandle(bool isRemPwd, bool isAutoLogin)
+{
+    if(isRemPwd == getRememberPassword() && isAutoLogin == getAutoLogin())
+        return;
+    setRememberPassword(isRemPwd);
+    setAutoLogin(isAutoLogin);
+    updateUserCfgFile();
+}
+
 std::string LuaTool::getUserDir() const
 {
     return userDir;

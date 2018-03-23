@@ -1,9 +1,14 @@
 #include "sqlitetool.h"
 #include <QMessageBox>
 #include "stdafx.h"
-SqliteTool::SqliteTool():dbName("Chat.db"), accountTableName("Account")
+SqliteTool::SqliteTool():
+    dbName("Chat.db"),
+    accountTableName("Account"),
+    signTableName("Sign")
 {
 
+    if(!IsIdTableExist())
+        CreateIdTable();
 }
 
 SqliteTool &SqliteTool::Instance()
@@ -14,6 +19,9 @@ SqliteTool &SqliteTool::Instance()
 
 bool SqliteTool::IsOpen() const
 {
+    if(!dataBase.isOpen())
+        QMessageBox::critical(nullptr, QObject::tr("DataBase is not open"),
+                      QObject::tr("DataBase is not open"));
     return dataBase.isOpen();
 }
 
@@ -30,17 +38,18 @@ bool SqliteTool::CreateConnect()
     return true;
 }
 
-bool SqliteTool::CreateAccountTable()
+bool SqliteTool::IsIdTableExist()
 {
     if(!IsOpen())
         return false;
     QSqlQuery query;
-    if(!query.exec(QString(R"(
-                           CREATE TABLE %1(
-                           id VARCHAR PRIMARY KEY,
-                           pwd VARCHAR,
-                           sig VARCHAR)
-                           )").arg(accountTableName)))
+//    String sql = "select * from sqlite_master where name="+"'"+table+"'";
+    if(!query.prepare(QString("SELECT * FROM sqlite_master WHERE name = %1").arg(idTableName)))
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    if(!query.exec())
     {
         SQL_ERROR(query);
         return false;
@@ -48,23 +57,112 @@ bool SqliteTool::CreateAccountTable()
     return true;
 }
 
-bool SqliteTool::Insert2Table(const QString &tableName)
-{
-    if(!IsOpen())
-    {
-
-    }
-    return true;
-}
-
-bool SqliteTool::Insert2AccountTable(const QString &id, const QString &pwd, const QString &sig)
+bool SqliteTool::CreateIdTable()
 {
     if(!IsOpen())
         return false;
     QSqlQuery query;
-    query.prepare(QString("INSERT INTO %1 (id, pwd, sig) VALUES (?, ?, ?)").arg(accountTableName));
+    if(!query.prepare(QString("CREATE TABLE %1(id TEXT PRIMARY KEY").arg(idTableName)))
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    if(!query.exec())
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    return true;
+}
+
+bool SqliteTool::CreateAccountTable()
+{
+    if(!IsOpen())
+        return false;
+    QSqlQuery query;
+    if(!query.prepare(QString("CREATE TABLE %1(id TEXT PRIMARY KEY,pwd TEXT").arg(accountTableName)))
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    if(!query.exec())
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    return true;
+}
+
+bool SqliteTool::CreateSignTable()
+{
+    if(!IsOpen())
+        return false;
+    QSqlQuery query;
+    if(!query.prepare(QString("CREATE TABLE %1(id TEXT PRIMARY KEY,sig TEXT)").arg(signTableName)))
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    if(!query.exec())
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    return true;
+}
+
+bool SqliteTool::Insert2IdTable(const QString &id)
+{
+    DEBUG_FUNC;
+    if(!IsOpen())
+        return false;
+    QSqlQuery query;
+    if(!query.prepare(QString("INSERT INTO %1 (id) VALUES (?)").arg(idTableName)))
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    query.addBindValue(id);
+    if(!query.exec())
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    return true;
+}
+
+bool SqliteTool::Insert2AccountTable(const QString &id, const QString &pwd)
+{
+    if(!IsOpen())
+        return false;
+    QSqlQuery query;
+    if(!query.prepare(QString("INSERT INTO %1 (id, pwd) VALUES (?, ?)").arg(accountTableName)))
+    {
+        SQL_ERROR(query);
+        return false;
+    }
     query.addBindValue(id);
     query.addBindValue(pwd);
+    if(!query.exec())
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    return true;
+}
+
+bool SqliteTool::Insert2SignTable(const QString &id, const QString &sig)
+{
+    DEBUG_FUNC;
+    if(!IsOpen())
+        return false;
+    QSqlQuery query;
+    if(!query.prepare(QString("INSERT INTO %1 (id, sig) VALUES (?, ?)").arg(signTableName)))
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    query.addBindValue(id);
     query.addBindValue(sig);
     if(!query.exec())
     {
@@ -74,23 +172,209 @@ bool SqliteTool::Insert2AccountTable(const QString &id, const QString &pwd, cons
     return true;
 }
 
-bool SqliteTool::Select4AccountTable(const QString &id)
+bool SqliteTool::SelectAll4IdTable(QStringList *idList)
 {
     if(!IsOpen())
         return false;
     QSqlQuery query;
-    query.exec(QString("SELECT id, pwd, sig FROM %1 WHERE id = %2").arg(accountTableName).arg(id));
+    if(!query.prepare(QString("SELECT id FROM %1").arg(idTableName)))
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    if(!query.exec())
+    {
+        SQL_ERROR(query);
+        return false;
+    }
     while (query.next())
     {
-        QString id = query.value("id").toString();
-        QString pwd = query.value("pwd").toString();
-        QString sig = query.value("sig").toString();
-        DEBUG_VAR(id);
-        DEBUG_VAR(pwd);
-        DEBUG_VAR(sig);
+        QString _id = query.value("id").toString();
+        DEBUG_VAR(_id);
+        (*idList) << _id;
+//        return true;
+    }
+    return false;
+}
+
+bool SqliteTool::Select4IdTable(const QString &id)
+{
+    if(!IsOpen())
+        return false;
+    QSqlQuery query;
+    if(!query.prepare(QString("SELECT id FROM %1 WHERE id = %2").arg(idTableName).arg(id)))
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    if(!query.exec())
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    while (query.next())
+    {
+        QString _id = query.value("id").toString();
+        DEBUG_VAR(_id);
+        return true;
+    }
+    return false;
+}
+
+bool SqliteTool::Select4AccountTable(const QString &id, QString *pwd)
+{
+    if(!IsOpen())
+        return false;
+    if(!pwd)
+        return false;
+    QSqlQuery query;
+    if(!query.prepare(QString("SELECT id, pwd FROM %1 WHERE id = %2").arg(accountTableName).arg(id)))
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    if(!query.exec())
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    while (query.next())
+    {
+        QString _id = query.value("id").toString();
+        QString _pwd = query.value("pwd").toString();
+        DEBUG_VAR(_id);
+        DEBUG_VAR(_pwd);
+        *pwd = _pwd;
+        return true;
+    }
+    return false;
+}
+
+bool SqliteTool::Select4SignTable(const QString &id, QString *sig)
+{
+    if(!IsOpen())
+        return false;
+    if(!sig)
+        return false;
+    QSqlQuery query;
+    if(!query.prepare(QString("SELECT id, sig FROM %1 WHERE id = %2").arg(signTableName).arg(id)))
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    if(!query.exec())
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    while (query.next())
+    {
+        QString _id = query.value("id").toString();
+        QString _sig = query.value("sig").toString();
+        DEBUG_VAR(_id);
+        DEBUG_VAR(_sig);
+        *sig = _sig;
+        return true;
+    }
+    return false;
+}
+
+bool SqliteTool::Update2AccountTable(const QString &id, const QString &pwd)
+{
+    if(!IsOpen())
+        return false;
+    QSqlQuery query;
+    if(!query.prepare(QString("UPDATE %1 SET pwd = %2 WHERE id = ?").arg(accountTableName).arg(pwd)))
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    query.addBindValue(id);
+    if(!query.exec())
+    {
+        SQL_ERROR(query);
+        return false;
     }
     return true;
+}
 
+bool SqliteTool::Update2SignTable(const QString &id, const QString &sig)
+{
+    if(!IsOpen())
+        return false;
+    QSqlQuery query;
+    if(!query.prepare(QString("UPDATE %1 SET sig = %2 WHERE id = ?").arg(signTableName).arg(sig)))
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    query.addBindValue(id);
+    if(!query.exec())
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    return true;
+}
+
+bool SqliteTool::Delete4AccountTable(const QString &id, bool all)
+{
+    if(!IsOpen())
+        return false;
+    QSqlQuery query;
+    if(all)
+    {
+        if(!query.prepare(QString("DELETE FROM %1").arg(accountTableName)))
+        {
+            SQL_ERROR(query);
+            return false;
+        }
+    }
+    else
+    {
+        if(!query.prepare(QString("DELETE FROM %1 WHERE id = ?").arg(accountTableName)))
+        {
+            SQL_ERROR(query);
+            return false;
+        }
+        query.addBindValue(id);
+    }
+    if(!query.exec())
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    return true;
+}
+
+bool SqliteTool::Delete4SignTable(const QString &id, bool all)
+{
+    if(!IsOpen())
+        return false;
+    QSqlQuery query;
+    if(all)
+    {
+        if(!query.prepare(QString("DELETE FROM %1").arg(signTableName)))
+        {
+            SQL_ERROR(query);
+            return false;
+        }
+    }
+    else
+    {
+        if(!query.prepare(QString("DELETE FROM %1 WHERE id = ?").arg(signTableName)))
+        {
+            SQL_ERROR(query);
+            return false;
+        }
+        query.addBindValue(id);
+    }
+    if(!query.exec())
+    {
+        SQL_ERROR(query);
+        return false;
+    }
+    return true;
 }
 
 QSqlDatabase SqliteTool::getDataBase() const

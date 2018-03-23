@@ -47,7 +47,8 @@ public:
 
     std::string getLanguage() const;
     void setLanguage(const std::string &value);
-
+private slots:
+    void RemPwdAndAutoLoginHandle(bool isRemPwd, bool isAutoLogin);
 private:
     LuaTool();
     lua_State *L;

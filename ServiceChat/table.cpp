@@ -1,40 +1,40 @@
-
-QString Account::getId() const
+#include "table.h"
+QString Table::Account::getId() const
 {
     return id;
 }
 
-void Account::setId(const QString &value)
+void Table::Account::setId(const QString &value)
 {
     id = value;
 }
 
-QString Account::getPwd() const
+QString Table::Account::getPwd() const
 {
     return pwd;
 }
 
-void Account::setPwd(const QString &value)
+void Table::Account::setPwd(const QString &value)
 {
     pwd = value;
 }
 
-QString Sign::getId() const
+QString Table::Sign::getId() const
 {
     return id;
 }
 
-void Sign::setId(const QString &value)
+void Table::Sign::setId(const QString &value)
 {
     id = value;
 }
 
-QString Sign::getSig() const
+QString Table::Sign::getSig() const
 {
     return sig;
 }
 
-void Sign::setSig(const QString &value)
+void Table::Sign::setSig(const QString &value)
 {
     sig = value;
 }
