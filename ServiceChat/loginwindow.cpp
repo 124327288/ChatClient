@@ -70,7 +70,6 @@ void LoginWindow::on_loginPushButton_clicked()
     SetLoginLabel(tr("Logining......"));
 
     TimTool::Instance().Login(username, password);
-
 }
 
 void LoginWindow::onLoginSuccess()

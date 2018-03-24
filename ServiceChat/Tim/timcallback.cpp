@@ -103,20 +103,22 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
         TIMProfileHandle profile = CreateProfileHandle();
         ON_INVOKE(GetSenderProfile, handle, profile);
 
-        //char id_arr[MAXLENID];
-        //char nick_arr[MAXLENNICK];
-        //uint32_t idLen = MAXLENID;
-        //uint32_t nickLen = MAXLENNICK;
-        //ON_INVOKE(GetID4ProfileHandle, profile, id_arr, &idLen);
-        //ON_INVOKE(GetNickName4ProfileHandle, profile, nick_arr, &nickLen);
-        //QString id = QString::fromUtf8(id_arr, idLen);
-        //QString nick = QString::fromUtf8(nick_arr, nickLen);
-//		QString id = GetElement4Handle(GetID4ProfileHandle, handle);
-//		QString nick = GetElement4Handle(GetNickName4ProfileHandle, handle);
+//        char id_arr[MAXLENID];
+//        char nick_arr[MAXLENNICK];
+//        uint32_t idLen = MAXLENID;
+//        uint32_t nickLen = MAXLENNICK;
+//        ON_INVOKE(GetID4ProfileHandle, profile, id_arr, &idLen);
+//        ON_INVOKE(GetNickName4ProfileHandle, profile, nick_arr, &nickLen);
+//        QString id = QString::fromUtf8(id_arr, idLen);
+//        QString nick = QString::fromUtf8(nick_arr, nickLen);
+
+//		  QString id = GetElement4Handle(GetID4ProfileHandle, handle);
+//		  QString nick = GetElement4Handle(GetNickName4ProfileHandle, handle);
+
         QString id;
         QString nick;
-        GET_ELEMENT(GetID4ProfileHandle, handle, id);
-        GET_ELEMENT(GetNickName4ProfileHandle, handle, nick);
+        GET_ELEMENT(GetID4ProfileHandle, profile, id);
+        GET_ELEMENT(GetNickName4ProfileHandle, profile, nick);
         if(!TimTool::Instance().ContainInConvMap(id))
         {
             TIMConversationHandle conv = CreateConversation();

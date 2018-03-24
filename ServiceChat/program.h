@@ -39,7 +39,7 @@ inline const char *bts(bool b)
 inline void varTypeError(const QString &variable, const QString &type)
 {
 	qDebug() << QString("%1 is not %2 type").arg(variable).arg(type);
-    QMessageBox::critical(nullptr, QObject::tr("%1 Error").arg(variable), QString("%1 is not %2 type").arg(variable).arg(type));
+//    QMessageBox::critical(nullptr, QObject::tr("%1 Error").arg(variable), QString("%1 is not %2 type").arg(variable).arg(type));
 }
 
 template <typename T>
@@ -56,7 +56,7 @@ inline void onDebugFunc(QString name)
 inline void onDebugError(QString name, int code, const char *desc)
 {
     qDebug() << QString("[%1] code : %2, desc : %3").arg(name).arg(code).arg(desc);
-    QMessageBox::critical(nullptr, QObject::tr("%1 Error").arg(name), QString("code : %1, desc : %2").arg(code).arg(desc));
+//    QMessageBox::critical(nullptr, QObject::tr("%1 Error").arg(name), QString("code : %1, desc : %2").arg(code).arg(desc));
 }
 
 inline int onGetElementReturn(const char *funcName, int ret)
@@ -64,7 +64,7 @@ inline int onGetElementReturn(const char *funcName, int ret)
 	if (ret)
 	{
 		qDebug() << QString("On %1 Error! RetCode = %2").arg(funcName).arg(ret);
-        QMessageBox::critical(nullptr, QObject::tr("%1 Error").arg(funcName), QString("%1 Error! RetCode = %2").arg(funcName).arg(ret));
+//        QMessageBox::critical(nullptr, QObject::tr("%1 Error").arg(funcName), QString("%1 Error! RetCode = %2").arg(funcName).arg(ret));
 	}
 	return ret;
 }
