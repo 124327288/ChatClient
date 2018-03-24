@@ -1,5 +1,6 @@
 ﻿#include "luatool.h"
 #include "Tim/timtool.h"
+#include "signal.h"
 #include <QString>
 #include <QDebug>
 #include <QFile>
@@ -7,6 +8,16 @@
 #include <QDir>
 //using std::string;
 using namespace std;
+
+LuaTool::LuaTool()
+{
+    dir = ".\\config\\";
+    appCfgFile = "app_cfg.lua";
+    userCfgFile = "user_cfg.lua";
+    connect(&TimTool::Instance(), &TimTool::LoginSuccess,this, &LuaTool::LoginSuccessHandle);
+    connect(&Signal::Instance(), &Signal::RemPwdAndAutoLogin, this, &LuaTool::RemPwdAndAutoLoginHandle);
+}
+
 LuaTool &LuaTool::Instance()
 {
     static LuaTool instance;
@@ -37,11 +48,32 @@ bool LuaTool::genDir()
     return _dir.mkdir(dir.data());
 }
 
+bool LuaTool::isUserDirExist(const string &_userDir)
+{
+    QDir _dir(_userDir.data());
+    return _dir.exists();
+}
+
+bool LuaTool::genUserDir(const string &_userDir)
+{
+    QDir _dir;
+    return _dir.mkdir(_userDir.data());
+}
+
+std::string LuaTool::makeUserDirString(const QString &_id)
+{
+    return dir + _id.toStdString() + '\\';
+}
+
+string LuaTool::makeUserDirString(const string &_id)
+{
+    return dir + _id + '\\';
+}
+
 bool LuaTool::isUserDirExist() const
 {
     QDir _dir(userDir.data());
     return _dir.exists();
-
 }
 
 bool LuaTool::genUserDir()
@@ -52,6 +84,8 @@ bool LuaTool::genUserDir()
 
 bool LuaTool::isAppCfgFileExist() const
 {
+    if(!isDirExist())
+        return false;
     auto _path = dir + appCfgFile;
     QFile file(_path.data());
     return file.exists();
@@ -59,14 +93,25 @@ bool LuaTool::isAppCfgFileExist() const
 
 bool LuaTool::isUserCfgFileExist() const
 {
+    if(!isUserDirExist())
+        return false;
     auto _path = userDir + userCfgFile;
+    QFile file(_path.data());
+    return file.exists();
+}
+
+bool LuaTool::isUserCfgFileExist(const string &_userDir) const
+{
+    if(!isUserDirExist(_userDir))
+        return false;
+    auto _path = _userDir + userCfgFile;
     QFile file(_path.data());
     return file.exists();
 }
 
 void LuaTool::genAppCfgFile() const
 {
-	DEBUG_FUNC
+    DEBUG_FUNC;
     auto _path = dir + appCfgFile;
     QFile file(_path.data());
     if(file.open(QFile::WriteOnly))
@@ -80,7 +125,7 @@ void LuaTool::genAppCfgFile() const
 
 void LuaTool::genUserCfgFile() const
 {
-	DEBUG_FUNC
+    DEBUG_FUNC;
     auto _path = userDir + userCfgFile;
     QFile file(_path.data());
     if(file.open(QFile::WriteOnly))
@@ -94,7 +139,7 @@ void LuaTool::genUserCfgFile() const
 
 void LuaTool::updateAppCfgFile() const
 {
-	DEBUG_FUNC
+    DEBUG_FUNC;
     auto _path = dir + appCfgFile;
     QFile file(_path.data());
     if(file.open(QFile::WriteOnly))
@@ -108,37 +153,15 @@ void LuaTool::updateAppCfgFile() const
 
 void LuaTool::updateUserCfgFile() const
 {
-	DEBUG_FUNC
+    DEBUG_FUNC;
     auto _path = userDir + userCfgFile;
     QFile file(_path.data());
     if(file.open(QFile::WriteOnly))
     {
         QTextStream os(&file);
-        os << QString("%1 = %2\n").arg("rememberPassword").arg(rememberPassword);
-        os << QString("%1 = %2\n").arg("autoLogin").arg(autoLogin);
-//        os << QString(R"(%1 = "%2"\n)").arg("language").arg(language);
+        os << QString("%1 = %2\n").arg("rememberPassword").arg(bts(rememberPassword));
+        os << QString("%1 = %2\n").arg("autoLogin").arg(bts(autoLogin));
     }
-}
-
-LuaTool::LuaTool()
-{
-    dir = ".\\config\\";
-    appCfgFile = "app_cfg.lua";
-    userCfgFile = "user_cfg.lua";
-    connect(&TimTool::Instance(), &TimTool::LoginSuccess,[=]{
-        QByteArray id_bytes = TimTool::Instance().getId().toUtf8();
-        string id = id_bytes.data();
-        setUserDir(dir + id + '\\');
-        if(!isUserDirExist())
-        {
-            genUserDir();
-        }
-        if(!isUserCfgFileExist())
-        {
-            genUserCfgFile();
-        }
-        getUserConfig();
-    });
 }
 
 std::string LuaTool::getLanguage() const
@@ -151,8 +174,25 @@ void LuaTool::setLanguage(const std::string &value)
     language = value;
 }
 
+void LuaTool::LoginSuccessHandle()
+{
+    QByteArray id_bytes = TimTool::Instance().getId().toUtf8();
+    string id = id_bytes.data();
+    setUserDir(makeUserDirString(id));
+    if(!isUserDirExist())
+    {
+        genUserDir();
+    }
+    if(!isUserCfgFileExist())
+    {
+        genUserCfgFile();
+    }
+    getUserConfig();
+}
+
 void LuaTool::RemPwdAndAutoLoginHandle(bool isRemPwd, bool isAutoLogin)
 {
+    while(!isGetLoginedUserCfg);
     if(isRemPwd == getRememberPassword() && isAutoLogin == getAutoLogin())
         return;
     setRememberPassword(isRemPwd);
@@ -177,6 +217,7 @@ void LuaTool::setUserDir(const std::string &value)
         lua_pop(L, 1);                                          \
     }else{                                                      \
         varTypeError(varStr, typeStr);                          \
+        return;                                                 \
     }                                                           \
 }
 
@@ -191,11 +232,28 @@ void LuaTool::getUserConfig()
     {
 //		QMessageBox::information(nullptr, "ERROR!", QString("cannot do file %1").arg(pf.data()));
         qDebug() << QString("cannot do file %1").arg(pf.data());
+        return;
     }
     getGoBoolean(rememberPassword, "rememberPassword");
     getGoBoolean(autoLogin, "autoLogin");
-//    getGoString(language, "language");
+    isGetLoginedUserCfg = true;
 }
+
+void LuaTool::getUserConfig(const string &_userDir, UserCfgStruct *pUserCfg)
+{
+    if(!pUserCfg)
+        return;
+    string pf = _userDir + userCfgFile;
+    if(luaL_dofile(L, pf.data()))
+    {
+        QMessageBox::information(nullptr, "ERROR!", QString("cannot do file %1").arg(pf.data()));
+        qDebug() << QString("cannot do file %1").arg(pf.data());
+        return;
+    }
+    getGoBoolean(pUserCfg->rememberPassword, "rememberPassword");
+    getGoBoolean(pUserCfg->autoLogin, "autoLogin");
+}
+
 
 void LuaTool::getAppConfig()
 {
@@ -204,6 +262,7 @@ void LuaTool::getAppConfig()
     {
 		QMessageBox::information(nullptr, "ERROR!", QString("cannot do file %1").arg(pf.data()));
         qDebug() << QString("cannot do file %1").arg(pf.data());
+        return;
     }
     getGoString(serverAddress, "serverAddress");
     getGoNumber(port, "port");

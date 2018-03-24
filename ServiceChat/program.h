@@ -31,9 +31,15 @@ inline QString d(const std::wstring &val)
     return QString::fromStdWString(val);
 }
 
+inline const char *bts(bool b)
+{
+    return b ? "true" : "false";
+}
+
 inline void varTypeError(const QString &variable, const QString &type)
 {
 	qDebug() << QString("%1 is not %2 type").arg(variable).arg(type);
+    QMessageBox::critical(nullptr, QObject::tr("%1 Error").arg(variable), QString("%1 is not %2 type").arg(variable).arg(type));
 }
 
 template <typename T>
@@ -49,7 +55,8 @@ inline void onDebugFunc(QString name)
 
 inline void onDebugError(QString name, int code, const char *desc)
 {
-	qDebug() << QString("[%1] code = %2, desc = %3").arg(name).arg(code).arg(desc);
+    qDebug() << QString("[%1] code : %2, desc : %3").arg(name).arg(code).arg(desc);
+    QMessageBox::critical(nullptr, QObject::tr("%1 Error").arg(name), QString("code : %1, desc : %2").arg(code).arg(desc));
 }
 
 inline int onGetElementReturn(const char *funcName, int ret)
@@ -57,15 +64,16 @@ inline int onGetElementReturn(const char *funcName, int ret)
 	if (ret)
 	{
 		qDebug() << QString("On %1 Error! RetCode = %2").arg(funcName).arg(ret);
+        QMessageBox::critical(nullptr, QObject::tr("%1 Error").arg(funcName), QString("%1 Error! RetCode = %2").arg(funcName).arg(ret));
 	}
 	return ret;
 }
 
-#define VAR_NAME(x)             #x
-#define DEBUG_VAR(x)			onDebugVariable(#x, x)
-#define DEBUG_FUNC				onDebugFunc(__func__);
-#define DEBUG_ERROR				onDebugError(__func__, code, desc);
-#define ON_INVOKE(func, ...)	onGetElementReturn(#func, func(__VA_ARGS__))
+#define VAR_NAME(x)             (#x)
+#define DEBUG_VAR(x)			(onDebugVariable(#x, x))
+#define DEBUG_FUNC				(onDebugFunc(__func__))
+#define DEBUG_ERROR				(onDebugError(__func__, code, desc))
+#define ON_INVOKE(func, ...)	(onGetElementReturn(#func, func(__VA_ARGS__)))
 
 #define GET_ELEMENT(func, handle, elem)        {        \
     char buf[MAXLENBUFFER];                             \
@@ -98,10 +106,9 @@ inline void SqlError(const T &sql, const QString &funcName)
                       sql.lastError().text());
 }
 
-#define SQL_ERROR(sql)                                                     \
+#define SQL_ERROR(sql)                                                      \
     QMessageBox::critical(nullptr, QObject::tr("%1 Error").arg(__func__),   \
                       sql.lastError().text())
-
 
 //#define SQL_ERROR_EX(sql, funcName)                                                     \
 //    QMessageBox::critical(nullptr, QObject::tr("%1 Error").arg(funcName),   \

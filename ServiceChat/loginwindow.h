@@ -10,7 +10,8 @@ class LoginWindow;
 class LoginWindow : public QMainWindow
 {
     Q_OBJECT
-
+private:
+    explicit LoginWindow(QWidget *parent = 0);
 public:
     static LoginWindow &Instance();
 
@@ -23,8 +24,10 @@ private slots:
     void on_loginPushButton_clicked();
     void onLoginSuccess();
     void onLoginError(int code, const QString &desc);
+    void on_usernameComboBox_currentTextChanged(const QString &arg1);
+
 private:
-    explicit LoginWindow(QWidget *parent = 0);
+
     Ui::LoginWindow *ui;
     QStringList idList;
 };

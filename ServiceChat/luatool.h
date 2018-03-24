@@ -6,6 +6,8 @@
 class LuaTool : public QObject
 {
     Q_OBJECT
+private:
+    LuaTool();
 public:
     static LuaTool &Instance();
     void Init();
@@ -13,11 +15,17 @@ public:
     bool isDirExist() const;
     bool genDir();
 
+    static bool isUserDirExist(const std::string &_userDir);
+    static bool genUserDir(const std::string &_userDir);
+
+    std::string makeUserDirString(const QString &_id);
+    std::string makeUserDirString(const std::string &_id);
     bool isUserDirExist() const;
     bool genUserDir();
 
     bool isAppCfgFileExist() const;
     bool isUserCfgFileExist() const;
+    bool isUserCfgFileExist(const std::string &_userDir) const;
 
     void genAppCfgFile() const;
     void genUserCfgFile() const;
@@ -26,6 +34,7 @@ public:
     void updateUserCfgFile() const;
 
     void getAppConfig();
+    void getUserConfig(const std::string &_userDir, UserCfgStruct *pUserCfg);
     void getUserConfig();
 
     void getConfigs();
@@ -48,9 +57,9 @@ public:
     std::string getLanguage() const;
     void setLanguage(const std::string &value);
 private slots:
+    void LoginSuccessHandle();
     void RemPwdAndAutoLoginHandle(bool isRemPwd, bool isAutoLogin);
 private:
-    LuaTool();
     lua_State *L;
     std::string dir;
     std::string userDir;
@@ -63,6 +72,9 @@ private:
 
     std::string serverAddress;
     int port;
+
+    bool isGetLoginedUserCfg = false;
+
 };
 
 #endif // LUATOOL_H

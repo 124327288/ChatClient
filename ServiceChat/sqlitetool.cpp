@@ -1,4 +1,4 @@
-#include "sqlitetool.h"
+﻿#include "sqlitetool.h"
 #include <QMessageBox>
 #include "stdafx.h"
 SqliteTool::SqliteTool():
@@ -53,7 +53,7 @@ void SqliteTool::ShowAllTableName()
     if(!IsOpen())
         return;
     QSqlQuery query;
-    if(!query.prepare(QString("select * from sqlite_master")))
+    if(!query.prepare(QString("select name from sqlite_master")))
     {
         SQL_ERROR(query);
         return;

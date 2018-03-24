@@ -6,12 +6,12 @@
 
 void onConnected(void *)
 {
-    DEBUG_FUNC
+    DEBUG_FUNC;
 }
 
 void onDisconnected(void *)
 {
-    DEBUG_FUNC
+    DEBUG_FUNC;
 }
 
 void onLoginSuccess(void *)
@@ -33,7 +33,7 @@ void onCommSuccess(void *data)
 
 void onCommError(int code, const char *desc, void *data)
 {
-    DEBUG_ERROR
+    DEBUG_ERROR;
 }
 
 void onGetFriendListSuccess(TIMFriendListElemHandle *handles, uint32_t num, void *data)
@@ -63,7 +63,7 @@ void onGetFriendListSuccess(TIMFriendListElemHandle *handles, uint32_t num, void
 
 void onGetFriendListError(int code, const char *desc, void *data)
 {
-    DEBUG_ERROR
+    DEBUG_ERROR;
 }
 
 void onAddFriendSuccess(TIMFriendResultHandle *handles, uint32_t num, void *data)
@@ -73,7 +73,7 @@ void onAddFriendSuccess(TIMFriendResultHandle *handles, uint32_t num, void *data
 
 void onAddFriendError(int code, const char *desc, void *data)
 {
-    DEBUG_ERROR
+    DEBUG_ERROR;
 }
 
 void onGetSelfProfileSuccess(TIMSelfProfileHandle *handles, uint32_t num, void *data)
@@ -90,7 +90,7 @@ void onGetSelfProfileSuccess(TIMSelfProfileHandle *handles, uint32_t num, void *
 
 void onGetSelfProfileError(int code, const char *desc, void *data)
 {
-    DEBUG_ERROR
+    DEBUG_ERROR;
 }
 
 void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
@@ -154,7 +154,7 @@ void onSetNickNameSuccess(void *data)
 
 void onSetNickNameError(int code, const char *desc, void *data)
 {
-    DEBUG_ERROR
+    DEBUG_ERROR;
 }
 
 void onGetImageSuccess(void *data)
@@ -170,7 +170,7 @@ void onGetImageSuccess(void *data)
 
 void onGetImageError(int code, const char *desc, void *data)
 {
-    DEBUG_ERROR
+    DEBUG_ERROR;
     ChatContent *p_cc = static_cast<ChatContent*>(data);
     if(p_cc)
         delete p_cc;
@@ -251,7 +251,7 @@ void onGetFileSuccess(const char *buf, uint32_t len, void *data)
 
 void onGetFileError(int code, const char *desc, void *data)
 {
-    DEBUG_ERROR
+    DEBUG_ERROR;
 }
 
 void onSendMsgSuccess(void *data)
@@ -261,7 +261,7 @@ void onSendMsgSuccess(void *data)
 
 void onSendMsgError(int code, const char *desc, void *data)
 {
-    DEBUG_ERROR
+    DEBUG_ERROR;
 }
 
 void onSendImageSuccess(void *data)
@@ -271,7 +271,7 @@ void onSendImageSuccess(void *data)
 
 void onSendImageError(int code, const char *desc, void *data)
 {
-    DEBUG_ERROR
+    DEBUG_ERROR;
 }
 
 void onSendFileSuccess(void *data)
@@ -281,5 +281,5 @@ void onSendFileSuccess(void *data)
 
 void onSendFileError(int code, const char *desc, void *data)
 {
-    DEBUG_ERROR
+    DEBUG_ERROR;
 }

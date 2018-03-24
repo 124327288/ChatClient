@@ -61,6 +61,18 @@ struct ChatContentEX
     QString text;
 };
 
+struct AppCfgStruct
+{
+    std::string serverAddress;
+    int port;
+};
+
+struct UserCfgStruct
+{
+    bool rememberPassword;
+    bool autoLogin;
+};
+
 Q_DECLARE_METATYPE(Linkman)
 Q_DECLARE_METATYPE(QList<Linkman>)
 Q_DECLARE_METATYPE(uint32_t)
