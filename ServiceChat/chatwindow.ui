@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>472</width>
+    <width>586</width>
     <height>588</height>
    </rect>
   </property>
@@ -20,124 +20,23 @@
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <item>
-       <widget class="QFontComboBox" name="fontComboBox">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="insertPolicy">
-         <enum>QComboBox::InsertAtBottom</enum>
-        </property>
-        <property name="sizeAdjustPolicy">
-         <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="comboBox">
-        <property name="currentIndex">
-         <number>4</number>
-        </property>
-        <item>
-         <property name="text">
-          <string>8</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>9</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>10</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>11</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>12</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>13</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>14</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>15</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>16</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>17</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>18</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>19</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>20</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>21</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>22</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="boldToolButton">
+       <widget class="QToolButton" name="fontToolButton">
         <property name="toolTip">
-         <string>Bold</string>
+         <string>设置字体格式</string>
         </property>
         <property name="text">
-         <string>...</string>
+         <string>Font</string>
         </property>
         <property name="icon">
          <iconset resource="img.qrc">
-          <normaloff>:/img/images/bold.png</normaloff>:/img/images/bold.png</iconset>
+          <normaloff>:/img/images/A.jpg</normaloff>:/img/images/A.jpg</iconset>
         </property>
-        <property name="iconSize">
-         <size>
-          <width>16</width>
-          <height>16</height>
-         </size>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
         </property>
         <property name="autoRaise">
          <bool>true</bool>
@@ -145,25 +44,19 @@
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="italicToolButton">
+       <widget class="QToolButton" name="emotionToolButton">
         <property name="toolTip">
-         <string>Italic</string>
+         <string>选择表情</string>
         </property>
         <property name="text">
-         <string>...</string>
+         <string>emotion</string>
         </property>
         <property name="icon">
          <iconset resource="img.qrc">
-          <normaloff>:/img/images/italic.png</normaloff>:/img/images/italic.png</iconset>
+          <normaloff>:/img/images/0.gif</normaloff>:/img/images/0.gif</iconset>
         </property>
-        <property name="iconSize">
-         <size>
-          <width>16</width>
-          <height>16</height>
-         </size>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
         </property>
         <property name="autoRaise">
          <bool>true</bool>
@@ -171,16 +64,36 @@
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="lineToolButton">
+       <widget class="QToolButton" name="shotToolButton">
         <property name="toolTip">
-         <string>Underline</string>
+         <string>捕捉屏幕</string>
         </property>
         <property name="text">
-         <string>...</string>
+         <string>shot</string>
         </property>
         <property name="icon">
          <iconset resource="img.qrc">
-          <normaloff>:/img/images/under.png</normaloff>:/img/images/under.png</iconset>
+          <normaloff>:/img/images/rect.jpg</normaloff>:/img/images/rect.jpg</iconset>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="picToolButton">
+        <property name="toolTip">
+         <string>插入图片</string>
+        </property>
+        <property name="text">
+         <string>pic</string>
+        </property>
+        <property name="icon">
+         <iconset resource="img.qrc">
+          <normaloff>:/img/images/pic.jpg</normaloff>:/img/images/pic.jpg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -189,7 +102,10 @@
          </size>
         </property>
         <property name="checkable">
-         <bool>true</bool>
+         <bool>false</bool>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
         </property>
         <property name="autoRaise">
          <bool>true</bool>
@@ -199,10 +115,10 @@
       <item>
        <widget class="QToolButton" name="colorToolButton">
         <property name="toolTip">
-         <string>Color</string>
+         <string>选择字体颜色</string>
         </property>
         <property name="text">
-         <string>...</string>
+         <string>color</string>
         </property>
         <property name="icon">
          <iconset resource="img.qrc">
@@ -217,31 +133,8 @@
         <property name="checkable">
          <bool>false</bool>
         </property>
-        <property name="autoRaise">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="picToolButton">
-        <property name="toolTip">
-         <string>Picture</string>
-        </property>
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="icon">
-         <iconset resource="img.qrc">
-          <normaloff>:/img/images/send.png</normaloff>:/img/images/send.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>16</width>
-          <height>16</height>
-         </size>
-        </property>
-        <property name="checkable">
-         <bool>false</bool>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
         </property>
         <property name="autoRaise">
          <bool>true</bool>
@@ -250,8 +143,51 @@
       </item>
       <item>
        <widget class="QToolButton" name="fileToolButton">
+        <property name="toolTip">
+         <string>发送文件</string>
+        </property>
         <property name="text">
          <string>File</string>
+        </property>
+        <property name="icon">
+         <iconset resource="img.qrc">
+          <normaloff>:/img/images/file.png</normaloff>:/img/images/file.png</iconset>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>128</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QToolButton" name="clearToolButton">
+        <property name="toolTip">
+         <string>清空会话窗口</string>
+        </property>
+        <property name="text">
+         <string>clear</string>
+        </property>
+        <property name="icon">
+         <iconset resource="img.qrc">
+          <normaloff>:/img/images/clear.png</normaloff>:/img/images/clear.png</iconset>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
         </property>
         <property name="autoRaise">
          <bool>true</bool>
@@ -301,7 +237,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>472</width>
+     <width>586</width>
      <height>23</height>
     </rect>
    </property>

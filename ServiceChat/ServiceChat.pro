@@ -4,9 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
-QT       += network
-QT       += sql
+QT       += core gui network sql
+QT       += webenginewidgets
 
 # Use Precompiled headers (PCH)
 PRECOMPILED_HEADER  = stdafx.h
@@ -59,7 +58,9 @@ SOURCES += \
     Tim/tim.cpp \
     sqlitetool.cpp \
     table.cpp \
-    signal.cpp
+    signal.cpp \
+    View/emotiondialog.cpp \
+    Delegate/emotionsitemdelegate.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -89,7 +90,9 @@ HEADERS += \
     Delegate/sessionlistdelegate.h \
     sqlitetool.h \
     table.h \
-    signal.h
+    signal.h \
+    View/emotiondialog.h \
+    Delegate/emotionsitemdelegate.h
 
 FORMS += \
         loginwindow.ui \

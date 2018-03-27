@@ -8,11 +8,13 @@
 #include <QFileDialog>
 #include <QScrollBar>
 #include <QWaitCondition>
+#include "View/emotiondialog.h"
 
 #ifdef _WIN32
 #include <Windows.h>
 #endif
 
+#include <QFontDialog>
 #include <QMessageBox>
 #include <ctime>
 ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
@@ -72,6 +74,11 @@ void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
     }
 }
 
+void ChatWindow::Add2TextEdit(QString text)
+{
+    ui->textEdit->append(text);
+}
+
 void ChatWindow::GetConversation()
 {
     if(TimTool::Instance().ContainInConvMap(otherId))
@@ -106,46 +113,46 @@ void ChatWindow::on_sendBtn_clicked()
     ui->textEdit->clear();
 }
 
-void ChatWindow::on_fontComboBox_currentFontChanged(const QFont &f)
-{
-    ui->textEdit->setCurrentFont(f);
-    ui->textEdit->setFocus();
-}
+//void ChatWindow::on_fontComboBox_currentFontChanged(const QFont &f)
+//{
+//    ui->textEdit->setCurrentFont(f);
+//    ui->textEdit->setFocus();
+//}
 
-void ChatWindow::on_comboBox_currentIndexChanged(const QString &arg1)
-{
-    ui->textEdit->setFontPointSize(arg1.toDouble());
-    ui->textEdit->setFocus();
-}
+//void ChatWindow::on_comboBox_currentIndexChanged(const QString &arg1)
+//{
+//    ui->textEdit->setFontPointSize(arg1.toDouble());
+//    ui->textEdit->setFocus();
+//}
 
-void ChatWindow::on_boldToolButton_clicked(bool checked)
-{
-    if(checked)
-    {
-        ui->textEdit->setFontWeight(QFont::Bold);
-    }
-    else
-    {
-        ui->textEdit->setFontWeight(QFont::Normal);
-    }
-    ui->textEdit->setFocus();
-}
+//void ChatWindow::on_boldToolButton_clicked(bool checked)
+//{
+//    if(checked)
+//    {
+//        ui->textEdit->setFontWeight(QFont::Bold);
+//    }
+//    else
+//    {
+//        ui->textEdit->setFontWeight(QFont::Normal);
+//    }
+//    ui->textEdit->setFocus();
+//}
 
-void ChatWindow::on_italicToolButton_clicked(bool checked)
-{
-    ui->textEdit->setFontItalic(checked);
-    ui->textEdit->setFocus();
-}
+//void ChatWindow::on_italicToolButton_clicked(bool checked)
+//{
+//    ui->textEdit->setFontItalic(checked);
+//    ui->textEdit->setFocus();
+//}
 
-void ChatWindow::on_lineToolButton_clicked(bool checked)
-{
-    ui->textEdit->setFontUnderline(checked);
-    ui->textEdit->setFocus();
-}
+//void ChatWindow::on_lineToolButton_clicked(bool checked)
+//{
+//    ui->textEdit->setFontUnderline(checked);
+//    ui->textEdit->setFocus();
+//}
 
 void ChatWindow::on_colorToolButton_clicked(bool checked)
 {
-    auto color = QColorDialog::getColor();
+    auto color = QColorDialog::getColor(ui->textEdit->textColor(), this);
     if(color.isValid())
     {
         ui->textEdit->setTextColor(color);
@@ -180,4 +187,34 @@ void ChatWindow::on_fileToolButton_clicked(bool checked)
             TimTool::Instance().SendFile(otherId, fileName);
         }
     }
+}
+
+void ChatWindow::on_fontToolButton_clicked(bool checked)
+{
+    QFont lastFont = ui->textEdit->toPlainText().isEmpty() ? QFont("宋体") : ui->textEdit->currentFont();
+    QFont font = QFontDialog::getFont(nullptr,lastFont , this);
+    ui->textEdit->setCurrentFont(font);
+    ui->textEdit->setFocus();
+}
+
+void ChatWindow::on_closeBtn_clicked(bool checked)
+{
+    close();
+}
+
+void ChatWindow::on_actionClose_triggered()
+{
+    close();
+}
+
+void ChatWindow::on_emotionToolButton_clicked(bool checked)
+{
+//    DEBUG_FUNC;
+    auto emotionDialog = new EmotionDialog;
+    emotionDialog->setChatWindow(this);
+    emotionDialog->setGeometry(geometry().left() + ui->emotionToolButton->geometry().left(),
+                               geometry().top() + ui->emotionToolButton->geometry().bottom() + 30,
+                               emotionDialog->size().width(),
+                               emotionDialog->size().height());
+    emotionDialog->show();
 }

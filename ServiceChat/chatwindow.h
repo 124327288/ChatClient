@@ -16,24 +16,33 @@ public:
     explicit ChatWindow(const Linkman &linkman, QWidget *parent = 0);
     ~ChatWindow();
     void AddContent(QString id, QString nick, time_t time, QString msg);
+    void Add2TextEdit(QString text);
 private slots:
     void on_sendBtn_clicked();
 
-    void on_fontComboBox_currentFontChanged(const QFont &f);
+//    void on_fontComboBox_currentFontChanged(const QFont &f);
 
-    void on_comboBox_currentIndexChanged(const QString &arg1);
+//    void on_comboBox_currentIndexChanged(const QString &arg1);
 
-    void on_boldToolButton_clicked(bool checked);
+//    void on_boldToolButton_clicked(bool checked);
 
-    void on_italicToolButton_clicked(bool checked);
+//    void on_italicToolButton_clicked(bool checked);
 
-    void on_lineToolButton_clicked(bool checked);
+//    void on_lineToolButton_clicked(bool checked);
 
     void on_colorToolButton_clicked(bool checked);
 
     void on_picToolButton_clicked(bool checked);
 
     void on_fileToolButton_clicked(bool checked);
+
+    void on_fontToolButton_clicked(bool checked);
+
+    void on_closeBtn_clicked(bool checked);
+
+    void on_actionClose_triggered();
+
+    void on_emotionToolButton_clicked(bool checked);
 
 private:
     Ui::ChatWindow *ui;
