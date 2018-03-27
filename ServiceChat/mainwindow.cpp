@@ -64,6 +64,8 @@ void MainWindow::InitUI()
     vLayout2->addWidget(friendListView);
     page2->setLayout(vLayout2);
     ui->tabWidget->addTab(page2, tr("Friend"));
+
+
 }
 
 void MainWindow::SetNickName(const QString & nick)

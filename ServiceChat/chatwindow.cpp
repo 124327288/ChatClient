@@ -22,6 +22,8 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     ui(new Ui::ChatWindow)
 {
     ui->setupUi(this);
+    webView = new QWebEngineView(ui->widget);
+    webView->setUrl(QUrl("baidu.com"));
     otherId = linkman.id;
     otherNick = !linkman.nick.trimmed().isEmpty() ? linkman.nick : otherId;
     otherRemark = !linkman.remark.trimmed().isEmpty() ? linkman.remark : otherNick;
@@ -56,12 +58,19 @@ void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
             arg(p_tm->tm_hour, 2, 10, QChar('0')).
             arg(p_tm->tm_min, 2, 10, QChar('0')).
             arg(p_tm->tm_sec, 2, 10, QChar('0'));
-
-	ui->textBrowser->append(QString(R"(
-                                    <font color="blue">%1(%2) %3</font>
-                                    )").arg(id).arg(nick).arg(str_time));
+    QString title = QString(R"(
+                              <font color="blue">%1(%2) %3</font>
+                              )").arg(id).arg(nick).arg(str_time);
+    ui->textBrowser->append(title);
     ui->textBrowser->append(msg);
     ui->textBrowser->append("");
+    webContent += title;
+//    webContent += R"(<img src =qrc:/emotions/emotions/0.gif />)";
+    webContent += "\n";
+    webContent += msg;
+    webContent += "\n\n";
+
+    webView->setHtml(webContent);
 
     if(auto verticalScrollBar = ui->textBrowser->verticalScrollBar())
     {
@@ -77,6 +86,8 @@ void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
 void ChatWindow::Add2TextEdit(QString text)
 {
     ui->textEdit->append(text);
+    webContent += text;
+    webView->setHtml(webContent);
 }
 
 void ChatWindow::GetConversation()

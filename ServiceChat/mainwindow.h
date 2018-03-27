@@ -3,6 +3,7 @@
 #include "stdafx.h"
 #include <QListView>
 #include <QMainWindow>
+#include <QWebEngineView>
 #include "Model/friendlistmodel.h"
 #include "Model/sessionlistmodel.h"
 namespace Ui {

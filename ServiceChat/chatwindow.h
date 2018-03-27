@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include <QMainWindow>
+#include <QWebEngineView>
 #include <tim_conv_c.h>
 namespace Ui {
 class ChatWindow;
@@ -46,10 +47,12 @@ private slots:
 
 private:
     Ui::ChatWindow *ui;
+    QWebEngineView      *webView;
     QString otherId;
     QString otherNick;
     QString otherRemark;
 
+    QString webContent;
     TIMConversationHandle convHandle;
 
     QVector<TIMElemType> sendMsgTypeList;

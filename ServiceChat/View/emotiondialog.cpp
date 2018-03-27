@@ -48,7 +48,7 @@ EmotionDialog::EmotionDialog(QWidget *parent) : QDialog(parent)
 void EmotionDialog::OnCellClicked(int row, int column)
 {
     int i = row * horCount + column;
-    QString imgStr = QString(":/emotions/emotions/%1.gif").arg(i);
+    QString imgStr = QString(":qrc:/emotions/emotions/%1.gif").arg(i);
     QString html = QString("<img src = %1 />").arg(imgStr);
     chatWindow->Add2TextEdit(html);
     close();

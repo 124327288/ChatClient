@@ -1,4 +1,5 @@
 ﻿#include <QApplication>
+#include <QWebEngineView>
 #include "loginwindow.h"
 #include "mainwindow.h"
 #include "pdfwindow.h"
@@ -10,6 +11,9 @@
 #include "View/emotiondialog.h"
 int main(int argc, char *argv[])
 {
+    char arg[] = "--disable-web-security";
+    argv[0] = arg;
+    argc = 1;
     QApplication a(argc, argv);
     qRegisterMetaType<Linkman>("Linkman");
     qRegisterMetaType<QList<Linkman>>("QList<Linkman>");
@@ -41,6 +45,10 @@ int main(int argc, char *argv[])
     SqliteTool::Instance().Init();
     SqliteTool::Instance().ShowAllTableName();
     LoginWindow::Instance().show();
+//    QWebEngineView web;
+////    web.setHtml("123");
+//    web.setUrl(QUrl("http://www.baidu.com"));
+//    web.show();
 //    EmotionDialog emotionDialog;
 //    emotionDialog.show();
 //    SqliteTool::Instance().CreateAccountTable();
