@@ -22,8 +22,64 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     ui(new Ui::ChatWindow)
 {
     ui->setupUi(this);
-    webView = new QWebEngineView(ui->widget);
-    webView->setUrl(QUrl("baidu.com"));
+    ui->widget->setStyleSheet(QString::fromUtf8("border:1px solid #5CACEE"));
+    webContent = R"(<body onload="window.scrollTo(0,document.body.scrollHeight); " >)";
+    webView = new QWebEngineView();
+//    webView->setStyleSheet(QString::fromUtf8("border:1px solid blue"));
+    QHBoxLayout *layout = new QHBoxLayout;
+    layout->addWidget(webView);
+    ui->widget->setLayout(layout);
+//    webView->setProperty("DisplayScrollBars",true);
+//    webView->setProperty("DisplayAlerts",false);
+//    webView->setStyleSheet("QScrollBar:vertical"
+//                           "{"
+//                           "width:28px;"
+//                           "background:rgba(0,0,0,0%);"
+//                           "margin:0px,0px,0px,0px;"
+//                           "padding-top:28px;"
+//                           "padding-bottom:28px;"
+//                           "}"
+//                           "QScrollBar::handle:vertical"
+//                           "{"
+//                           "width:28px;"
+//                           "background:rgba(0,0,0,25%);"
+//                           " border-radius:4px;"
+//                           "min-height:20;"
+//                           "}"
+//                           "QScrollBar::handle:vertical:hover"
+//                           "{"
+//                           "width:28px;"
+//                           "background:rgba(0,0,0,50%);"
+//                           " border-radius:4px;"
+//                           "min-height:20;"
+//                           "}"
+//                           "QScrollBar::add-line:vertical"
+//                           "{"
+//                           "height:28px;width:28px;"
+//                           "subcontrol-position:bottom;"
+//                           "}"
+//                           "QScrollBar::sub-line:vertical"
+//                           "{"
+//                           "height:28px;width:28px;"
+//                           "subcontrol-position:top;"
+//                           "}"
+//                           "QScrollBar::add-line:vertical:hover"
+//                           "{"
+//                           "height:28px;width:28px;"
+//                           "subcontrol-position:bottom;"
+//                           "}"
+//                           "QScrollBar::sub-line:vertical:hover"
+//                           "{"
+//                           "height:28px;width:28px;"
+//                           "subcontrol-position:top;"
+//                           "}"
+//                           "QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical"
+//                           "{"
+//                           "background:rgba(0,0,0,10%);"
+//                           "border-radius:4px;"
+//                           "}"
+//                           );
+//    webView->setUrl(QUrl("baidu.com"));
     otherId = linkman.id;
     otherNick = !linkman.nick.trimmed().isEmpty() ? linkman.nick : otherId;
     otherRemark = !linkman.remark.trimmed().isEmpty() ? linkman.remark : otherNick;
@@ -61,33 +117,35 @@ void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
     QString title = QString(R"(
                               <font color="blue">%1(%2) %3</font>
                               )").arg(id).arg(nick).arg(str_time);
-    ui->textBrowser->append(title);
-    ui->textBrowser->append(msg);
-    ui->textBrowser->append("");
+//    ui->textBrowser->append(title);
+//    ui->textBrowser->append(msg);
+//    ui->textBrowser->append("");
     webContent += title;
 //    webContent += R"(<img src =qrc:/emotions/emotions/0.gif />)";
-    webContent += "\n";
+    webContent += "<br />";
     webContent += msg;
-    webContent += "\n\n";
+    webContent += "<br />";
 
     webView->setHtml(webContent);
+//    webView->update();
+//    if(auto v = webView->)
 
-    if(auto verticalScrollBar = ui->textBrowser->verticalScrollBar())
-    {
-        verticalScrollBar->setSliderPosition(verticalScrollBar->maximum());
-    }
+//    if(auto verticalScrollBar = ui->textBrowser->verticalScrollBar())
+//    {
+//        verticalScrollBar->setSliderPosition(verticalScrollBar->maximum());
+//    }
 
-    if(auto horizontalScrollBar = ui->textBrowser->horizontalScrollBar())
-    {
-        horizontalScrollBar->setSliderPosition(horizontalScrollBar->minimum());
-    }
+//    if(auto horizontalScrollBar = ui->textBrowser->horizontalScrollBar())
+//    {
+//        horizontalScrollBar->setSliderPosition(horizontalScrollBar->minimum());
+//    }
 }
 
 void ChatWindow::Add2TextEdit(QString text)
 {
     ui->textEdit->append(text);
-    webContent += text;
-    webView->setHtml(webContent);
+//    webContent += text;
+//    webView->setHtml(webContent);
 }
 
 void ChatWindow::GetConversation()

@@ -18,192 +18,192 @@
     <item>
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+       <enum>Qt::Vertical</enum>
       </property>
-      <widget class="QTextBrowser" name="textBrowser"/>
       <widget class="QWidget" name="widget" native="true"/>
+      <widget class="QWidget" name="layoutWidget">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="sizeConstraint">
+         <enum>QLayout::SetFixedSize</enum>
+        </property>
+        <item>
+         <widget class="QToolButton" name="fontToolButton">
+          <property name="toolTip">
+           <string>设置字体格式</string>
+          </property>
+          <property name="text">
+           <string>Font</string>
+          </property>
+          <property name="icon">
+           <iconset resource="img.qrc">
+            <normaloff>:/img/images/A.jpg</normaloff>:/img/images/A.jpg</iconset>
+          </property>
+          <property name="toolButtonStyle">
+           <enum>Qt::ToolButtonTextBesideIcon</enum>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="emotionToolButton">
+          <property name="toolTip">
+           <string>选择表情</string>
+          </property>
+          <property name="text">
+           <string>emotion</string>
+          </property>
+          <property name="icon">
+           <iconset resource="img.qrc">
+            <normaloff>:/img/images/0.gif</normaloff>:/img/images/0.gif</iconset>
+          </property>
+          <property name="toolButtonStyle">
+           <enum>Qt::ToolButtonTextBesideIcon</enum>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="shotToolButton">
+          <property name="toolTip">
+           <string>捕捉屏幕</string>
+          </property>
+          <property name="text">
+           <string>shot</string>
+          </property>
+          <property name="icon">
+           <iconset resource="img.qrc">
+            <normaloff>:/img/images/rect.jpg</normaloff>:/img/images/rect.jpg</iconset>
+          </property>
+          <property name="toolButtonStyle">
+           <enum>Qt::ToolButtonTextBesideIcon</enum>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="picToolButton">
+          <property name="toolTip">
+           <string>插入图片</string>
+          </property>
+          <property name="text">
+           <string>pic</string>
+          </property>
+          <property name="icon">
+           <iconset resource="img.qrc">
+            <normaloff>:/img/images/pic.jpg</normaloff>:/img/images/pic.jpg</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+          <property name="checkable">
+           <bool>false</bool>
+          </property>
+          <property name="toolButtonStyle">
+           <enum>Qt::ToolButtonTextBesideIcon</enum>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="colorToolButton">
+          <property name="toolTip">
+           <string>选择字体颜色</string>
+          </property>
+          <property name="text">
+           <string>color</string>
+          </property>
+          <property name="icon">
+           <iconset resource="img.qrc">
+            <normaloff>:/img/images/color.png</normaloff>:/img/images/color.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+          <property name="checkable">
+           <bool>false</bool>
+          </property>
+          <property name="toolButtonStyle">
+           <enum>Qt::ToolButtonTextBesideIcon</enum>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="fileToolButton">
+          <property name="toolTip">
+           <string>发送文件</string>
+          </property>
+          <property name="text">
+           <string>File</string>
+          </property>
+          <property name="icon">
+           <iconset resource="img.qrc">
+            <normaloff>:/img/images/file.png</normaloff>:/img/images/file.png</iconset>
+          </property>
+          <property name="toolButtonStyle">
+           <enum>Qt::ToolButtonTextBesideIcon</enum>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>128</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QToolButton" name="clearToolButton">
+          <property name="toolTip">
+           <string>清空会话窗口</string>
+          </property>
+          <property name="text">
+           <string>clear</string>
+          </property>
+          <property name="icon">
+           <iconset resource="img.qrc">
+            <normaloff>:/img/images/clear.png</normaloff>:/img/images/clear.png</iconset>
+          </property>
+          <property name="toolButtonStyle">
+           <enum>Qt::ToolButtonTextBesideIcon</enum>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QTextEdit" name="textEdit"/>
      </widget>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <property name="spacing">
-       <number>0</number>
-      </property>
-      <item>
-       <widget class="QToolButton" name="fontToolButton">
-        <property name="toolTip">
-         <string>设置字体格式</string>
-        </property>
-        <property name="text">
-         <string>Font</string>
-        </property>
-        <property name="icon">
-         <iconset resource="img.qrc">
-          <normaloff>:/img/images/A.jpg</normaloff>:/img/images/A.jpg</iconset>
-        </property>
-        <property name="toolButtonStyle">
-         <enum>Qt::ToolButtonTextBesideIcon</enum>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="emotionToolButton">
-        <property name="toolTip">
-         <string>选择表情</string>
-        </property>
-        <property name="text">
-         <string>emotion</string>
-        </property>
-        <property name="icon">
-         <iconset resource="img.qrc">
-          <normaloff>:/img/images/0.gif</normaloff>:/img/images/0.gif</iconset>
-        </property>
-        <property name="toolButtonStyle">
-         <enum>Qt::ToolButtonTextBesideIcon</enum>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="shotToolButton">
-        <property name="toolTip">
-         <string>捕捉屏幕</string>
-        </property>
-        <property name="text">
-         <string>shot</string>
-        </property>
-        <property name="icon">
-         <iconset resource="img.qrc">
-          <normaloff>:/img/images/rect.jpg</normaloff>:/img/images/rect.jpg</iconset>
-        </property>
-        <property name="toolButtonStyle">
-         <enum>Qt::ToolButtonTextBesideIcon</enum>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="picToolButton">
-        <property name="toolTip">
-         <string>插入图片</string>
-        </property>
-        <property name="text">
-         <string>pic</string>
-        </property>
-        <property name="icon">
-         <iconset resource="img.qrc">
-          <normaloff>:/img/images/pic.jpg</normaloff>:/img/images/pic.jpg</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>16</width>
-          <height>16</height>
-         </size>
-        </property>
-        <property name="checkable">
-         <bool>false</bool>
-        </property>
-        <property name="toolButtonStyle">
-         <enum>Qt::ToolButtonTextBesideIcon</enum>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="colorToolButton">
-        <property name="toolTip">
-         <string>选择字体颜色</string>
-        </property>
-        <property name="text">
-         <string>color</string>
-        </property>
-        <property name="icon">
-         <iconset resource="img.qrc">
-          <normaloff>:/img/images/color.png</normaloff>:/img/images/color.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>16</width>
-          <height>16</height>
-         </size>
-        </property>
-        <property name="checkable">
-         <bool>false</bool>
-        </property>
-        <property name="toolButtonStyle">
-         <enum>Qt::ToolButtonTextBesideIcon</enum>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="fileToolButton">
-        <property name="toolTip">
-         <string>发送文件</string>
-        </property>
-        <property name="text">
-         <string>File</string>
-        </property>
-        <property name="icon">
-         <iconset resource="img.qrc">
-          <normaloff>:/img/images/file.png</normaloff>:/img/images/file.png</iconset>
-        </property>
-        <property name="toolButtonStyle">
-         <enum>Qt::ToolButtonTextBesideIcon</enum>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>128</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QToolButton" name="clearToolButton">
-        <property name="toolTip">
-         <string>清空会话窗口</string>
-        </property>
-        <property name="text">
-         <string>clear</string>
-        </property>
-        <property name="icon">
-         <iconset resource="img.qrc">
-          <normaloff>:/img/images/clear.png</normaloff>:/img/images/clear.png</iconset>
-        </property>
-        <property name="toolButtonStyle">
-         <enum>Qt::ToolButtonTextBesideIcon</enum>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="QTextEdit" name="textEdit"/>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
