@@ -3,6 +3,7 @@
 #include <QUuid>
 #include <memory>
 #include <fstream>
+#include <QCoreApplication>
 
 void onConnected(void *)
 {
@@ -16,7 +17,6 @@ void onDisconnected(void *)
 
 void onLoginSuccess(void *)
 {
-    TimTool::Instance().GetSelfProfile();
     emit TimTool::Instance().LoginSuccess();
 }
 
@@ -190,6 +190,7 @@ void onGetText(TIMMsgTextElemHandle handle, const QString &id, const QString &ni
 
 void onGetImage(TIMMsgImageElemHandle handle, const QString &id, const QString &nick, time_t time)
 {
+    DEBUG_FUNC;
     uint32_t len = MAXLENIMAGE;
     TIMImageHandle imgHandles[MAXLENIMAGE] = {0};
     ON_INVOKE(GetImages, handle, imgHandles, &len);
@@ -199,17 +200,19 @@ void onGetImage(TIMMsgImageElemHandle handle, const QString &id, const QString &
         TIMImageType imgType = GetImageType(imgHandle);
         if(imgType == TIMImageType::kOriginalImage)
         {
-            QUuid uuid = QUuid::createUuid();
-            QString str_uuid = uuid.toString();
-            QByteArray uuid_byte = str_uuid.toUtf8();
-            QString msg = QString(R"(<img src = "%1" />)").arg(str_uuid);
+            QString dir = GetPicCacheDirName();
+            QString str_uuid = QUuid::createUuid().toString();
+            QString path = QDir::currentPath() + dir + str_uuid;
+            DEBUG_VAR(path);
+            QByteArray path_byte = path.toUtf8();
+            QString msg = QString(R"(<img src = "%1" />)").arg(path);
             ChatContent *p_cc = new ChatContent{id, nick, time, msg};
             TIMCommCB cb;
             cb.OnSuccess = &onGetImageSuccess;
             cb.OnError = &onGetImageError;
             cb.data = p_cc;
             qDebug() << QString("url: %1").arg(str_uuid);
-            ON_INVOKE(GetImageFile, imgHandle, uuid_byte.data(), &cb);
+            ON_INVOKE(GetImageFile, imgHandle, path_byte.data(), &cb);
             break;
         }
     }

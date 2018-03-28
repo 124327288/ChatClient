@@ -41,6 +41,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(sessionListView, &QListView::doubleClicked, this, &MainWindow::PopChatWindow);
     connect(friendListView, &QListView::customContextMenuRequested,[]{});
     connect(ui->actionSetting, &QAction::triggered, [=]{auto dialog = new SettingDialog(this);dialog->show();});
+    TimTool::Instance().GetSelfProfile();
+    TimTool::Instance().GetFriendList();
 }
 
 void MainWindow::InitUI()

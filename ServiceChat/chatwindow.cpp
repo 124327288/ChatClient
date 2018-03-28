@@ -16,6 +16,7 @@
 
 #include <QFontDialog>
 #include <QMessageBox>
+#include <QWebEngineSettings>
 #include <ctime>
 ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     QMainWindow(parent),
@@ -25,61 +26,13 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     ui->widget->setStyleSheet(QString::fromUtf8("border:1px solid #5CACEE"));
     webContent = R"(<body onload="window.scrollTo(0,document.body.scrollHeight); " >)";
     webView = new QWebEngineView();
+    webView->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessFileUrls, true);
+    webView->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessRemoteUrls, true);
+    webView->settings()->setAttribute(QWebEngineSettings::LocalStorageEnabled, true);
 //    webView->setStyleSheet(QString::fromUtf8("border:1px solid blue"));
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(webView);
     ui->widget->setLayout(layout);
-//    webView->setProperty("DisplayScrollBars",true);
-//    webView->setProperty("DisplayAlerts",false);
-//    webView->setStyleSheet("QScrollBar:vertical"
-//                           "{"
-//                           "width:28px;"
-//                           "background:rgba(0,0,0,0%);"
-//                           "margin:0px,0px,0px,0px;"
-//                           "padding-top:28px;"
-//                           "padding-bottom:28px;"
-//                           "}"
-//                           "QScrollBar::handle:vertical"
-//                           "{"
-//                           "width:28px;"
-//                           "background:rgba(0,0,0,25%);"
-//                           " border-radius:4px;"
-//                           "min-height:20;"
-//                           "}"
-//                           "QScrollBar::handle:vertical:hover"
-//                           "{"
-//                           "width:28px;"
-//                           "background:rgba(0,0,0,50%);"
-//                           " border-radius:4px;"
-//                           "min-height:20;"
-//                           "}"
-//                           "QScrollBar::add-line:vertical"
-//                           "{"
-//                           "height:28px;width:28px;"
-//                           "subcontrol-position:bottom;"
-//                           "}"
-//                           "QScrollBar::sub-line:vertical"
-//                           "{"
-//                           "height:28px;width:28px;"
-//                           "subcontrol-position:top;"
-//                           "}"
-//                           "QScrollBar::add-line:vertical:hover"
-//                           "{"
-//                           "height:28px;width:28px;"
-//                           "subcontrol-position:bottom;"
-//                           "}"
-//                           "QScrollBar::sub-line:vertical:hover"
-//                           "{"
-//                           "height:28px;width:28px;"
-//                           "subcontrol-position:top;"
-//                           "}"
-//                           "QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical"
-//                           "{"
-//                           "background:rgba(0,0,0,10%);"
-//                           "border-radius:4px;"
-//                           "}"
-//                           );
-//    webView->setUrl(QUrl("baidu.com"));
     otherId = linkman.id;
     otherNick = !linkman.nick.trimmed().isEmpty() ? linkman.nick : otherId;
     otherRemark = !linkman.remark.trimmed().isEmpty() ? linkman.remark : otherNick;
@@ -125,7 +78,7 @@ void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
     webContent += "<br />";
     webContent += msg;
     webContent += "<br />";
-
+    DEBUG_VAR(msg);
     webView->setHtml(webContent);
 //    webView->update();
 //    if(auto v = webView->)
@@ -236,9 +189,19 @@ void ChatWindow::on_picToolButton_clicked(bool checked)
     {
         if(!QMessageBox::information(this, tr("Send this Image?"), tr("Send this Image?"), tr("Ok"), tr("Cancel")))
         {
+//            int dotIdx = fileName.lastIndexOf('.');
+//            QString suf = fileName.mid(dotIdx);
+//            GenCacheDir();
+//            QString uuid = QUuid::createUuid().toString();
+//            QString path = GetCacheDirName() + uuid + suf;
+//            if(QCopyFile(fileName, path))
+//            {
+
+//            };
             QString html = QString(R"(<img src = "%1" />)").arg(fileName);
             AddContent(TimTool::Instance().getId(), TimTool::Instance().getNick(), GetTime(), html);
             TimTool::Instance().SendImage(otherId, fileName);
+
     //        ui->textEdit->append(html);
         }
     }

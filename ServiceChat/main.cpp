@@ -11,9 +11,6 @@
 #include "View/emotiondialog.h"
 int main(int argc, char *argv[])
 {
-    char arg[] = "--disable-web-security";
-    argv[0] = arg;
-    argc = 1;
     QApplication a(argc, argv);
     qRegisterMetaType<Linkman>("Linkman");
     qRegisterMetaType<QList<Linkman>>("QList<Linkman>");

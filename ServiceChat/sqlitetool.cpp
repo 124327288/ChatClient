@@ -254,11 +254,12 @@ bool SqliteTool::Select4IdTable(const QString &id)
     if(!IsOpen())
         return false;
     QSqlQuery query;
-    if(!query.prepare(QString("SELECT id FROM %1 WHERE id = %2").arg(idTableName).arg(id)))
+    if(!query.prepare(QString("SELECT id FROM %1 WHERE id = ?").arg(idTableName)))
     {
         SQL_ERROR(query);
         return false;
     }
+    query.addBindValue(id);
     if(!query.exec())
     {
         SQL_ERROR(query);
@@ -278,11 +279,12 @@ bool SqliteTool::Select4AccountTable(const QString &id, QString *pwd)
     if(!IsOpen())
         return false;
     QSqlQuery query;
-    if(!query.prepare(QString("SELECT id, pwd FROM %1 WHERE id = %2").arg(accountTableName).arg(id)))
+    if(!query.prepare(QString("SELECT id, pwd FROM %1 WHERE id = ?").arg(accountTableName)))
     {
         SQL_ERROR(query);
         return false;
     }
+    query.addBindValue(id);
     if(!query.exec())
     {
         SQL_ERROR(query);
@@ -306,11 +308,12 @@ bool SqliteTool::Select4SignTable(const QString &id, QString *sig)
     if(!IsOpen())
         return false;
     QSqlQuery query;
-    if(!query.prepare(QString("SELECT id, sig FROM %1 WHERE id = %2").arg(signTableName).arg(id)))
+    if(!query.prepare(QString("SELECT id, sig FROM %1 WHERE id = ?").arg(signTableName)))
     {
         SQL_ERROR(query);
         return false;
     }
+    query.addBindValue(id);
     if(!query.exec())
     {
         SQL_ERROR(query);
@@ -334,11 +337,12 @@ bool SqliteTool::Update2AccountTable(const QString &id, const QString &pwd)
     if(!IsOpen())
         return false;
     QSqlQuery query;
-    if(!query.prepare(QString("UPDATE %1 SET pwd = %2 WHERE id = ?").arg(accountTableName).arg(pwd)))
+    if(!query.prepare(QString("UPDATE %1 SET pwd = ? WHERE id = ?").arg(accountTableName)))
     {
         SQL_ERROR(query);
         return false;
     }
+    query.addBindValue(pwd);
     query.addBindValue(id);
     if(!query.exec())
     {
@@ -353,11 +357,12 @@ bool SqliteTool::Update2SignTable(const QString &id, const QString &sig)
     if(!IsOpen())
         return false;
     QSqlQuery query;
-    if(!query.prepare(QString("UPDATE %1 SET sig = %2 WHERE id = ?").arg(signTableName).arg(sig)))
+    if(!query.prepare(QString("UPDATE %1 SET sig = ? WHERE id = ?").arg(signTableName)))
     {
         SQL_ERROR(query);
         return false;
     }
+    query.addBindValue(sig);
     query.addBindValue(id);
     if(!query.exec())
     {

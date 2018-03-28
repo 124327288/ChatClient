@@ -80,7 +80,6 @@ void LoginWindow::onLoginSuccess()
     if(!idList.contains(ui->usernameComboBox->currentText(), Qt::CaseInsensitive))
         SqliteTool::Instance().Insert2IdTable(TimTool::Instance().getId());
     emit Signal::Instance().RemPwdAndAutoLogin(ui->rememberCheckBox->isChecked(), ui->autoCheckBox->isChecked());
-    TimTool::Instance().GetFriendList();
     MainWindow::Instance().show();
 }
 

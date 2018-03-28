@@ -75,13 +75,13 @@ inline int onGetElementReturn(const char *funcName, int ret)
 #define DEBUG_ERROR				(onDebugError(__func__, code, desc))
 #define ON_INVOKE(func, ...)	(onGetElementReturn(#func, func(__VA_ARGS__)))
 
-#define GET_ELEMENT(func, handle, elem)        {        \
+#define GET_ELEMENT(func, handle, str)        {         \
     char buf[MAXLENBUFFER];                             \
     uint32_t len = MAXLENBUFFER;                        \
     int ret = ON_INVOKE(func, handle, buf, &len);       \
     if(!ret)                                            \
     {                                                   \
-        elem = QString::fromUtf8(buf, len);             \
+        str = QString::fromUtf8(buf, len);              \
     }                                                   \
 }
 //using GetElement4HandleType = int(*)(void*, char*, uint32_t*);
@@ -122,5 +122,32 @@ inline void SqlError(const T &sql, const QString &funcName)
 #define PrcDynamicCast(prcClassName)                            \
     prcClassName *castPrc = dynamic_cast<prcClassName*>(prc);   \
     if(castPrc == nullptr) return;
+
+inline QString GetCacheDirName()
+{
+    return "/Cache/";
+}
+
+inline QString GetPicCacheDirName()
+{
+    return "/TimPath/PicCache/";
+}
+
+inline bool IsDirExist(const QString &dir)
+{
+    return QDir(dir).exists();
+}
+
+inline bool GenDir(const QString &dir)
+{
+    return QDir().mkdir(dir);
+}
+
+inline bool GenCacheDir()
+{
+    if(!IsDirExist(GetCacheDirName()))
+        return GenDir(GetCacheDirName());
+}
+bool QCopyFile(const QString &src, const QString &des, bool cover = true);
 
 #endif // PROGRAM_H
