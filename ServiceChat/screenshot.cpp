@@ -6,6 +6,9 @@
 #include <QScreen>
 #include <QDesktopWidget>
 #include <QPainter>
+#include <QCloseEvent>
+#include <cmath>
+#include "stdafx.h"
 
 ScreenShot::ScreenShot(QWidget *parent) : QWidget(parent)
 {
@@ -55,5 +58,61 @@ ScreenShot &ScreenShot::Instance()
 void ScreenShot::BeginShot()
 {
     ScreenShot::Instance().show();
-//    show();
+    //    show();
+}
+
+void ScreenShot::mousePressEvent(QMouseEvent *event)
+{
+    DEBUG_FUNC;
+    if(event->button() == Qt::LeftButton)
+    {
+        isInPaint = true;
+        fromPoint = event->pos();
+    }
+}
+
+void ScreenShot::mouseReleaseEvent(QMouseEvent *event)
+{
+    DEBUG_FUNC;
+    if(event->button() == Qt::RightButton)
+        close();
+}
+
+void ScreenShot::mouseMoveEvent(QMouseEvent *event)
+{
+    DEBUG_FUNC;
+    if(event->buttons() & Qt::LeftButton)
+    {
+        if(isInPaint)
+        {
+            toPoint = event->pos();
+            repaint();
+        }
+    }
+
+}
+
+void ScreenShot::paintEvent(QPaintEvent *event)
+{
+    DEBUG_FUNC;
+    if(isInPaint)
+    {
+        QPainter painter;
+        painter.begin(this);
+        painter.setPen(QPen(Qt::lightGray, 1, Qt::SolidLine));
+//        painter.setBrush(QBrush(Qt::red, Qt::SolidPattern));
+        int x1,x2,y1,y2;
+
+        auto px = std::minmax(fromPoint.x(), toPoint.x());
+        x1 = px.first;
+        x2 = px.second;
+
+        auto py = std::minmax(fromPoint.y(), toPoint.y());
+        y1 = py.first;
+        y2 = py.second;
+        painter.drawRect(x1, y1, x2 - x1, y2 - y1);
+        painter.end();
+    }
+    QWidget::paintEvent(event);
+
 }

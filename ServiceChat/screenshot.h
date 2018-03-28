@@ -21,7 +21,19 @@ signals:
 public slots:
 
 private:
+    bool isInPaint;
+    QPoint fromPoint;
+    QPoint toPoint;
 
+    // QWidget interface
+protected:
+    virtual void mousePressEvent(QMouseEvent *event) override;
+    virtual void mouseReleaseEvent(QMouseEvent *event) override;
+    virtual void mouseMoveEvent(QMouseEvent *event) override;
+
+    // QWidget interface
+protected:
+    virtual void paintEvent(QPaintEvent *event) override;
 };
 
 #endif // SCREENSHOT_H
