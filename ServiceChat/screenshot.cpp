@@ -24,29 +24,49 @@ ScreenShot::ScreenShot(QWidget *parent) : QWidget(parent)
 
 const QRect &ScreenShot::GetScreenRect()
 {
-    static QRect instance;
-    instance = QApplication::desktop()->rect();
-    return instance;
+    if(!screenRect.isNull())
+        return screenRect;
+    screenRect = QApplication::desktop()->rect();
+    return screenRect;
 }
 
 const QPixmap &ScreenShot::GetScreenPixmap()
 {
-    static QPixmap instance;
+    if(!screenPixmap.isNull())
+        return screenPixmap;
     const QRect &rect = GetScreenRect();
-    instance = QGuiApplication::primaryScreen()->grabWindow(0,
+    screenPixmap = QGuiApplication::primaryScreen()->grabWindow(0,
         rect.x(), rect.y(), rect.width(), rect.height());
-    return instance;
+    return screenPixmap;
 }
 
 const QPixmap &ScreenShot::GetGrayScrrenPixmap()
 {
-    static QPixmap instance;
-    instance = GetScreenPixmap();
-    QPainter painter(&instance);
-    QPixmap grayPixmap(instance.width(), instance.height());
+    if(!grayScrrenPixmap.isNull())
+        return grayScrrenPixmap;
+    grayScrrenPixmap = GetScreenPixmap();
+    QPainter painter(&grayScrrenPixmap);
+    QPixmap grayPixmap(grayScrrenPixmap.width(), grayScrrenPixmap.height());
     grayPixmap.fill(QColor(0, 0, 0, 180));
     painter.drawPixmap(0, 0, grayPixmap);
+    return grayScrrenPixmap;
+}
+
+QPixmap ScreenShot::GetNoGrayPixmap(const QPixmap &pixmap, const QRect &rect)
+{
+    QPixmap instance = pixmap;
+    QPainter p(&instance);
+    QPixmap noGrayPixmap(rect.width(), rect.height());
+    noGrayPixmap.fill(QColor(0, 0, 0, 100));
+    p.drawPixmap(rect.x(), rect.y(), noGrayPixmap);
     return instance;
+}
+
+QRect ScreenShot::GetRectFrom2Point(const QPoint &p1, const QPoint &p2)
+{
+    auto px = std::minmax(p1.x(), p2.x());
+    auto py = std::minmax(p1.y(), p2.y());
+    return QRect(QPoint(px.first, py.first), QPoint(px.second, py.second));
 }
 
 ScreenShot &ScreenShot::Instance()
@@ -63,7 +83,7 @@ void ScreenShot::BeginShot()
 
 void ScreenShot::mousePressEvent(QMouseEvent *event)
 {
-    DEBUG_FUNC;
+//    DEBUG_FUNC;
     if(event->button() == Qt::LeftButton)
     {
         isInPaint = true;
@@ -73,19 +93,23 @@ void ScreenShot::mousePressEvent(QMouseEvent *event)
 
 void ScreenShot::mouseReleaseEvent(QMouseEvent *event)
 {
-    DEBUG_FUNC;
+//    DEBUG_FUNC;
     if(event->button() == Qt::RightButton)
         close();
 }
 
 void ScreenShot::mouseMoveEvent(QMouseEvent *event)
 {
-    DEBUG_FUNC;
+//    DEBUG_FUNC;
     if(event->buttons() & Qt::LeftButton)
     {
         if(isInPaint)
         {
             toPoint = event->pos();
+            QPixmap pixmap = GetNoGrayPixmap(GetGrayScrrenPixmap(), GetRectFrom2Point(toPoint, fromPoint));
+            QPalette pal(palette());
+            pal.setBrush(QPalette::Window, QBrush(pixmap));
+            setPalette(pal);
             repaint();
         }
     }
@@ -94,7 +118,7 @@ void ScreenShot::mouseMoveEvent(QMouseEvent *event)
 
 void ScreenShot::paintEvent(QPaintEvent *event)
 {
-    DEBUG_FUNC;
+//    DEBUG_FUNC;
     if(isInPaint)
     {
         QPainter painter;

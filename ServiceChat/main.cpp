@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     SqliteTool::Instance().CreateConnect();
     SqliteTool::Instance().Init();
     SqliteTool::Instance().ShowAllTableName();
-    LoginWindow::Instance().show();
+//    LoginWindow::Instance().show();
     ScreenShot::Instance().BeginShot();
 //    QWebEngineView web;
 ////    web.setHtml("123");
