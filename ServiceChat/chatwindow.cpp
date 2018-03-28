@@ -24,6 +24,7 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     ui(new Ui::ChatWindow)
 {
     ui->setupUi(this);
+    ui->sendBtn->setShortcut(QString("Ctrl+Return"));
     ui->widget->setStyleSheet(QString::fromUtf8("border:1px solid #5CACEE"));
     webContent = R"(<body onload="window.scrollTo(0,document.body.scrollHeight); " >)";
     webView = new QWebEngineView();

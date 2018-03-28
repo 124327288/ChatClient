@@ -20,6 +20,7 @@ LoginWindow::LoginWindow(QWidget *parent) :
     ui(new Ui::LoginWindow)
 {
     ui->setupUi(this);
+    ui->loginPushButton->setShortcut(Qt::Key_Return);
     setWindowFlags(windowFlags() & ~Qt::WindowMaximizeButtonHint);
     SqliteTool::Instance().SelectAll4IdTable(&idList);
     for(auto str : idList)
