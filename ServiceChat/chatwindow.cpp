@@ -10,9 +10,9 @@
 #include <QWaitCondition>
 #include "View/emotiondialog.h"
 
-#ifdef _WIN32
+//#ifdef _WIN32
 #include <Windows.h>
-#endif
+//#endif
 
 #include <QFontDialog>
 #include <QLabel>
@@ -28,9 +28,9 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     ui->widget->setStyleSheet(QString::fromUtf8("border:1px solid #5CACEE"));
     webContent = R"(<body onload="window.scrollTo(0,document.body.scrollHeight); " >)";
     webView = new QWebEngineView();
-    webView->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessFileUrls, true);
-    webView->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessRemoteUrls, true);
-    webView->settings()->setAttribute(QWebEngineSettings::LocalStorageEnabled, true);
+//    webView->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessFileUrls, true);
+//    webView->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessRemoteUrls, true);
+//    webView->settings()->setAttribute(QWebEngineSettings::LocalStorageEnabled, true);
 //    webView->setStyleSheet(QString::fromUtf8("border:1px solid blue"));
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(webView);

@@ -60,7 +60,8 @@ SOURCES += \
     table.cpp \
     signal.cpp \
     View/emotiondialog.cpp \
-    Delegate/emotionsitemdelegate.cpp
+    Delegate/emotionsitemdelegate.cpp \
+    screenshot.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -92,7 +93,8 @@ HEADERS += \
     table.h \
     signal.h \
     View/emotiondialog.h \
-    Delegate/emotionsitemdelegate.h
+    Delegate/emotionsitemdelegate.h \
+    screenshot.h
 
 FORMS += \
         loginwindow.ui \

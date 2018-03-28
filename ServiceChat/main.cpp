@@ -9,6 +9,7 @@
 #include "program.h"
 #include "sqlitetool.h"
 #include "View/emotiondialog.h"
+#include "screenshot.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -42,6 +43,7 @@ int main(int argc, char *argv[])
     SqliteTool::Instance().Init();
     SqliteTool::Instance().ShowAllTableName();
     LoginWindow::Instance().show();
+    ScreenShot::Instance().BeginShot();
 //    QWebEngineView web;
 ////    web.setHtml("123");
 //    web.setUrl(QUrl("http://www.baidu.com"));

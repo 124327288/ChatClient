@@ -4,14 +4,22 @@
 #pragma execution_character_set("UTF-8")
 #endif
 
-#ifdef __cplusplus
-#include <QtCore>
-#include <QtGui>
+#if defined(__cplusplus)
+    #include <QtCore>
+    #include <QtGui>
+    #include "expdef.h"
+    #include "exptype.h"
+    #include "program.h"
+#else
+//    #error C++ compiler required.
+#endif
 
-#include "expdef.h"
-#include "exptype.h"
-#include "program.h"
+//#if !defined(__cplusplus)
+//    #error C++ compiler required.
+//#endif
 
+#ifndef _WIN32
+    #error Win32 compiler required.
 #endif
 
 #endif // STDAFX_H
