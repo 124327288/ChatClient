@@ -46,8 +46,9 @@ private slots:
     void on_emotionToolButton_clicked(bool checked);
 
 private:
-    Ui::ChatWindow *ui;
+    Ui::ChatWindow      *ui;
     QWebEngineView      *webView;
+    QLabel              *label;
     QString otherId;
     QString otherNick;
     QString otherRemark;

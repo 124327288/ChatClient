@@ -11,9 +11,6 @@ EmotionDialog::EmotionDialog(QWidget *parent) : QDialog(parent)
     verCount = 7;
     tableWidget = new QTableWidget;
     tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    QPixmap pixmap(":/emotions/emotions/0fixed.bmp");
-    QLabel *label = new QLabel;
-    label->setPixmap(pixmap);
     tableWidget->setShowGrid(true);
     tableWidget->setRowCount(verCount);
     tableWidget->setColumnCount(horCount);
@@ -30,18 +27,18 @@ EmotionDialog::EmotionDialog(QWidget *parent) : QDialog(parent)
         tableWidget->setItem(i / horCount, i % horCount, item);
     }
 
-    closeBtn = new QPushButton;
-    closeBtn->setText(tr("close"));
-    bottomLayout = new QHBoxLayout;
-    bottomLayout->addStretch(3);
-    bottomLayout->addWidget(closeBtn);
+//    closeBtn = new QPushButton;
+//    closeBtn->setText(tr("close"));
+//    bottomLayout = new QHBoxLayout;
+//    bottomLayout->addStretch(3);
+//    bottomLayout->addWidget(closeBtn);
 
     mainLayout = new QVBoxLayout;
     mainLayout->addWidget(tableWidget);
-    mainLayout->addLayout(bottomLayout);
+//    mainLayout->addLayout(bottomLayout);
     setLayout(mainLayout);
-    resize(400, 230);
-    connect(closeBtn, &QPushButton::clicked, this, &EmotionDialog::close);
+    resize(400, 200);
+//    connect(closeBtn, &QPushButton::clicked, this, &EmotionDialog::close);
     connect(tableWidget, &QTableWidget::cellClicked, this, &EmotionDialog::OnCellClicked);
 }
 
@@ -54,6 +51,11 @@ void EmotionDialog::OnCellClicked(int row, int column)
     close();
 }
 
+void EmotionDialog::leaveEvent(QEvent *event)
+{
+    close();
+}
+
 ChatWindow *EmotionDialog::getChatWindow() const
 {
     return chatWindow;
@@ -62,10 +64,4 @@ ChatWindow *EmotionDialog::getChatWindow() const
 void EmotionDialog::setChatWindow(ChatWindow *value)
 {
     chatWindow = value;
-}
-
-void EmotionDialog::focusOutEvent(QFocusEvent *event)
-{
-    DEBUG_FUNC;
-    close();
 }

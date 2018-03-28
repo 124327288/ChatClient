@@ -15,6 +15,7 @@
 #endif
 
 #include <QFontDialog>
+#include <QLabel>
 #include <QMessageBox>
 #include <QWebEngineSettings>
 #include <ctime>
@@ -241,12 +242,17 @@ void ChatWindow::on_actionClose_triggered()
 
 void ChatWindow::on_emotionToolButton_clicked(bool checked)
 {
+//    label = new QLabel(this);
+//    label->setGeometry(50, 50, 120, 120);
 //    DEBUG_FUNC;
+    QPoint point = QCursor::pos();
+
     auto emotionDialog = new EmotionDialog;
     emotionDialog->setChatWindow(this);
-    emotionDialog->setGeometry(geometry().left() + ui->emotionToolButton->geometry().left(),
-                               geometry().top() + ui->emotionToolButton->geometry().bottom() + 30,
-                               emotionDialog->size().width(),
-                               emotionDialog->size().height());
+    emotionDialog->move(point.x(), point.y());
+//    emotionDialog->setGeometry(geometry().left() + ui->emotionToolButton->geometry().left(),
+//                               geometry().top() + ui->emotionToolButton->geometry().bottom() + 30,
+//                               emotionDialog->size().width(),
+//                               emotionDialog->size().height());
     emotionDialog->show();
 }

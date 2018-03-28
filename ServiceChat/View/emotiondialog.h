@@ -28,9 +28,10 @@ private:
     int horCount;
     int verCount;
     ChatWindow *chatWindow;
+
     // QWidget interface
 protected:
-    virtual void focusOutEvent(QFocusEvent *event) override;
+    virtual void leaveEvent(QEvent *event) override;
 };
 
 #endif // EMOTIONDIALOG_H
