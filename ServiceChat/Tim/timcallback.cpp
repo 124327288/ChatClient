@@ -132,13 +132,13 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
             TIMMsgElemHandle elem = GetElem(handle, j);
             TIMElemType type = GetElemType(elem);
             switch (type) {
-            case TIMElemType::kElemText:
+            case kElemText:
                 onGetText(static_cast<TIMMsgTextElemHandle>(elem), id, nick, msgTime);
                 break;
-            case TIMElemType::kElemImage:
+            case kElemImage:
                 onGetImage(static_cast<TIMMsgImageElemHandle>(elem), id, nick, msgTime);
                 break;
-            case TIMElemType::kElemFile:
+            case kElemFile:
                 onGetFile(static_cast<TIMMsgFileElemHandle>(elem), id, nick, msgTime);
                 break;
             default:

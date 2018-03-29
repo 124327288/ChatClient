@@ -1,6 +1,7 @@
 ﻿#ifndef CHATWINDOW_H
 #define CHATWINDOW_H
 
+#include "screenshot.h"
 #include "stdafx.h"
 #include <QMainWindow>
 #include <QWebEngineView>
@@ -17,38 +18,24 @@ public:
     explicit ChatWindow(const Linkman &linkman, QWidget *parent = 0);
     ~ChatWindow();
     void AddContent(QString id, QString nick, time_t time, QString msg);
-    void Add2TextEdit(QString text);
+    void Add2TextEdit(QString msg);
 private slots:
     void on_sendBtn_clicked();
-
-//    void on_fontComboBox_currentFontChanged(const QFont &f);
-
-//    void on_comboBox_currentIndexChanged(const QString &arg1);
-
-//    void on_boldToolButton_clicked(bool checked);
-
-//    void on_italicToolButton_clicked(bool checked);
-
-//    void on_lineToolButton_clicked(bool checked);
-
     void on_colorToolButton_clicked(bool checked);
-
     void on_picToolButton_clicked(bool checked);
-
     void on_fileToolButton_clicked(bool checked);
-
     void on_fontToolButton_clicked(bool checked);
-
     void on_closeBtn_clicked(bool checked);
-
     void on_actionClose_triggered();
-
     void on_emotionToolButton_clicked(bool checked);
+    void on_shotToolButton_clicked(bool checked);
+    void on_clearToolButton_clicked(bool checked);
 
 private:
     Ui::ChatWindow      *ui;
     QWebEngineView      *webView;
     QLabel              *label;
+//    ScreenShot          *screenShot;
     QString otherId;
     QString otherNick;
     QString otherRemark;
@@ -63,6 +50,10 @@ private:
     // QWidget interface
 protected:
     virtual void closeEvent(QCloseEvent *event) override;
+
+    // QObject interface
+public:
+    virtual bool eventFilter(QObject *watched, QEvent *event) override;
 };
 
 #endif // CHATWINDOW_H

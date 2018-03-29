@@ -9,11 +9,8 @@
 #include <QScrollBar>
 #include <QWaitCondition>
 #include "View/emotiondialog.h"
-
-//#ifdef _WIN32
+#include "screenshot.h"
 #include <Windows.h>
-//#endif
-
 #include <QFontDialog>
 #include <QLabel>
 #include <QMessageBox>
@@ -26,6 +23,9 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     ui->setupUi(this);
     ui->sendBtn->setShortcut(QString("Ctrl+Return"));
     ui->widget->setStyleSheet(QString::fromUtf8("border:1px solid #5CACEE"));
+    ui->textEdit->installEventFilter(this);
+//    screenShot = new ScreenShot(this);
+//    scree
     webContent = R"(<body onload="window.scrollTo(0,document.body.scrollHeight); " >)";
     webView = new QWebEngineView();
 //    webView->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessFileUrls, true);
@@ -49,6 +49,7 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
             AddContent(otherId, otherNick, s.time, s.text);
         }
     }
+//    connect()
 }
 
 ChatWindow::~ChatWindow()
@@ -72,33 +73,16 @@ void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
     QString title = QString(R"(
                               <font color="blue">%1(%2) %3</font>
                               )").arg(id).arg(nick).arg(str_time);
-//    ui->textBrowser->append(title);
-//    ui->textBrowser->append(msg);
-//    ui->textBrowser->append("");
     webContent += title;
-//    webContent += R"(<img src =qrc:/emotions/emotions/0.gif />)";
     webContent += "<br />";
     webContent += msg;
     webContent += "<br />";
-    DEBUG_VAR(msg);
     webView->setHtml(webContent);
-//    webView->update();
-//    if(auto v = webView->)
-
-//    if(auto verticalScrollBar = ui->textBrowser->verticalScrollBar())
-//    {
-//        verticalScrollBar->setSliderPosition(verticalScrollBar->maximum());
-//    }
-
-//    if(auto horizontalScrollBar = ui->textBrowser->horizontalScrollBar())
-//    {
-//        horizontalScrollBar->setSliderPosition(horizontalScrollBar->minimum());
-//    }
 }
 
-void ChatWindow::Add2TextEdit(QString text)
+void ChatWindow::Add2TextEdit(QString msg)
 {
-    ui->textEdit->append(text);
+    ui->textEdit->append(msg);
 //    webContent += text;
 //    webView->setHtml(webContent);
 }
@@ -126,53 +110,77 @@ void ChatWindow::closeEvent(QCloseEvent *event)
     DestroyConversation(convHandle);
 }
 
+bool ChatWindow::eventFilter(QObject *watched, QEvent *event)
+{
+    if(watched == ui->textEdit)
+    {
+        if(event->type() == QEvent::KeyPress)
+        {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if(keyEvent->modifiers() == Qt::ControlModifier && keyEvent->key() == Qt::Key_V)
+            {
+                QClipboard *board = QApplication::clipboard();
+                if(board->mimeData()->hasImage())
+                {
+                    QImage img = board->image();
+                    QString path = QDir::currentPath() + GetCacheDirName() + QUuid::createUuid().toString() + ".png";
+                    img.save(path);
+                    ui->textEdit->append(QString("<img src = %1 />").arg(path));
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+    return QMainWindow::eventFilter(watched, event);
+}
+
 void ChatWindow::on_sendBtn_clicked()
 {
-    if(ui->textEdit->toPlainText().isEmpty())
+    if(ui->textEdit->toPlainText().trimmed().isEmpty())
         return;
     QString text = ui->textEdit->toHtml();
-    qDebug() << text;
-    TimTool::Instance().SendMsg(otherId, text);
+    QRegExp regExp(R"(<p.*>.*</p>)");
+    regExp.setMinimal(true);
+    QVector<TimMsg> msgList;
+    auto isImgMsg = [](const QString &msg){
+        // <img src=\"qrc:/emotions/emotions/3.gif\" /> no solve
+        QRegExp rx(R"z(<img src=\"(.*)\" />)z");
+        if(rx.indexIn(msg) != -1)
+        {
+            return rx.cap(1);
+        }
+        return QString();
+    };
+    for(int pos = 0; (pos = regExp.indexIn(text, pos)) != -1;)
+    {
+        pos += regExp.matchedLength();
+        QString msg = regExp.cap().remove("file:///");
+        DEBUG_VAR(msg);
+        QString imgMsg = isImgMsg(msg);
+        if(imgMsg.isNull())
+        {
+            msgList += { kElemText, msg };
+        }
+        else
+        {
+            msgList += { kElemImage, imgMsg };
+        }
+    }
+    TimTool::Instance().SendMsg(otherId, msgList);
     AddContent(TimTool::Instance().getId(), TimTool::Instance().getNick(), GetTime(), text);
     ui->textEdit->clear();
 }
-
-//void ChatWindow::on_fontComboBox_currentFontChanged(const QFont &f)
-//{
-//    ui->textEdit->setCurrentFont(f);
-//    ui->textEdit->setFocus();
-//}
-
-//void ChatWindow::on_comboBox_currentIndexChanged(const QString &arg1)
-//{
-//    ui->textEdit->setFontPointSize(arg1.toDouble());
-//    ui->textEdit->setFocus();
-//}
-
-//void ChatWindow::on_boldToolButton_clicked(bool checked)
-//{
-//    if(checked)
-//    {
-//        ui->textEdit->setFontWeight(QFont::Bold);
-//    }
-//    else
-//    {
-//        ui->textEdit->setFontWeight(QFont::Normal);
-//    }
-//    ui->textEdit->setFocus();
-//}
-
-//void ChatWindow::on_italicToolButton_clicked(bool checked)
-//{
-//    ui->textEdit->setFontItalic(checked);
-//    ui->textEdit->setFocus();
-//}
-
-//void ChatWindow::on_lineToolButton_clicked(bool checked)
-//{
-//    ui->textEdit->setFontUnderline(checked);
-//    ui->textEdit->setFocus();
-//}
 
 void ChatWindow::on_colorToolButton_clicked(bool checked)
 {
@@ -189,22 +197,12 @@ void ChatWindow::on_picToolButton_clicked(bool checked)
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString(), tr("Images (*.jpg *.xpm *.png);;"));
     if(!fileName.isNull())
     {
-        if(!QMessageBox::information(this, tr("Send this Image?"), tr("Send this Image?"), tr("Ok"), tr("Cancel")))
+//        if(!QMessageBox::information(this, tr("Send this Image?"), tr("Send this Image?"), tr("Ok"), tr("Cancel")))
         {
-//            int dotIdx = fileName.lastIndexOf('.');
-//            QString suf = fileName.mid(dotIdx);
-//            GenCacheDir();
-//            QString uuid = QUuid::createUuid().toString();
-//            QString path = GetCacheDirName() + uuid + suf;
-//            if(QCopyFile(fileName, path))
-//            {
-
-//            };
             QString html = QString(R"(<img src = "%1" />)").arg(fileName);
-            AddContent(TimTool::Instance().getId(), TimTool::Instance().getNick(), GetTime(), html);
-            TimTool::Instance().SendImage(otherId, fileName);
-
-    //        ui->textEdit->append(html);
+//            AddContent(TimTool::Instance().getId(), TimTool::Instance().getNick(), GetTime(), html);
+//            TimTool::Instance().SendImage(otherId, fileName);
+            ui->textEdit->append(html);
         }
     }
 }
@@ -243,17 +241,22 @@ void ChatWindow::on_actionClose_triggered()
 
 void ChatWindow::on_emotionToolButton_clicked(bool checked)
 {
-//    label = new QLabel(this);
-//    label->setGeometry(50, 50, 120, 120);
-//    DEBUG_FUNC;
     QPoint point = QCursor::pos();
-
     auto emotionDialog = new EmotionDialog;
     emotionDialog->setChatWindow(this);
     emotionDialog->move(point.x(), point.y());
-//    emotionDialog->setGeometry(geometry().left() + ui->emotionToolButton->geometry().left(),
-//                               geometry().top() + ui->emotionToolButton->geometry().bottom() + 30,
-//                               emotionDialog->size().width(),
-//                               emotionDialog->size().height());
     emotionDialog->show();
+}
+
+void ChatWindow::on_shotToolButton_clicked(bool checked)
+{
+//    ScreenShot::BeginShot();
+    ScreenShot *shot = new ScreenShot();
+    shot->setChatWindow(this);
+    shot->show();
+}
+
+void ChatWindow::on_clearToolButton_clicked(bool checked)
+{
+    webView->setHtml("");
 }

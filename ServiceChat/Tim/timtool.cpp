@@ -186,6 +186,80 @@ void TimTool::SetNickName(const QString &nick)
     TIMSetNickName(arr.data(), arr.size(), &cb);
 }
 
+void TimTool::SendMsg(const QString &id, const QVector<TimMsg> &msgList)
+{
+    TIMMessageHandle msgHandle = CreateTIMMessage();
+    TIMCommCB cb;
+    cb.OnSuccess = &onSendMsgSuccess;
+    cb.OnError = &onSendMsgError;
+    QVector<TIMMsgTextElemHandle>  txtHandleList;
+    QVector<TIMMsgImageElemHandle> imgHandleList;
+    QVector<TIMMsgFileElemHandle>  fileHandleList;
+    for(const TimMsg &msg : msgList)
+    {
+        switch (msg.type)
+        {
+        case kElemText:
+        {
+            TIMMsgTextElemHandle txtHandle = CreateMsgTextElem();
+            QByteArray bytes = msg.msg.toUtf8();
+            SetContent(txtHandle, bytes.data());
+            ON_INVOKE(AddElem, msgHandle, txtHandle);
+            txtHandleList += txtHandle;
+            break;
+        }
+        case kElemImage:
+        {
+            TIMMsgImageElemHandle imgHandle = CreateMsgImageElem();
+            QByteArray path = msg.msg.toUtf8();
+            SetImageElemPath(imgHandle, path.data(), path.size());
+            ON_INVOKE(AddElem, msgHandle, imgHandle);
+            imgHandleList += imgHandle;
+            break;
+        }
+        case kElemFile:
+        {
+            TIMMsgFileElemHandle fileHandle = CreateFileElemHandle();
+            QString filePath = msg.msg;
+            auto setFileName = [=]{
+                std::string stdFilePath = filePath.toStdString();
+                std::string fileName = stdFilePath.substr(stdFilePath.find_last_of('/') + 1);
+                DEBUG_VAR(fileName);
+                SetFileElemFileName(fileHandle, fileName.data(), fileName.length());
+            };
+
+            auto setFileData = [=]{
+                std::wstring stdFilePath = filePath.toStdWString();
+                std::fstream sendFile(stdFilePath.data(), std::fstream::in | std::fstream::binary);
+                std::string fileData((std::istreambuf_iterator<char>(sendFile)), std::istreambuf_iterator<char>());
+                SetFileElemData(fileHandle, fileData.data(), fileData.length());
+            };
+
+            setFileName();
+            setFileData();
+            ON_INVOKE(AddElem, msgHandle, fileHandle);
+            fileHandleList += fileHandle;
+            break;
+        }
+        default:
+            break;
+        }
+    }
+    if (!convMap.contains(id))
+    {
+        convMap.insert(id, CreateConversation());
+    }
+    ::SendMsg(convMap[id], msgHandle, &cb);
+    Sleep(1);
+    for(auto handle : txtHandleList)
+        DestroyElem(handle);
+    for(auto handle : imgHandleList)
+        DestroyElem(handle);
+    for(auto handle : fileHandleList)
+        DestroyElem(handle);
+    DestroyTIMMessage(msgHandle);
+}
+
 void TimTool::SendMsg(QString id, QString text)
 {
     TIMMessageHandle msgHandle = CreateTIMMessage();

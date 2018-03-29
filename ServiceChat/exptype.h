@@ -73,6 +73,12 @@ struct UserCfgStruct
     bool autoLogin;
 };
 
+struct TimMsg
+{
+    int type;
+    QString msg;
+};
+
 Q_DECLARE_METATYPE(Linkman)
 Q_DECLARE_METATYPE(QList<Linkman>)
 Q_DECLARE_METATYPE(uint32_t)

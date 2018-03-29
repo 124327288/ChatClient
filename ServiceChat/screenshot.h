@@ -15,22 +15,27 @@ namespace ShotTool
     QImage GetScreenImage();
     QImage GetGrayScreenImage(double dim = GetDim());
     QImage GetNoGraySmallImage(const QImage &image, const QRect &rect, double bright = GetBright());
+    QImage GetNoGraySmallImageFromLast(const QImage &image, const QImage &lastImg, const QRect &lastRect, const QRect &interRect, const QRect &rect, double bright = GetBright());
 
     QPixmap GetScreenPixmap();
     QPixmap GetGrayScrrenPixmap(double dim = GetDim());
     QPixmap GetNoGraySmallPixmap(const QPixmap &pixmap, const QRect &rect, double bright = GetBright());
 }
+class ChatWindow;
 class ToolBar;
 class ScreenShot : public QWidget
 {
     Q_OBJECT
-private:
+public:
     ScreenShot(QWidget *parent = nullptr);
 public:
-    static ScreenShot &Instance();
+//    static ScreenShot &Instance();
     static void BeginShot();
-signals:
+    ChatWindow *getChatWindow() const;
+    void setChatWindow(ChatWindow *value);
 
+signals:
+    void HasImageInClipboard();
 public slots:
     void SaveImage();
     void ExitShot();
@@ -47,6 +52,8 @@ private:
     QImage screenImage;
     QImage grayScreenImage;
     QImage noGraySmallImage;
+
+    ChatWindow *chatWindow = nullptr;
 
     // QWidget interface
 protected:

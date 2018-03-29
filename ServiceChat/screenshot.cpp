@@ -1,5 +1,5 @@
 #include "screenshot.h"
-
+#include "chatwindow.h"
 #include <QApplication>
 #include <QGuiApplication>
 #include <QRect>
@@ -32,15 +32,17 @@ ScreenShot::ScreenShot(QWidget *parent) : QWidget(parent)
     connect(toolBar, &ToolBar::OkShot, this, &ScreenShot::OkShot);
 }
 
-ScreenShot &ScreenShot::Instance()
-{
-    static ScreenShot instance;
-    return instance;
-}
+//ScreenShot &ScreenShot::Instance()
+//{
+//    static ScreenShot instance;
+//    return instance;
+//}
 
 void ScreenShot::BeginShot()
 {
-    ScreenShot::Instance().show();
+//    ScreenShot::Instance().show();
+    ScreenShot *instance = new ScreenShot;
+    instance->show();
 }
 
 void ScreenShot::SaveImage()
@@ -60,12 +62,29 @@ void ScreenShot::ExitShot()
 void ScreenShot::OkShot()
 {
     QApplication::clipboard()->setImage(noGraySmallImage);
+    if(chatWindow)
+    {
+        QString path = QDir::currentPath() + GetCacheDirName() + QUuid::createUuid().toString() + ".png";
+        noGraySmallImage.save(path);
+        chatWindow->Add2TextEdit(QString("<img src = %1 />").arg(path));
+    }
     close();
+    emit HasImageInClipboard();
+}
+
+ChatWindow *ScreenShot::getChatWindow() const
+{
+    return chatWindow;
+}
+
+void ScreenShot::setChatWindow(ChatWindow *value)
+{
+    chatWindow = value;
 }
 
 void ScreenShot::mousePressEvent(QMouseEvent *event)
 {
-//    DEBUG_FUNC;
+    //    DEBUG_FUNC;
     if(event->button() == Qt::LeftButton)
     {
         isInPaint = true;
@@ -103,9 +122,18 @@ void ScreenShot::mouseMoveEvent(QMouseEvent *event)
     {
         if(isInPaint)
         {
+            QRect oldRect = GetRectFrom2Point(fromPoint, toPoint);
             toPoint = event->pos();
-            QRect rect = GetRectFrom2Point(fromPoint, toPoint);
-            noGraySmallImage = GetNoGraySmallImage(grayScreenImage, rect);
+            QRect newRect = GetRectFrom2Point(fromPoint, toPoint);
+            QRect interRect = oldRect.intersected(newRect);
+            if(!interRect.isNull())
+            {
+                noGraySmallImage = ShotTool::GetNoGraySmallImageFromLast(grayScreenImage, noGraySmallImage, oldRect, interRect, newRect);
+            }
+            else
+            {
+                noGraySmallImage = ShotTool::GetNoGraySmallImage(grayScreenImage, newRect);
+            }
         }
     }
     repaint();
@@ -205,7 +233,6 @@ QImage ShotTool::GetGrayScreenImage(double dim)
 QImage ShotTool::GetNoGraySmallImage(const QImage &image, const QRect &rect, double bright)
 {
     QImage img = image.copy(rect);
-//    return img;
     for(int j = 0; j < rect.height(); ++j)
     for(int i = 0; i < rect.width(); ++i)
     {
@@ -217,6 +244,33 @@ QImage ShotTool::GetNoGraySmallImage(const QImage &image, const QRect &rect, dou
         int g2 = Range(g / (1 - bright), 0, 255);
         int b2 = Range(b / (1 - bright), 0, 255);
         img.setPixel(i, j, qRgb(r2, g2, b2));
+    }
+    return img;
+}
+
+QImage ShotTool::GetNoGraySmallImageFromLast(const QImage &image, const QImage &lastImg, const QRect &lastRect, const QRect &interRect, const QRect &rect, double bright)
+{
+    QImage img = image.copy(rect);
+    for(int j = 0; j < rect.height(); ++j)
+    for(int i = 0; i < rect.width(); ++i)
+    {
+//        if(interRect.contains(i, j))
+//        {
+//            qDebug() << "contains";
+//            img.setPixel(i, j, lastImg.pixel(lastRect.x() + i, lastRect.y() + j));
+//        }
+//        else
+//        {
+//            qDebug() << "no contains";
+            QColor oc = img.pixelColor(i, j);
+            int r = oc.red();
+            int g = oc.green();
+            int b = oc.blue();
+            int r2 = Range(r / (1 - bright), 0, 255);
+            int g2 = Range(g / (1 - bright), 0, 255);
+            int b2 = Range(b / (1 - bright), 0, 255);
+            img.setPixel(i, j, qRgb(r2, g2, b2));
+//        }
     }
     return img;
 }
@@ -250,3 +304,5 @@ ToolBar::ToolBar(QWidget *parent): QWidget(parent)
 //    static ToolBar instance;
 //    return instance;
 //}
+
+

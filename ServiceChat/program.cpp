@@ -22,3 +22,15 @@ QRect GetRectFrom2Point(const QPoint &p1, const QPoint &p2)
     auto py = std::minmax(p1.y(), p2.y());
     return QRect(QPoint(px.first, py.first), QPoint(px.second, py.second));
 }
+
+QRect InterSection2Rect(const QRect &r1, const QRect &r2)
+{
+    int xmax = std::max(r1.x(), r2.x());
+    int ymax = std::max(r1.y(), r2.y());
+
+    int xmin = std::min(r1.x() + r1.width(), r2.x() + r2.width());
+    int ymin = std::min(r1.y() + r1.height(), r2.y() + r2.height());
+    if(xmax <= xmin && ymax <= ymin)
+        return QRect(xmax, ymax, xmin - xmax, ymin - ymax);
+    return QRect();
+}

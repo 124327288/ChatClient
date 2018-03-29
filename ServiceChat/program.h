@@ -169,7 +169,9 @@ inline T Range(T v, const T &left, const T &right)
     return v;
 }
 
+
 bool QCopyFile(const QString &src, const QString &des, bool cover = true);
 QRect GetRectFrom2Point(const QPoint &p1, const QPoint &p2);
+QRect InterSection2Rect(const QRect &r1, const QRect &r2);
 
 #endif // PROGRAM_H

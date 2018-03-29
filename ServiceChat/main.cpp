@@ -40,8 +40,8 @@ int main(int argc, char *argv[])
     SqliteTool::Instance().CreateConnect();
     SqliteTool::Instance().Init();
     SqliteTool::Instance().ShowAllTableName();
-//    LoginWindow::Instance().show();
-    ScreenShot::Instance().BeginShot();
+    LoginWindow::Instance().show();
+//    ScreenShot::Instance().BeginShot();
 
 
     return a.exec();

@@ -30,6 +30,7 @@ public:
 
     void SetNickName(const QString &nick);
 
+    void SendMsg(const QString &id, const QVector<TimMsg> &msgList);
     void SendMsg(QString id, QString text);
     void SendImage(const QString &id, const QString &imgPath);
     void SendFile(const QString &id, const QString &filePath);
