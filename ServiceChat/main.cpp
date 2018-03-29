@@ -37,22 +37,12 @@ int main(int argc, char *argv[])
     TcpSocket::Instance().TryConnect();
     TimTool::Instance().Init();
     TimTool::Instance().SetMessageCallback();
-//    PDFWindow window;
-//    window.show();
     SqliteTool::Instance().CreateConnect();
     SqliteTool::Instance().Init();
     SqliteTool::Instance().ShowAllTableName();
 //    LoginWindow::Instance().show();
     ScreenShot::Instance().BeginShot();
-//    QWebEngineView web;
-////    web.setHtml("123");
-//    web.setUrl(QUrl("http://www.baidu.com"));
-//    web.show();
-//    EmotionDialog emotionDialog;
-//    emotionDialog.show();
-//    SqliteTool::Instance().CreateAccountTable();
-//    SqliteTool::Instance().Insert2AccountTable("123","456","789");
-//    SqliteTool::Instance().Select4AccountTable("123");
+
 
     return a.exec();
 }

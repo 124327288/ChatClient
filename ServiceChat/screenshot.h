@@ -1,35 +1,47 @@
 #ifndef SCREENSHOT_H
 #define SCREENSHOT_H
 
+#include <QLabel>
 #include <QObject>
 #include <QWidget>
+namespace ShotTool
+{
+    QRect GetScreenRect();
+    constexpr int GetBright() { return 10; }
+    constexpr int GetDim() { return -GetBright();}
 
+    QImage GetScreenImage();
+    QImage GetGrayScreenImage(int dim = GetDim());
+    QImage GetNoGraySmallImage(const QImage &image, const QRect &rect, int bright = GetBright());
+
+    QPixmap GetScreenPixmap();
+    QPixmap GetGrayScrrenPixmap(int dim = GetDim());
+    QPixmap GetNoGraySmallPixmap(const QPixmap &pixmap, const QRect &rect, int bright = GetBright());
+}
 class ScreenShot : public QWidget
 {
     Q_OBJECT
 private:
     ScreenShot(QWidget *parent = nullptr);
-    const QRect &GetScreenRect();
-    const QPixmap &GetScreenPixmap();
-    const QPixmap &GetGrayScrrenPixmap();//渡灰
-    QPixmap GetNoGrayPixmap(const QPixmap &pixmap, const QRect &rect);
-    QRect GetRectFrom2Point(const QPoint &p1, const QPoint &p2);
 public:
     static ScreenShot &Instance();
     static void BeginShot();
-
 signals:
 
 public slots:
 
 private:
     bool isInPaint;
-    QRect screenRect;
+    int bright = 10;
+
     QPoint fromPoint;
     QPoint toPoint;
+    QLabel *label;
 
-    QPixmap screenPixmap;
-    QPixmap grayScrrenPixmap;
+    QRect screenRect;
+    QImage screenImage;
+    QImage grayScreenImage;
+    QImage noGraySmallImage;
 
     // QWidget interface
 protected:

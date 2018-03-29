@@ -148,6 +148,18 @@ inline bool GenCacheDir()
     if(!IsDirExist(GetCacheDirName()))
         return GenDir(GetCacheDirName());
 }
+
+template <typename T>
+inline T Range(T v, const T &left, const T &right)
+{
+    if(v < left)
+        v = left;
+    else if (v > right)
+        v = right;
+    return v;
+}
+
 bool QCopyFile(const QString &src, const QString &des, bool cover = true);
+QRect GetRectFrom2Point(const QPoint &p1, const QPoint &p2);
 
 #endif // PROGRAM_H
