@@ -1,23 +1,26 @@
 #ifndef SCREENSHOT_H
 #define SCREENSHOT_H
 
+#include <QBoxLayout>
 #include <QLabel>
 #include <QObject>
+#include <QToolButton>
 #include <QWidget>
 namespace ShotTool
 {
     QRect GetScreenRect();
-    constexpr int GetBright() { return 10; }
-    constexpr int GetDim() { return -GetBright();}
+    constexpr double GetBright() { return 0.5; }
+    constexpr double GetDim() { return -GetBright();}
 
     QImage GetScreenImage();
-    QImage GetGrayScreenImage(int dim = GetDim());
-    QImage GetNoGraySmallImage(const QImage &image, const QRect &rect, int bright = GetBright());
+    QImage GetGrayScreenImage(double dim = GetDim());
+    QImage GetNoGraySmallImage(const QImage &image, const QRect &rect, double bright = GetBright());
 
     QPixmap GetScreenPixmap();
-    QPixmap GetGrayScrrenPixmap(int dim = GetDim());
-    QPixmap GetNoGraySmallPixmap(const QPixmap &pixmap, const QRect &rect, int bright = GetBright());
+    QPixmap GetGrayScrrenPixmap(double dim = GetDim());
+    QPixmap GetNoGraySmallPixmap(const QPixmap &pixmap, const QRect &rect, double bright = GetBright());
 }
+class ToolBar;
 class ScreenShot : public QWidget
 {
     Q_OBJECT
@@ -29,14 +32,16 @@ public:
 signals:
 
 public slots:
-
+    void SaveImage();
+    void ExitShot();
+    void OkShot();
 private:
     bool isInPaint;
-    int bright = 10;
 
     QPoint fromPoint;
     QPoint toPoint;
     QLabel *label;
+    ToolBar *toolBar;
 
     QRect screenRect;
     QImage screenImage;
@@ -49,7 +54,24 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;
     virtual void paintEvent(QPaintEvent *event) override;
+};
 
+class ToolBar : public QWidget
+{
+    Q_OBJECT
+public:
+    ToolBar(QWidget *parent = nullptr);
+signals:
+    void SaveImage();
+    void ExitShot();
+    void OkShot();
+public slots:
+//    static ToolBar &Instance();
+private:
+    QHBoxLayout *mainLayout;
+    QToolButton *saveBtn;
+    QToolButton *exitBtn;
+    QToolButton *okBtn;
 };
 
 #endif // SCREENSHOT_H

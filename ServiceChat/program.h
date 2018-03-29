@@ -149,6 +149,16 @@ inline bool GenCacheDir()
         return GenDir(GetCacheDirName());
 }
 
+template <typename T, typename T2>
+inline T Range(T2 v, const T &left, const T &right)
+{
+    if(v < left)
+        v = left;
+    else if (v > right)
+        v = right;
+    return v;
+}
+
 template <typename T>
 inline T Range(T v, const T &left, const T &right)
 {
