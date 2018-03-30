@@ -1,14 +1,14 @@
-﻿#ifndef SESSIONLISTDELEGATE_H
-#define SESSIONLISTDELEGATE_H
+#ifndef FILETABLEITEMDELEGATE_H
+#define FILETABLEITEMDELEGATE_H
 
-#include <QObject>
 #include <QWidget>
 #include <QStyledItemDelegate>
-class SessionListDelegate : public QStyledItemDelegate
+
+class FileTableItemDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    explicit SessionListDelegate(QObject *parent = nullptr);
+    explicit FileTableItemDelegate(QWidget *parent = nullptr);
 
 signals:
 
@@ -20,4 +20,4 @@ public:
     virtual QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 
-#endif // SESSIONLISTDELEGATE_H
+#endif // FILETABLEITEMDELEGATE_H

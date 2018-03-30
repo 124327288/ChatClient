@@ -56,15 +56,15 @@ SOURCES += \
         Model/friendlistmodel.cpp \
         Model/sessionlistmodel.cpp \
         View/friendlistview.cpp \
-        Delegate/friendlistdelegate.cpp \
-        Delegate/sessionlistdelegate.cpp \
+        Delegate/friendlistitemdelegate.cpp \
+        Delegate/sessionlistitemdelegate.cpp \
         Delegate/emotionsitemdelegate.cpp \
         Tim/tim.cpp \
         Tim/timcallback.cpp \
         Tim/timtool.cpp \
     filewindow.cpp \
     Model/filetablemodel.cpp \
-    Delegate/filetabledelegate.cpp
+    Delegate/filetableitemdelegate.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -92,15 +92,15 @@ HEADERS += \
         Model/friendlistmodel.h \
         Model/sessionlistmodel.h \
         View/friendlistview.h \
-        Delegate/friendlistdelegate.h \
-        Delegate/sessionlistdelegate.h \
+        Delegate/friendlistitemdelegate.h \
+        Delegate/sessionlistitemdelegate.h \
         Delegate/emotionsitemdelegate.h \
         Tim/tim.h \
         Tim/timcallback.h \
         Tim/timtool.h \
     filewindow.h \
     Model/filetablemodel.h \
-    Delegate/filetabledelegate.h
+    Delegate/filetableitemdelegate.h
 
 FORMS += \
         loginwindow.ui \

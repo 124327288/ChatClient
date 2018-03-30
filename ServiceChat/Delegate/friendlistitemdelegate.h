@@ -1,14 +1,14 @@
-#ifndef FILETABLEDELEGATE_H
-#define FILETABLEDELEGATE_H
+#ifndef FRIENDLISTITEMDELEGATE_H
+#define FRIENDLISTITEMDELEGATE_H
 
+#include <QObject>
 #include <QWidget>
 #include <QStyledItemDelegate>
-
-class FileTableDelegate : public QStyledItemDelegate
+class FriendListItemDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    explicit FileTableDelegate(QWidget *parent = nullptr);
+    explicit FriendListItemDelegate(QObject *parent = nullptr);
 
 signals:
 
@@ -20,4 +20,4 @@ public:
     virtual QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 
-#endif // FILETABLEDELEGATE_H
+#endif // FRIENDLISTITEMDELEGATE_H

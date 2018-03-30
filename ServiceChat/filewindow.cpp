@@ -1,8 +1,6 @@
 #include "filewindow.h"
-
 #include <Model/filetablemodel.h>
-
-#include <Delegate/filetabledelegate.h>
+#include <Delegate/filetableitemdelegate.h>
 
 FileWindow::FileWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -10,7 +8,7 @@ FileWindow::FileWindow(QWidget *parent) : QMainWindow(parent)
     setCentralWidget(widget);
     tableView = new QTableView;
     tableView->setModel(new FileTableModel);
-    tableView->setItemDelegate(new FileTableDelegate);
+    tableView->setItemDelegate(new FileTableItemDelegate);
     mainLayout = new QHBoxLayout;
     mainLayout->addWidget(tableView);
     widget->setLayout(mainLayout);

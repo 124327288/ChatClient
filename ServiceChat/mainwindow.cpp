@@ -12,8 +12,8 @@
 #include "Protocol/S2C/signatureprotocol.h"
 #include "Tim/timtool.h"
 #include "Model/friendlistmodel.h"
-#include "Delegate/friendlistdelegate.h"
-#include "Delegate/sessionlistdelegate.h"
+#include "Delegate/friendlistitemdelegate.h"
+#include "Delegate/sessionlistitemdelegate.h"
 #include "settingdialog.h"
 #include "chatwindow.h"
 MainWindow &MainWindow::Instance()
@@ -30,10 +30,10 @@ MainWindow::MainWindow(QWidget *parent) :
     InitUI();
     sessionListModel = new SessionListModel;
     sessionListView->setModel(sessionListModel);
-    sessionListView->setItemDelegate(new SessionListDelegate);
+    sessionListView->setItemDelegate(new SessionLisItemtDelegate);
     friendListModel = new FriendListModel;
     friendListView->setModel(friendListModel);
-    friendListView->setItemDelegate(new FriendListDelegate);
+    friendListView->setItemDelegate(new FriendListItemDelegate);
 
     connect(&TimTool::Instance(), &TimTool::GetSelfNickname, this, &MainWindow::SetNickName);
     connect(ui->actionAboutQt, &QAction::triggered, [=]{QMessageBox::aboutQt(this);});

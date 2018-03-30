@@ -1,15 +1,14 @@
-#ifndef CHATLISTDELEGATE_H
-#define CHATLISTDELEGATE_H
+﻿#ifndef SESSIONLISTITEMDELEGATE_H
+#define SESSIONLISTITEMDELEGATE_H
 
 #include <QObject>
 #include <QWidget>
 #include <QStyledItemDelegate>
-
-class ChatListDelegate : public QStyledItemDelegate
+class SessionLisItemtDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    explicit ChatListDelegate(QObject *parent = nullptr);
+    explicit SessionLisItemtDelegate(QObject *parent = nullptr);
 
 signals:
 
@@ -21,4 +20,4 @@ public:
     virtual QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 
-#endif // CHATLISTDELEGATE_H
+#endif // SESSIONLISTITEMDELEGATE_H
