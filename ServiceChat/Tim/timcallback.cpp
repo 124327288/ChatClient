@@ -119,33 +119,32 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
         QString nick;
         GET_ELEMENT(GetID4ProfileHandle, profile, id);
         GET_ELEMENT(GetNickName4ProfileHandle, profile, nick);
+        DestroyProfileHandle(profile);
         if(!TimTool::Instance().ContainInConvMap(id))
         {
             TIMConversationHandle conv = CreateConversation();
             ON_INVOKE(GetConversationFromMsg, conv, handle);
             TimTool::Instance().AddConvMap(id, conv);
         }
-
         int cnt = GetElemCount(handle);
         for(int j = 0; j < cnt; ++j)
         {
             TIMMsgElemHandle elem = GetElem(handle, j);
             TIMElemType type = GetElemType(elem);
-            switch (type) {
-            case kElemText:
-                onGetText(static_cast<TIMMsgTextElemHandle>(elem), id, nick, msgTime);
-                break;
-            case kElemImage:
-                onGetImage(static_cast<TIMMsgImageElemHandle>(elem), id, nick, msgTime);
-                break;
-            case kElemFile:
-                onGetFile(static_cast<TIMMsgFileElemHandle>(elem), id, nick, msgTime);
-                break;
-            default:
-                break;
+            switch (type)
+            {
+                case kElemText:
+                    onGetText(static_cast<TIMMsgTextElemHandle>(elem), id, nick, msgTime);
+                    break;
+                case kElemImage:
+                    onGetImage(static_cast<TIMMsgImageElemHandle>(elem), id, nick, msgTime);
+                    break;
+                case kElemFile:
+                    onGetFile(static_cast<TIMMsgFileElemHandle>(elem), id, nick, msgTime);
+                    break;
             }
+            DestroyElem(elem);
         }
-        DestroyProfileHandle(profile);
     }
 }
 
@@ -161,7 +160,6 @@ void onSetNickNameError(int code, const char *desc, void *data)
 
 void onGetImageSuccess(void *data)
 {
-//    ChatContent *p_cc = (ChatContent*)data;
     ChatContent *p_cc = static_cast<ChatContent*>(data);
     if(p_cc)
     {
@@ -228,15 +226,19 @@ void onGetImage(TIMMsgImageElemHandle handle, const QString &id, const QString &
 
 void onGetFile(TIMMsgFileElemHandle handle, const QString &id, const QString &nick, time_t time)
 {
-    char filename_arr[MAXLENFILENAME] = {0};
-    uint32_t len = MAXLENFILENAME;
-    ON_INVOKE(GetFileElemFileName, handle, filename_arr, &len);
-    QString *fileName = new QString(QString::fromUtf8(filename_arr, len));
-    DEBUG_VAR(*fileName);
+//    char filename_arr[MAXLENFILENAME] = {0};
+//    uint32_t len = MAXLENFILENAME;
+//    ON_INVOKE(GetFileElemFileName, handle, filename_arr, &len);
+//    QString *fileName = new QString(QString::fromUtf8(filename_arr, len));
+    QString fileName;
+    GET_ELEMENT(GetFileElemFileName, handle, fileName);
+    DEBUG_VAR(fileName);
+    QString msg = QObject::tr("The other party sent you a file.");
+    emit TimTool::Instance().NewMsg(id, nick, time, msg);
     TIMGetMsgDataCB cb;
     cb.OnSuccess = &onGetFileSuccess;
     cb.OnError = &onGetFileError;
-    cb.data = fileName;
+    cb.data = new QString(fileName);
     GetFileFromFileElem(handle, &cb);
 }
 
