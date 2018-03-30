@@ -24,14 +24,14 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     ui->sendBtn->setShortcut(QString("Ctrl+Return"));
     ui->widget->setStyleSheet(QString::fromUtf8("border:1px solid #5CACEE"));
     ui->textEdit->installEventFilter(this);
-//    screenShot = new ScreenShot(this);
-//    scree
-    webContent = R"(<body onload="window.scrollTo(0,document.body.scrollHeight); " >)";
+    //    screenShot = new ScreenShot(this);
+    //    scree
+    webContent = WebContentHead();
     webView = new QWebEngineView();
-//    webView->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessFileUrls, true);
-//    webView->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessRemoteUrls, true);
-//    webView->settings()->setAttribute(QWebEngineSettings::LocalStorageEnabled, true);
-//    webView->setStyleSheet(QString::fromUtf8("border:1px solid blue"));
+    //    webView->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessFileUrls, true);
+    //    webView->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessRemoteUrls, true);
+    //    webView->settings()->setAttribute(QWebEngineSettings::LocalStorageEnabled, true);
+    //    webView->setStyleSheet(QString::fromUtf8("border:1px solid blue"));
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(webView);
     ui->widget->setLayout(layout);
@@ -49,7 +49,7 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
             AddContent(otherId, otherNick, s.time, s.text);
         }
     }
-//    connect()
+    //    connect()
 }
 
 ChatWindow::~ChatWindow()
@@ -71,20 +71,21 @@ void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
             arg(p_tm->tm_min, 2, 10, QChar('0')).
             arg(p_tm->tm_sec, 2, 10, QChar('0'));
     QString title = QString(R"(
-                              <font color="blue">%1(%2) %3</font>
-                              )").arg(id).arg(nick).arg(str_time);
+                            <font color="blue">%1(%2) %3</font>
+                            )").arg(id).arg(nick).arg(str_time);
     webContent += title;
     webContent += "<br />";
     webContent += msg;
     webContent += "<br />";
-    webView->setHtml(webContent);
+    webView->setHtml(webContent + WebContentTail());
 }
 
 void ChatWindow::Add2TextEdit(QString msg)
 {
-    ui->textEdit->append(msg);
-//    webContent += text;
-//    webView->setHtml(webContent);
+    ui->textEdit->insertHtml(msg);
+//    ui->textEdit->append(msg);
+    //    webContent += text;
+    //    webView->setHtml(webContent);
 }
 
 void ChatWindow::GetConversation()
@@ -96,18 +97,19 @@ void ChatWindow::GetConversation()
     }
     QByteArray bytes = otherId.toUtf8();
     convHandle = CreateConversation();
-	if (!ON_INVOKE(TIMGetConversation, convHandle, kCnvC2C, bytes.data()))
-	{
-		TimTool::Instance().AddConvMap(otherId, convHandle);
-		emit TimTool::Instance().NewConversation(otherId, otherNick, GetTime());
-	}
+    if (!ON_INVOKE(TIMGetConversation, convHandle, kCnvC2C, bytes.data()))
+    {
+        TimTool::Instance().AddConvMap(otherId, convHandle);
+        emit TimTool::Instance().NewConversation(otherId, otherNick, GetTime());
+    }
 }
 
 void ChatWindow::closeEvent(QCloseEvent *event)
 {
     TimTool::Instance().RemoveChatWindowMap(otherId);
     TimTool::Instance().RemoveConvMap(otherId);
-    DestroyConversation(convHandle);
+    if(convHandle)
+        DestroyConversation(convHandle);
 }
 
 bool ChatWindow::eventFilter(QObject *watched, QEvent *event)
@@ -123,9 +125,9 @@ bool ChatWindow::eventFilter(QObject *watched, QEvent *event)
                 if(board->mimeData()->hasImage())
                 {
                     QImage img = board->image();
-                    QString path = QDir::currentPath() + GetCacheDirName() + QUuid::createUuid().toString() + ".png";
+                    QString path = QDir::currentPath() + GetCacheDirName() + UuidToStringEx() + ".png";
                     img.save(path);
-                    ui->textEdit->append(QString("<img src = %1 />").arg(path));
+                    ui->textEdit->insertHtml(QString("<img src = %1 />").arg(path));
                 }
                 else
                 {
@@ -150,35 +152,65 @@ void ChatWindow::on_sendBtn_clicked()
     if(ui->textEdit->toPlainText().trimmed().isEmpty())
         return;
     QString text = ui->textEdit->toHtml();
+    DEBUG_VAR(text);
     QRegExp regExp(R"(<p.*>.*</p>)");
     regExp.setMinimal(true);
     QVector<TimMsg> msgList;
-    auto isImgMsg = [](const QString &msg){
-        // <img src=\"qrc:/emotions/emotions/3.gif\" /> no solve
-        QRegExp rx(R"z(<img src=\"(.*)\" />)z");
-        if(rx.indexIn(msg) != -1)
+    QString beSend;
+
+    auto matchTxtMsg = [](const QString &msg){
+        QRegExp rx(R"z(<p.*>.+</p>)z");
+        rx.setMinimal(true);
+        QStringList txtList;
+        for(int pos = 0; (pos = rx.indexIn(msg, pos)) != -1;)
         {
-            return rx.cap(1);
+            pos += rx.matchedLength();
+            DEBUG_VAR(rx.cap());
+            txtList << rx.cap();
         }
-        return QString();
+        return txtList;
+    };
+
+    auto matchImgMsg = [](const QString &msg){
+        QRegExp rx(R"z(<img src=\"(?!qrc:)(.*)\" />)z");
+        rx.setMinimal(true);
+        QStringList imgList;
+        for(int pos = 0; (pos = rx.indexIn(msg, pos)) != -1;)
+        {
+            pos += rx.matchedLength();
+            DEBUG_VAR(rx.cap(1));
+            imgList << rx.cap(1);
+        }
+        return imgList;
     };
     for(int pos = 0; (pos = regExp.indexIn(text, pos)) != -1;)
     {
         pos += regExp.matchedLength();
         QString msg = regExp.cap().remove("file:///");
-        DEBUG_VAR(msg);
-        QString imgMsg = isImgMsg(msg);
-        if(imgMsg.isNull())
+        beSend += msg;
+        qDebug() << msg;
         {
-            msgList += { kElemText, msg };
+            QStringList imgList = matchImgMsg(msg);
+            if(imgList.count() > 0)
+            {
+                qDebug() << "kElemImage";
+                for(const auto &s : imgList)
+                    msgList += { kElemImage, s };
+            }
         }
-        else
+        msg = msg.remove(QRegularExpression(R"z(<img src=\"(?!qrc:)(.*)\" />)z"));
         {
-            msgList += { kElemImage, imgMsg };
+            QStringList txtList = matchTxtMsg(msg);
+            if(txtList.count() > 0)
+            {
+                qDebug() << "kElemText";
+                for(const auto &s : txtList)
+                    msgList += { kElemText, s };
+            }
         }
     }
     TimTool::Instance().SendMsg(otherId, msgList);
-    AddContent(TimTool::Instance().getId(), TimTool::Instance().getNick(), GetTime(), text);
+    AddContent(TimTool::Instance().getId(), TimTool::Instance().getNick(), GetTime(), beSend);
     ui->textEdit->clear();
 }
 
@@ -197,12 +229,12 @@ void ChatWindow::on_picToolButton_clicked(bool checked)
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString(), tr("Images (*.jpg *.xpm *.png);;"));
     if(!fileName.isNull())
     {
-//        if(!QMessageBox::information(this, tr("Send this Image?"), tr("Send this Image?"), tr("Ok"), tr("Cancel")))
+        //        if(!QMessageBox::information(this, tr("Send this Image?"), tr("Send this Image?"), tr("Ok"), tr("Cancel")))
         {
             QString html = QString(R"(<img src = "%1" />)").arg(fileName);
-//            AddContent(TimTool::Instance().getId(), TimTool::Instance().getNick(), GetTime(), html);
-//            TimTool::Instance().SendImage(otherId, fileName);
-            ui->textEdit->append(html);
+            //            AddContent(TimTool::Instance().getId(), TimTool::Instance().getNick(), GetTime(), html);
+            //            TimTool::Instance().SendImage(otherId, fileName);
+            ui->textEdit->insertHtml(html);
         }
     }
 }
@@ -250,7 +282,7 @@ void ChatWindow::on_emotionToolButton_clicked(bool checked)
 
 void ChatWindow::on_shotToolButton_clicked(bool checked)
 {
-//    ScreenShot::BeginShot();
+    //    ScreenShot::BeginShot();
     ScreenShot *shot = new ScreenShot();
     shot->setChatWindow(this);
     shot->show();
@@ -258,5 +290,28 @@ void ChatWindow::on_shotToolButton_clicked(bool checked)
 
 void ChatWindow::on_clearToolButton_clicked(bool checked)
 {
+    webContent.clear();
     webView->setHtml("");
+    TimTool::Instance().getContentMap().remove(otherId);
+}
+
+QString ChatWindow::WebContentHead() const
+{
+    return R"(
+           <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">
+           <html>
+           <head>
+               <meta name="qrichtext" content="1" />
+               <style type="text/css">p, li { white-space: pre-wrap; }</style>
+           </head>
+           <body style=" font-family:'SimSun'; font-size:9pt; font-weight:400; font-style:normal;" onload="window.scrollTo(0,document.body.scrollHeight); " >
+           )";
+}
+
+QString ChatWindow::WebContentTail() const
+{
+    return R"(
+           </body>
+           </html>
+           )";
 }

@@ -64,7 +64,7 @@ void ScreenShot::OkShot()
     QApplication::clipboard()->setImage(noGraySmallImage);
     if(chatWindow)
     {
-        QString path = QDir::currentPath() + GetCacheDirName() + QUuid::createUuid().toString() + ".png";
+        QString path = QDir::currentPath() + GetCacheDirName() + UuidToStringEx() + ".png";
         noGraySmallImage.save(path);
         chatWindow->Add2TextEdit(QString("<img src = %1 />").arg(path));
     }

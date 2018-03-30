@@ -32,19 +32,16 @@ private slots:
     void on_clearToolButton_clicked(bool checked);
 
 private:
+    QString             WebContentHead() const;
+    QString             WebContentTail() const;
     Ui::ChatWindow      *ui;
     QWebEngineView      *webView;
     QLabel              *label;
-//    ScreenShot          *screenShot;
-    QString otherId;
-    QString otherNick;
-    QString otherRemark;
-
-    QString webContent;
-    TIMConversationHandle convHandle;
-
-    QVector<TIMElemType> sendMsgTypeList;
-
+    QString             otherId;
+    QString             otherNick;
+    QString             otherRemark;
+    QString             webContent;
+    TIMConversationHandle convHandle = nullptr;
     void GetConversation();
 
     // QWidget interface

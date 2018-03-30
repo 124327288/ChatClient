@@ -34,3 +34,10 @@ QRect InterSection2Rect(const QRect &r1, const QRect &r2)
         return QRect(xmax, ymax, xmin - xmax, ymin - ymax);
     return QRect();
 }
+
+QString UuidToStringEx()
+{
+    QString s = QUuid::createUuid().toString();
+    s = s.remove("{").remove("}");
+    return s;
+}

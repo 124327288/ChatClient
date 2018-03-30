@@ -201,7 +201,7 @@ void onGetImage(TIMMsgImageElemHandle handle, const QString &id, const QString &
         if(imgType == TIMImageType::kOriginalImage)
         {
             QString dir = GetPicCacheDirName();
-            QString str_uuid = QUuid::createUuid().toString();
+            QString str_uuid = UuidToStringEx();
             QString path = QDir::currentPath() + dir + str_uuid;
             DEBUG_VAR(path);
             QByteArray path_byte = path.toUtf8();

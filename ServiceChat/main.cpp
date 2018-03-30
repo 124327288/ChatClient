@@ -10,6 +10,8 @@
 #include "sqlitetool.h"
 #include "View/emotiondialog.h"
 #include "screenshot.h"
+#include <typeinfo>
+#include <iostream>
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -30,6 +32,7 @@ int main(int argc, char *argv[])
             trans.load(":/client_cn.qm");
         a.installTranslator(&trans);
     };
+//    std::cout << typeid(loadMineTrans).name();
     loadGlobalTrans();
     loadMineTrans();
     LuaTool::Instance().Init();

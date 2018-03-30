@@ -431,6 +431,14 @@ void TimTool::GetFriendListSuccessHandle(const QList<Linkman>& friendList)
     this->friendList = friendList;
 }
 
+TimTool::~TimTool()
+{
+    for(auto handle : convMap)
+    {
+        DestroyConversation(handle);
+    }
+}
+
 QList<Linkman> TimTool::getFriendList() const
 {
     return friendList;

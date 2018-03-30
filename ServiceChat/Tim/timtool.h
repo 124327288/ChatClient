@@ -78,8 +78,7 @@ private:
     QMap<QString, QVector<ChatContentEX>>   contentMap;
     QList<Linkman>                          friendList;
 public:
-
-
+    ~TimTool();
 public:
     QString getSig() const;
     QString getId() const;
