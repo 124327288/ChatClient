@@ -9,66 +9,122 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="106"/>
-        <source>Color</source>
+        <location filename="chatwindow.ui" line="35"/>
+        <source>设置字体格式</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="77"/>
-        <source>Picture</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="chatwindow.ui" line="26"/>
+        <location filename="chatwindow.ui" line="38"/>
         <source>Font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="43"/>
+        <location filename="chatwindow.ui" line="55"/>
+        <source>选择表情</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.ui" line="58"/>
         <source>emotion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="60"/>
+        <location filename="chatwindow.ui" line="75"/>
+        <source>捕捉屏幕</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.ui" line="78"/>
         <source>shot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="80"/>
+        <location filename="chatwindow.ui" line="95"/>
+        <source>插入图片</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.ui" line="98"/>
         <source>pic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="109"/>
+        <location filename="chatwindow.ui" line="124"/>
+        <source>选择字体颜色</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.ui" line="127"/>
         <source>color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="165"/>
+        <location filename="chatwindow.ui" line="153"/>
+        <source>发送文件</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.ui" line="186"/>
+        <source>清空会话窗口</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.ui" line="189"/>
         <source>clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="192"/>
-        <location filename="chatwindow.ui" line="228"/>
-        <location filename="chatwindow.ui" line="233"/>
+        <location filename="chatwindow.ui" line="226"/>
+        <location filename="chatwindow.ui" line="262"/>
+        <location filename="chatwindow.ui" line="267"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="199"/>
+        <location filename="chatwindow.ui" line="233"/>
         <source>Send</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="135"/>
-        <location filename="chatwindow.ui" line="218"/>
+        <location filename="chatwindow.ui" line="156"/>
+        <location filename="chatwindow.ui" line="252"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="28"/>
+        <location filename="chatwindow.cpp" line="42"/>
         <source>%1 - Session</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.cpp" line="229"/>
+        <location filename="chatwindow.cpp" line="244"/>
+        <source>Open File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.cpp" line="229"/>
+        <source>Images (*.jpg *.xpm *.png);;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.cpp" line="247"/>
+        <source>Send this File?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.cpp" line="247"/>
+        <source>Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.cpp" line="247"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.cpp" line="249"/>
+        <source>Send File: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -111,29 +167,24 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.ui" line="126"/>
-        <source>Return</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="loginwindow.cpp" line="62"/>
-        <location filename="loginwindow.cpp" line="67"/>
+        <location filename="loginwindow.cpp" line="63"/>
+        <location filename="loginwindow.cpp" line="68"/>
         <location filename="loginwindow.cpp" line="90"/>
         <source>ERROR</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="62"/>
+        <location filename="loginwindow.cpp" line="63"/>
         <source>Username cannot be empty!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="67"/>
+        <location filename="loginwindow.cpp" line="68"/>
         <source>Password cannot be empty!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="70"/>
+        <location filename="loginwindow.cpp" line="71"/>
         <source>Logining......</source>
         <translation></translation>
     </message>
@@ -191,12 +242,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="59"/>
+        <location filename="mainwindow.cpp" line="61"/>
         <source>Session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="66"/>
+        <location filename="mainwindow.cpp" line="68"/>
         <source>Friend</source>
         <translation type="unfinished"></translation>
     </message>
@@ -240,6 +291,19 @@
     </message>
 </context>
 <context>
+    <name>ScreenShot</name>
+    <message>
+        <location filename="screenshot.cpp" line="50"/>
+        <source>Save Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="screenshot.cpp" line="50"/>
+        <source>Images Files(*.jpg *.png)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SettingDialog</name>
     <message>
         <location filename="View/settingdialog.cpp" line="9"/>
@@ -274,6 +338,24 @@
     <message>
         <location filename="View/settingdialog.cpp" line="47"/>
         <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ToolBar</name>
+    <message>
+        <location filename="screenshot.cpp" line="285"/>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="screenshot.cpp" line="289"/>
+        <source>Exit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="screenshot.cpp" line="293"/>
+        <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

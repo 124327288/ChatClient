@@ -14,7 +14,7 @@
 #include "Model/friendlistmodel.h"
 #include "Delegate/friendlistdelegate.h"
 #include "Delegate/sessionlistdelegate.h"
-#include "View/settingdialog.h"
+#include "settingdialog.h"
 #include "chatwindow.h"
 MainWindow &MainWindow::Instance()
 {

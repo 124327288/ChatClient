@@ -6,6 +6,8 @@
 void onConnected(void*);
 void onDisconnected(void*);
 
+void onKickOffline(void* data);
+
 void onLoginSuccess(void*);
 void onLoginError(int code, const char *desc, void *data);
 

@@ -35,72 +35,78 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         loginwindow.cpp \
-    luatool.cpp \
-    mainwindow.cpp \
-    program.cpp \
-    chatwindow.cpp \
-    stdafx.cpp \
-    pdfwindow.cpp \
-    Protocol/C2S/c2sprotocol.cpp \
-    Protocol/C2S/userpwdprotocol.cpp \
-    Protocol/S2C/loginresprotocol.cpp \
-    Protocol/S2C/signatureprotocol.cpp \
-    Model/friendlistmodel.cpp \
-    Model/sessionlistmodel.cpp \
-    Protocol/protocol.cpp \
-    Protocol/tcpsocket.cpp \
-    Tim/timcallback.cpp \
-    Tim/timtool.cpp \
-    Delegate/friendlistdelegate.cpp \
-    View/friendlistview.cpp \
-    View/settingdialog.cpp \
-    Delegate/sessionlistdelegate.cpp \
-    Tim/tim.cpp \
-    sqlitetool.cpp \
-    table.cpp \
-    signal.cpp \
-    View/emotiondialog.cpp \
-    Delegate/emotionsitemdelegate.cpp \
-    screenshot.cpp
+        luatool.cpp \
+        mainwindow.cpp \
+        program.cpp \
+        chatwindow.cpp \
+        stdafx.cpp \
+        pdfwindow.cpp \
+        settingdialog.cpp \
+        sqlitetool.cpp \
+        table.cpp \
+        signal.cpp \
+        emotiondialog.cpp \
+        screenshot.cpp  \
+        Protocol/protocol.cpp \
+        Protocol/tcpsocket.cpp \
+        Protocol/C2S/c2sprotocol.cpp \
+        Protocol/C2S/userpwdprotocol.cpp \
+        Protocol/S2C/loginresprotocol.cpp \
+        Protocol/S2C/signatureprotocol.cpp \
+        Model/friendlistmodel.cpp \
+        Model/sessionlistmodel.cpp \
+        View/friendlistview.cpp \
+        Delegate/friendlistdelegate.cpp \
+        Delegate/sessionlistdelegate.cpp \
+        Delegate/emotionsitemdelegate.cpp \
+        Tim/tim.cpp \
+        Tim/timcallback.cpp \
+        Tim/timtool.cpp \
+    filewindow.cpp \
+    Model/filetablemodel.cpp \
+    Delegate/filetabledelegate.cpp
 
 HEADERS += \
         loginwindow.h \
-    luatool.h \
-    mainwindow.h \
-    exptype.h \
-    expdef.h \
-    program.h \
-    chatwindow.h \
-    stdafx.h \
-    pdfwindow.h \
-    Protocol/C2S/c2sprotocol.h \
-    Protocol/C2S/userpwdprotocol.h \
-    Protocol/S2C/loginresprotocol.h \
-    Protocol/S2C/s2cprotocol.h \
-    Protocol/S2C/signatureprotocol.h \
-    Model/friendlistmodel.h \
-    Model/sessionlistmodel.h \
-    Protocol/protocol.h \
-    Protocol/tcpsocket.h \
-    Tim/tim.h \
-    Tim/timcallback.h \
-    Tim/timtool.h \
-    Delegate/friendlistdelegate.h \
-    View/friendlistview.h \
-    View/settingdialog.h \
-    Delegate/sessionlistdelegate.h \
-    sqlitetool.h \
-    table.h \
-    signal.h \
-    View/emotiondialog.h \
-    Delegate/emotionsitemdelegate.h \
-    screenshot.h
+        luatool.h \
+        mainwindow.h \
+        exptype.h \
+        expdef.h \
+        program.h \
+        chatwindow.h \
+        stdafx.h \
+        pdfwindow.h \
+        settingdialog.h \
+        sqlitetool.h \
+        table.h \
+        signal.h \
+        emotiondialog.h \
+        screenshot.h    \
+        Protocol/protocol.h \
+        Protocol/tcpsocket.h \
+        Protocol/C2S/c2sprotocol.h \
+        Protocol/C2S/userpwdprotocol.h \
+        Protocol/S2C/loginresprotocol.h \
+        Protocol/S2C/s2cprotocol.h \
+        Protocol/S2C/signatureprotocol.h \
+        Model/friendlistmodel.h \
+        Model/sessionlistmodel.h \
+        View/friendlistview.h \
+        Delegate/friendlistdelegate.h \
+        Delegate/sessionlistdelegate.h \
+        Delegate/emotionsitemdelegate.h \
+        Tim/tim.h \
+        Tim/timcallback.h \
+        Tim/timtool.h \
+    filewindow.h \
+    Model/filetablemodel.h \
+    Delegate/filetabledelegate.h
 
 FORMS += \
         loginwindow.ui \
-    mainwindow.ui \
-    chatwindow.ui \
-    pdfwindow.ui
+        mainwindow.ui \
+        chatwindow.ui \
+        pdfwindow.ui
 
 RESOURCES += \
     img.qrc \

@@ -8,7 +8,7 @@
 #include <QFileDialog>
 #include <QScrollBar>
 #include <QWaitCondition>
-#include "View/emotiondialog.h"
+#include "emotiondialog.h"
 #include "screenshot.h"
 #include <Windows.h>
 #include <QFontDialog>
@@ -276,7 +276,7 @@ void ChatWindow::on_emotionToolButton_clicked(bool checked)
     QPoint point = QCursor::pos();
     auto emotionDialog = new EmotionDialog;
     emotionDialog->setChatWindow(this);
-    emotionDialog->move(point.x(), point.y());
+    emotionDialog->move(point.x() - 30, point.y() - 30);
     emotionDialog->show();
 }
 

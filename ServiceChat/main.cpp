@@ -8,8 +8,9 @@
 #include "Tim/timtool.h"
 #include "program.h"
 #include "sqlitetool.h"
-#include "View/emotiondialog.h"
+#include "emotiondialog.h"
 #include "screenshot.h"
+#include "filewindow.h"
 #include <typeinfo>
 #include <iostream>
 int main(int argc, char *argv[])
@@ -35,6 +36,7 @@ int main(int argc, char *argv[])
 //    std::cout << typeid(loadMineTrans).name();
     loadGlobalTrans();
     loadMineTrans();
+    GenCacheDir();
     LuaTool::Instance().Init();
     LuaTool::Instance().getConfigs();
     TcpSocket::Instance().TryConnect();
@@ -44,6 +46,8 @@ int main(int argc, char *argv[])
     SqliteTool::Instance().Init();
     SqliteTool::Instance().ShowAllTableName();
     LoginWindow::Instance().show();
+//    FileWindow window;
+//    window.show();
 //    ScreenShot::Instance().BeginShot();
 
 

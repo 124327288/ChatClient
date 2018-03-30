@@ -15,6 +15,8 @@ public:
     void Init();
     void SetConnCallBack();
     void SetMessageCallback();
+    void SetKickOfflineCallBack();
+    void GetLocalMessage();
 
 private:
     bool TimPathExist() const;

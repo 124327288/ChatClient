@@ -288,3 +288,9 @@ void onSendFileError(int code, const char *desc, void *data)
 {
     DEBUG_ERROR;
 }
+
+void onKickOffline(void *data)
+{
+    DEBUG_FUNC;
+    QMessageBox::information(nullptr, QObject::tr("Be Kick Offline!"),  QObject::tr("Be Kick Offline! Logout!"));
+}

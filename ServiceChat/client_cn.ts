@@ -21,74 +21,138 @@
         <translation type="vanished">下划线</translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="106"/>
         <source>Color</source>
-        <translation>颜色</translation>
+        <translation type="vanished">颜色</translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="77"/>
         <source>Picture</source>
-        <translation>插入图片</translation>
+        <translation type="vanished">插入图片</translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="26"/>
+        <location filename="chatwindow.ui" line="35"/>
+        <source>设置字体格式</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.ui" line="38"/>
         <source>Font</source>
         <translatorcomment>选择字体</translatorcomment>
         <translation>字体</translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="43"/>
+        <location filename="chatwindow.ui" line="55"/>
+        <source>选择表情</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.ui" line="58"/>
         <source>emotion</source>
         <translatorcomment>选择表情</translatorcomment>
         <translation>表情</translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="60"/>
+        <location filename="chatwindow.ui" line="75"/>
+        <source>捕捉屏幕</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.ui" line="78"/>
         <source>shot</source>
         <translatorcomment>捕捉屏幕</translatorcomment>
         <translation>截屏</translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="80"/>
+        <location filename="chatwindow.ui" line="95"/>
+        <source>插入图片</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.ui" line="98"/>
         <source>pic</source>
         <translatorcomment>插入图片</translatorcomment>
         <translation>图片</translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="109"/>
+        <location filename="chatwindow.ui" line="124"/>
+        <source>选择字体颜色</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.ui" line="127"/>
         <source>color</source>
         <translatorcomment>选择颜色</translatorcomment>
         <translation>颜色</translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="165"/>
+        <location filename="chatwindow.ui" line="153"/>
+        <source>发送文件</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.ui" line="186"/>
+        <source>清空会话窗口</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.ui" line="189"/>
         <source>clear</source>
         <translatorcomment>清空会话窗口</translatorcomment>
         <translation>清屏</translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="192"/>
-        <location filename="chatwindow.ui" line="228"/>
-        <location filename="chatwindow.ui" line="233"/>
+        <location filename="chatwindow.ui" line="226"/>
+        <location filename="chatwindow.ui" line="262"/>
+        <location filename="chatwindow.ui" line="267"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="199"/>
+        <location filename="chatwindow.ui" line="233"/>
         <source>Send</source>
         <translation>发送</translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="135"/>
-        <location filename="chatwindow.ui" line="218"/>
+        <location filename="chatwindow.ui" line="156"/>
+        <location filename="chatwindow.ui" line="252"/>
         <source>File</source>
         <translatorcomment>发送文件</translatorcomment>
         <translation>文件</translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="28"/>
+        <location filename="chatwindow.cpp" line="42"/>
         <source>%1 - Session</source>
         <translation>%1 - 会话</translation>
+    </message>
+    <message>
+        <location filename="chatwindow.cpp" line="229"/>
+        <location filename="chatwindow.cpp" line="244"/>
+        <source>Open File</source>
+        <translation>打开图片</translation>
+    </message>
+    <message>
+        <location filename="chatwindow.cpp" line="229"/>
+        <source>Images (*.jpg *.xpm *.png);;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.cpp" line="247"/>
+        <source>Send this File?</source>
+        <translation>发送这个文件？</translation>
+    </message>
+    <message>
+        <location filename="chatwindow.cpp" line="247"/>
+        <source>Ok</source>
+        <translation>确认</translation>
+    </message>
+    <message>
+        <location filename="chatwindow.cpp" line="247"/>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <location filename="chatwindow.cpp" line="249"/>
+        <source>Send File: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -130,9 +194,8 @@
         <translation>登录</translation>
     </message>
     <message>
-        <location filename="loginwindow.ui" line="126"/>
         <source>Return</source>
-        <translation>回车</translation>
+        <translation type="vanished">回车</translation>
     </message>
     <message>
         <source>Logining(%1)</source>
@@ -143,24 +206,24 @@
         <translation type="vanished">登录超时！点击重新登录</translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="62"/>
-        <location filename="loginwindow.cpp" line="67"/>
+        <location filename="loginwindow.cpp" line="63"/>
+        <location filename="loginwindow.cpp" line="68"/>
         <location filename="loginwindow.cpp" line="90"/>
         <source>ERROR</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="62"/>
+        <location filename="loginwindow.cpp" line="63"/>
         <source>Username cannot be empty!</source>
         <translation>用户名不可为空</translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="67"/>
+        <location filename="loginwindow.cpp" line="68"/>
         <source>Password cannot be empty!</source>
         <translation>密码不可为空</translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="70"/>
+        <location filename="loginwindow.cpp" line="71"/>
         <source>Logining......</source>
         <translation>登录中……</translation>
     </message>
@@ -218,12 +281,12 @@
         <translation>关于Qt</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="59"/>
+        <location filename="mainwindow.cpp" line="61"/>
         <source>Session</source>
         <translation>会话</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="66"/>
+        <location filename="mainwindow.cpp" line="68"/>
         <source>Friend</source>
         <translation>好友</translation>
     </message>
@@ -263,6 +326,19 @@
         <location filename="sqlitetool.cpp" line="33"/>
         <location filename="sqlitetool.cpp" line="34"/>
         <source>DataBase is not open</source>
+        <translation>数据库未打开</translation>
+    </message>
+</context>
+<context>
+    <name>ScreenShot</name>
+    <message>
+        <location filename="screenshot.cpp" line="50"/>
+        <source>Save Image</source>
+        <translation>保存图片</translation>
+    </message>
+    <message>
+        <location filename="screenshot.cpp" line="50"/>
+        <source>Images Files(*.jpg *.png)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -302,6 +378,24 @@
         <location filename="View/settingdialog.cpp" line="47"/>
         <source>Cancel</source>
         <translation>取消</translation>
+    </message>
+</context>
+<context>
+    <name>ToolBar</name>
+    <message>
+        <location filename="screenshot.cpp" line="285"/>
+        <source>Save</source>
+        <translation>保存</translation>
+    </message>
+    <message>
+        <location filename="screenshot.cpp" line="289"/>
+        <source>Exit</source>
+        <translation>退出</translation>
+    </message>
+    <message>
+        <location filename="screenshot.cpp" line="293"/>
+        <source>Ok</source>
+        <translation>确认</translation>
     </message>
 </context>
 </TS>

@@ -27,7 +27,9 @@ enum Role
     RoleNick,
     RoleRemark,
     RoleTime,
-    RoleContent
+    RoleContent,
+    RoleFileName,
+    RoleMore,
 };
 
 enum MAXLEN

@@ -22,6 +22,9 @@
         <file>images/pic.jpg</file>
         <file>images/rect.jpg</file>
         <file>images/Thumbs.db</file>
+        <file>images/ok.jpg</file>
+        <file>images/save.jpg</file>
+        <file>images/x.jpg</file>
     </qresource>
     <qresource prefix="/emotions">
         <file>emotions/0.gif</file>

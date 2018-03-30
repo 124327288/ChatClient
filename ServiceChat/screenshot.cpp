@@ -283,10 +283,16 @@ ToolBar::ToolBar(QWidget *parent): QWidget(parent)
     setPalette(pal);
     saveBtn = new QToolButton;
     saveBtn->setText(tr("Save"));
+    saveBtn->setIcon(QIcon(":/img/images/save.jpg"));
+    saveBtn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     exitBtn = new QToolButton;
     exitBtn->setText(tr("Exit"));
+    exitBtn->setIcon(QIcon(":/img/images/x.jpg"));
+    exitBtn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     okBtn = new QToolButton;
     okBtn->setText(tr("Ok"));
+    okBtn->setIcon(QIcon(":/img/images/ok.jpg"));
+    okBtn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     mainLayout = new QHBoxLayout;
     mainLayout->setSpacing(0);
     mainLayout->setMargin(0);

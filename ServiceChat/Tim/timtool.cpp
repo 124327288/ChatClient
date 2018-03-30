@@ -65,6 +65,19 @@ void TimTool::SetMessageCallback()
     TIMSetMessageCallBack(&cb);
 }
 
+void TimTool::SetKickOfflineCallBack()
+{
+    static TIMForceOfflineCB cb;
+    cb.OnKickOffline = &onKickOffline;
+    cb.data = &cb;
+    TIMSetKickOfflineCallBack(&cb);
+}
+
+void TimTool::GetLocalMessage()
+{
+
+}
+
 bool TimTool::TimPathExist() const
 {
     QDir d(timPath.data());
