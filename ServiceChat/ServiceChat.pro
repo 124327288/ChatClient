@@ -64,7 +64,8 @@ SOURCES += \
         Tim/timtool.cpp \
     filewindow.cpp \
     Model/filetablemodel.cpp \
-    Delegate/filetableitemdelegate.cpp
+    Delegate/filetableitemdelegate.cpp \
+    webconnect.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -100,7 +101,8 @@ HEADERS += \
         Tim/timtool.h \
     filewindow.h \
     Model/filetablemodel.h \
-    Delegate/filetableitemdelegate.h
+    Delegate/filetableitemdelegate.h \
+    webconnect.h
 
 FORMS += \
         loginwindow.ui \

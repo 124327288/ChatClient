@@ -62,3 +62,5 @@ ServiceChat/ipch
 ServiceChat/Win32
 ServiceChat/stdafx.h.cpp
 *.lnk
+Build/windeployqt.bat
+Build/windeployqt.bat

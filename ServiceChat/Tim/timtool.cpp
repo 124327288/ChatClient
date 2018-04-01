@@ -5,15 +5,7 @@
 #include "Protocol/C2S/userpwdprotocol.h"
 #include <QTimer>
 #include <fstream>
-
-#ifdef _WIN32
 #include <Windows.h>
-#endif
-
-#ifdef __GNUC__
-#include <unistd.h>
-#endif
-
 
 TimTool::TimTool() :
     sdk_app_id(1400067035),

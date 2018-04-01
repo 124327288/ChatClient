@@ -42,20 +42,10 @@ void onGetFriendListSuccess(TIMFriendListElemHandle *handles, uint32_t num, void
     for(uint32_t i = 0; i < num; ++i)
     {
         TIMFriendListElemHandle handle = handles[i];
-//        char id[MAXLENID];
-//        char nickName[MAXLENNICK];
-//        char remark[16];
-//        uint32_t idLen = MAXLENID;
-//        uint32_t nickLen = MAXLENNICK;
-//        uint32_t remarkLen;
-//        ON_INVOKE(GetID4FriendListElemHandle, handle, id, &idLen);
-//        ON_INVOKE(GetNickName4FriendListElemHandle, handle, nickName, &nickLen);
-//        ON_INVOKE(GetRemark4FriendListElemHandle, handle, remark, &remarkLen);
-//        QString sId = QString::fromUtf8(id, idLen);
-//        QString sNick = QString::fromUtf8(nickName, nickLen);
-//        QString sRemark = QString::fromUtf8(remark, remarkLen);
-        QString id = Tim::GetID4FriendListElemHandle(handle);
-        QString nick = Tim::GetNickName4FriendListElemHandle(handle);
+        QString id;
+        QString nick;
+        GET_ELEMENT(GetID4FriendListElemHandle, handle, &id);
+        GET_ELEMENT(GetNickName4FriendListElemHandle,handle, &nick);
         friendList += {id, nick};
     }
     emit TimTool::Instance().GetFriendListSuccess(friendList);
@@ -83,7 +73,7 @@ void onGetSelfProfileSuccess(TIMSelfProfileHandle *handles, uint32_t num, void *
 //    ON_INVOKE(GetNickName4SlefProfileHandle, *handles, nick, &len);
 //    QString sNick = QString::fromUtf8(nick);
     QString nick;
-    GET_ELEMENT(GetNickName4SlefProfileHandle, *handles, nick);
+    GET_ELEMENT(GetNickName4SlefProfileHandle, *handles, &nick);
     TimTool::Instance().setNick(nick);
     emit TimTool::Instance().GetSelfNickname(nick);
 }
@@ -102,23 +92,10 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
         uint32_t msgTime = GetMsgTime(handle);
         TIMProfileHandle profile = CreateProfileHandle();
         ON_INVOKE(GetSenderProfile, handle, profile);
-
-//        char id_arr[MAXLENID];
-//        char nick_arr[MAXLENNICK];
-//        uint32_t idLen = MAXLENID;
-//        uint32_t nickLen = MAXLENNICK;
-//        ON_INVOKE(GetID4ProfileHandle, profile, id_arr, &idLen);
-//        ON_INVOKE(GetNickName4ProfileHandle, profile, nick_arr, &nickLen);
-//        QString id = QString::fromUtf8(id_arr, idLen);
-//        QString nick = QString::fromUtf8(nick_arr, nickLen);
-
-//		  QString id = GetElement4Handle(GetID4ProfileHandle, handle);
-//		  QString nick = GetElement4Handle(GetNickName4ProfileHandle, handle);
-
         QString id;
         QString nick;
-        GET_ELEMENT(GetID4ProfileHandle, profile, id);
-        GET_ELEMENT(GetNickName4ProfileHandle, profile, nick);
+        GET_ELEMENT(GetID4ProfileHandle, profile, &id);
+        GET_ELEMENT(GetNickName4ProfileHandle, profile, &nick);
         DestroyProfileHandle(profile);
         if(!TimTool::Instance().ContainInConvMap(id))
         {
@@ -178,10 +155,8 @@ void onGetImageError(int code, const char *desc, void *data)
 
 void onGetText(TIMMsgTextElemHandle handle, const QString &id, const QString &nick, time_t time)
 {
-    uint32_t len = MAXLENCONTENT;
-    char buffer[MAXLENCONTENT] = {0};
-    ON_INVOKE(GetContent, handle, buffer, &len);
-    QString msg = QString::fromUtf8(buffer, len);
+    QString msg;
+    GET_ELEMENT(GetContent, handle, &msg);
     qDebug() << QString("receive content = %1").arg(msg);
     emit TimTool::Instance().NewMsg(id, nick, time, msg);
 }
@@ -203,7 +178,7 @@ void onGetImage(TIMMsgImageElemHandle handle, const QString &id, const QString &
             QString path = QDir::currentPath() + dir + str_uuid;
             DEBUG_VAR(path);
             QByteArray path_byte = path.toUtf8();
-            QString msg = QString(R"(<img src = "%1" />)").arg(path);
+            QString msg = QString(R"(<p><img src = "%1" /></p>)").arg(path);
             ChatContent *p_cc = new ChatContent{id, nick, time, msg};
             TIMCommCB cb;
             cb.OnSuccess = &onGetImageSuccess;
@@ -226,12 +201,8 @@ void onGetImage(TIMMsgImageElemHandle handle, const QString &id, const QString &
 
 void onGetFile(TIMMsgFileElemHandle handle, const QString &id, const QString &nick, time_t time)
 {
-//    char filename_arr[MAXLENFILENAME] = {0};
-//    uint32_t len = MAXLENFILENAME;
-//    ON_INVOKE(GetFileElemFileName, handle, filename_arr, &len);
-//    QString *fileName = new QString(QString::fromUtf8(filename_arr, len));
     QString fileName;
-    GET_ELEMENT(GetFileElemFileName, handle, fileName);
+    GET_ELEMENT(GetFileElemFileName, handle, &fileName);
     DEBUG_VAR(fileName);
     QString msg = QObject::tr("The other party sent you a file.");
     emit TimTool::Instance().NewMsg(id, nick, time, msg);

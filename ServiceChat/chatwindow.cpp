@@ -8,6 +8,7 @@
 #include <QFileDialog>
 #include <QScrollBar>
 #include <QWaitCondition>
+#include <QWebChannel>
 #include "emotiondialog.h"
 #include "screenshot.h"
 #include <Windows.h>
@@ -16,6 +17,7 @@
 #include <QMessageBox>
 #include <QWebEngineSettings>
 #include <ctime>
+#include "webconnect.h"
 ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ChatWindow)
@@ -28,6 +30,9 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     //    scree
     webContent = WebContentHead();
     webView = new QWebEngineView();
+    QWebChannel *channel = new QWebChannel(this);
+    channel->registerObject("content", new WebConnect);
+    webView->page()->setWebChannel(channel);
     //    webView->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessFileUrls, true);
     //    webView->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessRemoteUrls, true);
     //    webView->settings()->setAttribute(QWebEngineSettings::LocalStorageEnabled, true);
@@ -76,6 +81,7 @@ void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
     webContent += title;
     webContent += "<br />";
     webContent += msg;
+    webContent += R"123(<h1 onclick="onTest()">请点击该文本</h1>)123";
     webContent += "<br />";
     webView->setHtml(webContent + WebContentTail());
 }
@@ -290,22 +296,35 @@ void ChatWindow::on_shotToolButton_clicked(bool checked)
 
 void ChatWindow::on_clearToolButton_clicked(bool checked)
 {
-    webContent.clear();
+    webContent = WebContentHead();
     webView->setHtml("");
     TimTool::Instance().getContentMap().remove(otherId);
 }
 
 QString ChatWindow::WebContentHead() const
 {
-    return R"(
+    return R"zzz(
            <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">
            <html>
            <head>
-               <meta name="qrichtext" content="1" />
-               <style type="text/css">p, li { white-space: pre-wrap; }</style>
+                <meta name="qrichtext" content="1" />
+                <style type="text/css">p, li { white-space: pre-wrap; }</style>
+                <script src="./qwebchannel.js"></script>
+
            </head>
            <body style=" font-family:'SimSun'; font-size:9pt; font-weight:400; font-style:normal;" onload="window.scrollTo(0,document.body.scrollHeight); " >
-           )";
+            <script>
+                new QWebChannel(qt.webChannelTransport, function(channel) {
+                    window.content = channel.objects.content;
+                });
+                content.SendText.connect(function(msg){alert("Receive Msg: " + msg);});
+                function onTest(){
+                    if(content){
+                        content.ReceiveText("asd");
+                    }
+                }
+            </script>
+           )zzz";
 }
 
 QString ChatWindow::WebContentTail() const

@@ -10,13 +10,4 @@
 #include <tim_msg_c.h>
 #include <tim_group_c.h>
 #include <tim_friend_c.h>
-
-class Tim
-{
-public:
-    /* static */
-    static QString GetID4FriendListElemHandle(TIMFriendListElemHandle handle);
-    static QString GetNickName4FriendListElemHandle(TIMFriendListElemHandle handle);
-    static QString GetRemark4FriendListElemHandle(TIMFriendListElemHandle handle);
-};
 #endif // TIM_H
