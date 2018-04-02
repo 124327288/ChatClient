@@ -19,6 +19,8 @@ public:
     ~ChatWindow();
     void AddContent(QString id, QString nick, time_t time, QString msg);
     void Add2TextEdit(QString msg);
+private:
+    void GetStyledMsg(const QString &rawMsg, QString *meMsg, QVector<TimMsg> *msgList);
 private slots:
     void on_sendBtn_clicked();
     void on_colorToolButton_clicked(bool checked);
@@ -32,8 +34,6 @@ private slots:
     void on_clearToolButton_clicked(bool checked);
 
 private:
-    QString             WebContentHead() const;
-    QString             WebContentTail() const;
     Ui::ChatWindow      *ui;
     QWebEngineView      *webView;
     QLabel              *label;
