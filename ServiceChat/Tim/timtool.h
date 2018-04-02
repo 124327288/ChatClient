@@ -57,12 +57,14 @@ signals:
     void GetFriendListSuccess(QList<Linkman> friendList);
     void GetFriendListError(int code, const char *desc);
     void GetSelfNickname(QString nick);
-    void NewMsg(QString id, QString nick, uint32_t time, QString msg);
+    void NewMsg(QString id, QString nick, time_t time, QString msg);
+    void GetFileSuccess(const QString &id, const QString &nick, time_t time, const QString &fileName, const QString &filePath, const QString &folderPath);
     void GetSignature(QString sig);
     void SetSignatureSuccess();
     void NewConversation(const QString &id, QString &nick, time_t time);
 private slots:
     void NewMsgHandler(QString id, QString nick, uint32_t time, QString msg);
+    void GetFileSuccessHandle(const QString &id, const QString &nick, time_t time, const QString &fileName, const QString &filePath, const QString &folderPath);
 	void GetFriendListSuccessHandle(const QList<Linkman> &friendList);
 private:
     int          sdk_app_id;

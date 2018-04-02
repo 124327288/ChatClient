@@ -13,6 +13,8 @@ signals:
     void SendText(const QString &text);
 public slots:
     void ReceiveText(const QString &text);
+    void OpenFolder(const QString &path);
+    void OpenFile(const QString &path);
 };
 
 #endif // WEBCONNECT_H

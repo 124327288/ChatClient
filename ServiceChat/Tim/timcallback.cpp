@@ -4,6 +4,7 @@
 #include <memory>
 #include <fstream>
 #include <QCoreApplication>
+#include <QFileDialog>
 
 void onConnected(void *)
 {
@@ -204,26 +205,38 @@ void onGetFile(TIMMsgFileElemHandle handle, const QString &id, const QString &ni
     QString fileName;
     GET_ELEMENT(GetFileElemFileName, handle, &fileName);
     DEBUG_VAR(fileName);
-    QString msg = QObject::tr("The other party sent you a file.");
-    emit TimTool::Instance().NewMsg(id, nick, time, msg);
     TIMGetMsgDataCB cb;
     cb.OnSuccess = &onGetFileSuccess;
     cb.OnError = &onGetFileError;
-    cb.data = new QString(fileName);
+    cb.data = new ChatContent{id, nick, time, fileName};
     GetFileFromFileElem(handle, &cb);
 }
 
-
 void onGetFileSuccess(const char *buf, uint32_t len, void *data)
 {
-    QString *pFileName = static_cast<QString*>(data);
-    if(pFileName)
+    DEBUG_FUNC;
+    ChatContent *pChatContent = static_cast<ChatContent*>(data);
+    if(pChatContent)
     {
-        std::wstring fileName = pFileName->toStdWString();
+        QString cachePath = QDir::currentPath() + GetCacheDirName();
+        QString path = cachePath + pChatContent->text;
+        std::wstring fileName = path.toStdWString();
+//        QFileDialog::
+
         std::fstream file(fileName.data(), std::fstream::out | std::fstream::binary);
         std::string str_buf(buf, len);
         file << str_buf;
-        delete pFileName;
+        emit TimTool::Instance().GetFileSuccess(pChatContent->id, pChatContent->nick, pChatContent->time, pChatContent->text, path, cachePath);
+//        QString ofStr = QObject::tr("Open File");
+//        QString ofJs = QString("javascript:onTest()");
+//        QString ocfStr = QObject::tr("Open Containing Folder");
+//        QString ocfJs = QString("javascript:openFolder('%1')").arg(QDir::currentPath());
+//        QString msg = QString(R"z(
+//                              <p>%1<a href = "%2">%3</a><a href = "%4">%5</a></p>
+//                              )z").arg(pChatContent->text).arg(ofJs).arg(ofStr).arg(ocfJs).arg(ocfStr);
+
+//        emit TimTool::Instance().NewMsg(pChatContent->id, pChatContent->nick, pChatContent->time, msg);
+        delete pChatContent;
     }
 }
 

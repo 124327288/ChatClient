@@ -16,22 +16,60 @@
            content.ReceiveText("asd");
        }
     }
+    function openFile(path){
+        if(content){
+            content.OpenFile(path);
+        }
+    }
+    function openFolder(path){
+        if(content){
+            content.OpenFolder(path);
+        }
+    }
+    function addMsgHeader(header, parent){
+        var elemTitle = document.createElement("p");
+        var nodeTitle = document.createTextNode(header);
+        elemTitle.appendChild(nodeTitle);
+        elemTitle.style.color = "blue";
+        parent.appendChild(elemTitle);
+    }
     function addContent(title, msg){
         var elemDiv = document.createElement("div");
 
-        var elemTitle = document.createElement("p");
-        var nodeTitle = document.createTextNode(title);
-        elemTitle.appendChild(nodeTitle);
-        elemTitle.style.color = "blue";
+        addMsgHeader(title, elemDiv);
 
         var elemMsg = document.createElement("div");
         elemMsg.innerHTML = msg;
-
-        elemDiv.appendChild(elemTitle);
         elemDiv.appendChild(elemMsg);
 
         document.getElementById("dv").appendChild(elemDiv);
-        window.scrollTo(0,document.body.scrollHeight);
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+    function addFileDesc(title, fileName, filePath, folderPath){
+        var elemDiv = document.createElement("div");
+        addMsgHeader(title, elemDiv);
+        var elemFile = _addFileDesc(fileName, filePath, folderPath);
+        elemDiv.appendChild(elemFile);
+        document.getElementById("dv").appendChild(elemDiv);
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+    function _addFileDesc(fileName, filePath, folderPath){
+        var elemFile = document.createElement("p");
+        var txtNode = document.createTextNode(fileName);
+        elemFile.appendChild(txtNode);
+        elemFile.appendChild(document.createTextNode("  "));
+        var elemOf = document.createElement("a");
+        var nodeof = document.createTextNode("打开文件");
+        elemOf.appendChild(nodeof);
+        elemOf.setAttribute("href", "javascript:openFile('"+filePath+"')");
+        elemFile.appendChild(elemOf);
+        elemFile.appendChild(document.createTextNode("  "));
+        var elemocf = document.createElement("a");
+        var nodeocf = document.createTextNode("打开文件夹");
+        elemocf.appendChild(nodeocf);
+        elemocf.setAttribute("href", "javascript:openFolder('"+folderPath+"')");
+        elemFile.appendChild(elemocf);
+        return elemFile;
     }
     </script>
 </body>

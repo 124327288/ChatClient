@@ -26,7 +26,6 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     ui->sendBtn->setShortcut(QString("Ctrl+Return"));
     ui->widget->setStyleSheet(QString::fromUtf8("border:1px solid #5CACEE"));
     ui->textEdit->installEventFilter(this);
-//    webContent = WebContentHead();
     webView = new QWebEngineView();
     QWebChannel *channel = new QWebChannel(this);
     channel->registerObject("content", new WebConnect);
@@ -53,7 +52,6 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
             AddContent(otherId, otherNick, s.time, s.text);
         }
     }
-    //    connect()
 }
 
 ChatWindow::~ChatWindow()
@@ -67,6 +65,7 @@ ChatWindow::~ChatWindow()
 
 void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
 {
+//    msg = QObject::tr(R"z(<p>The other party sent you a <a href = "javascript:onTest()">file</a></p>.)z");
     std::tm *p_tm = std::localtime(&time);
     QString str_time = QString("%1-%2 %3:%4:%5").
             arg(p_tm->tm_mon + 1, 2, 10, QChar('0')).
@@ -75,24 +74,26 @@ void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
             arg(p_tm->tm_min, 2, 10, QChar('0')).
             arg(p_tm->tm_sec, 2, 10, QChar('0'));
     QString title = QString("%1(%2) %3").arg(id).arg(nick).arg(str_time);
-//    QString title = QString(R"(
-//                            <font color="blue">%1(%2) %3</font>
-//                            )").arg(id).arg(nick).arg(str_time);
     webView->page()->runJavaScript(QString("addContent('%1', '%2')").arg(title, msg));
-//    webContent += title;
-//    webContent += "<br />";
-//    webContent += msg;
-//    webContent += R"123(<h1 onclick="onTest()">请点击该文本</h1>)123";
-//    webContent += "<br />";
-//    webView->setHtml(webContent + WebContentTail());
+}
+
+void ChatWindow::AddFileDesc(const QString &id, const QString &nick, time_t time, const QString &fileName, const QString &filePath, const QString &folderPath)
+{
+    DEBUG_FUNC;
+    std::tm *p_tm = std::localtime(&time);
+    QString str_time = QString("%1-%2 %3:%4:%5").
+            arg(p_tm->tm_mon + 1, 2, 10, QChar('0')).
+            arg(p_tm->tm_mday, 2, 10, QChar('0')).
+            arg(p_tm->tm_hour, 2, 10, QChar('0')).
+            arg(p_tm->tm_min, 2, 10, QChar('0')).
+            arg(p_tm->tm_sec, 2, 10, QChar('0'));
+    QString title = QString("%1(%2) %3").arg(id).arg(nick).arg(str_time);
+    webView->page()->runJavaScript(QString("addFileDesc('%1', '%2', '%3', '%4')").arg(title).arg(fileName).arg(filePath).arg(folderPath));
 }
 
 void ChatWindow::Add2TextEdit(QString msg)
 {
     ui->textEdit->insertHtml(msg);
-//    ui->textEdit->append(msg);
-    //    webContent += text;
-    //    webView->setHtml(webContent);
 }
 
 void ChatWindow::GetStyledMsg(const QString &rawMsg, QString *meMsg, QVector<TimMsg> *msgList)

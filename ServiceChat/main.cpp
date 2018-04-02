@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
     qRegisterMetaType<Linkman>("Linkman");
     qRegisterMetaType<QList<Linkman>>("QList<Linkman>");
     qRegisterMetaType<uint32_t>("uint32_t");
+    qRegisterMetaType<time_t>("time_t");
 
     auto loadGlobalTrans = [&a]{
         static QTranslator trans;

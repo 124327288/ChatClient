@@ -139,5 +139,6 @@ QRect GetRectFrom2Point(const QPoint &p1, const QPoint &p2);
 QRect InterSection2Rect(const QRect &r1, const QRect &r2);
 QString UuidToStringEx();
 time_t GetTime();
+void SetWidgetCentral(QWidget *w);
 
 #endif // PROGRAM_H

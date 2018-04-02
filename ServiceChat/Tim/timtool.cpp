@@ -15,6 +15,7 @@ TimTool::TimTool() :
     timPath("./TimPath")
 {
     connect(this, &TimTool::NewMsg, this, &TimTool::NewMsgHandler);
+    connect(this, &TimTool::GetFileSuccess, this, &TimTool::GetFileSuccessHandle);
     connect(this, &TimTool::GetFriendListSuccess, this, &TimTool::GetFriendListSuccessHandle);
     connect(this, &TimTool::GetSignature, [=](QString _sig){
         sig = _sig;
@@ -428,6 +429,16 @@ void TimTool::NewMsgHandler(QString id, QString nick, uint32_t time, QString msg
     {
         ChatWindow *window = chatWindowMap[id];
         window->AddContent(id, nick, time, msg);
+    }
+}
+
+void TimTool::GetFileSuccessHandle(const QString &id, const QString &nick, time_t time, const QString &fileName, const QString &filePath, const QString &folderPath)
+{
+    DEBUG_FUNC;
+    if(chatWindowMap.contains(id))
+    {
+        ChatWindow *window = chatWindowMap[id];
+        window->AddFileDesc(id, nick, time, fileName, filePath, folderPath);
     }
 }
 
