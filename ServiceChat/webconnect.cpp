@@ -12,6 +12,12 @@ WebConnect::WebConnect(QObject *parent) : QObject(parent)
 
 }
 
+WebConnect &WebConnect::Instance()
+{
+    static WebConnect instance;
+    return instance;
+}
+
 void WebConnect::ReceiveText(const QString &text)
 {
     QMessageBox::information(nullptr, "Title", "C++ And Js");

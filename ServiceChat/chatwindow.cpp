@@ -28,7 +28,7 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     ui->textEdit->installEventFilter(this);
     webView = new QWebEngineView();
     QWebChannel *channel = new QWebChannel(this);
-    channel->registerObject("content", new WebConnect);
+    channel->registerObject("connect", &WebConnect::Instance());
     webView->page()->setWebChannel(channel);
     webView->setUrl(QString("file:///%1/%2").arg(QDir::currentPath()).arg("index.html"));
     //    webView->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessFileUrls, true);
@@ -65,7 +65,6 @@ ChatWindow::~ChatWindow()
 
 void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
 {
-//    msg = QObject::tr(R"z(<p>The other party sent you a <a href = "javascript:onTest()">file</a></p>.)z");
     std::tm *p_tm = std::localtime(&time);
     QString str_time = QString("%1-%2 %3:%4:%5").
             arg(p_tm->tm_mon + 1, 2, 10, QChar('0')).
@@ -74,7 +73,8 @@ void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
             arg(p_tm->tm_min, 2, 10, QChar('0')).
             arg(p_tm->tm_sec, 2, 10, QChar('0'));
     QString title = QString("%1(%2) %3").arg(id).arg(nick).arg(str_time);
-    webView->page()->runJavaScript(QString("addContent('%1', '%2')").arg(title, msg));
+    emit WebConnect::Instance().AddContent(title, msg);
+//    webView->page()->runJavaScript(QString("addContent('%1', '%2')").arg(title, msg));
 }
 
 void ChatWindow::AddFileDesc(const QString &id, const QString &nick, time_t time, const QString &fileName, const QString &filePath, const QString &folderPath)
@@ -88,7 +88,8 @@ void ChatWindow::AddFileDesc(const QString &id, const QString &nick, time_t time
             arg(p_tm->tm_min, 2, 10, QChar('0')).
             arg(p_tm->tm_sec, 2, 10, QChar('0'));
     QString title = QString("%1(%2) %3").arg(id).arg(nick).arg(str_time);
-    webView->page()->runJavaScript(QString("addFileDesc('%1', '%2', '%3', '%4')").arg(title).arg(fileName).arg(filePath).arg(folderPath));
+    emit WebConnect::Instance().AddFileDesc(title, fileName, filePath, folderPath);
+//    webView->page()->runJavaScript(QString("addFileDesc('%1', '%2', '%3', '%4')").arg(title).arg(fileName).arg(filePath).arg(folderPath));
 }
 
 void ChatWindow::Add2TextEdit(QString msg)

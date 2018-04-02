@@ -96,6 +96,8 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
         QString id;
         QString nick;
         GET_ELEMENT(GetID4ProfileHandle, profile, &id);
+        if(id == TimTool::Instance().getId())
+            continue;
         GET_ELEMENT(GetNickName4ProfileHandle, profile, &nick);
         DestroyProfileHandle(profile);
         if(!TimTool::Instance().ContainInConvMap(id))

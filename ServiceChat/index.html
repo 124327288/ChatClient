@@ -9,21 +9,18 @@
     <div id = "dv"></div>
     <script>
     new QWebChannel(qt.webChannelTransport, function(channel) {
-       window.content = channel.objects.content;
+       window.connect = channel.objects.connect;
+       connect.AddContent.connect(addContent);
+       connect.AddFileDesc.connect(addFileDesc);
     });
-    function onTest(){
-       if(content){
-           content.ReceiveText("asd");
-       }
-    }
     function openFile(path){
-        if(content){
-            content.OpenFile(path);
+        if(connect){
+            connect.OpenFile(path);
         }
     }
     function openFolder(path){
-        if(content){
-            content.OpenFolder(path);
+        if(connect){
+            connect.OpenFolder(path);
         }
     }
     function addMsgHeader(header, parent){
