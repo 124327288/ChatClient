@@ -11,7 +11,7 @@ private:
 public:
     static LuaTool &Instance();
     void Init();
-
+    ~LuaTool();
     bool isDirExist() const;
     bool genDir();
 

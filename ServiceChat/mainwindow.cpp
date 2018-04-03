@@ -89,7 +89,7 @@ void MainWindow::PopChatWindow(const QModelIndex & index)
 	}
 	else
 	{
-        window = new ChatWindow({ id, nick }, this);
+        window = new ChatWindow({ id, nick });
 		window->show();
 	}
 }

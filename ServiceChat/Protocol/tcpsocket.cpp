@@ -8,17 +8,21 @@
 #include <QObject>
 
 TcpSocket::TcpSocket():
-    socket(new QTcpSocket),
+    socket(new QTcpSocket(this)),
     serverAddress(LuaTool::Instance().getServerAddress()),
     port(LuaTool::Instance().getPort())
 {
-    QObject::connect(socket, &QTcpSocket::connected, this, &TcpSocket::Listen);
+    timer = new QTimer(this);
+    timer->setInterval(200);
+    timer->start();
+    Listen();
+//    QObject::connect(socket, &QTcpSocket::connected, this, &TcpSocket::Listen);
 }
 
 TcpSocket &TcpSocket::Instance()
 {
-    static TcpSocket tcpSocket;
-    return tcpSocket;
+    static TcpSocket instance;
+    return instance;
 }
 
 void TcpSocket::TryConnect()
@@ -29,8 +33,6 @@ void TcpSocket::TryConnect()
 
 void TcpSocket::Listen()
 {
-    QTimer *timer = new QTimer(this);
-    timer->setInterval(200);
     QObject::connect(timer, &QTimer::timeout, [=]{
         QByteArray bytes = socket->readAll();
         if(!bytes.isEmpty())
@@ -52,7 +54,6 @@ void TcpSocket::Listen()
             delete prc;
         }
     });
-    timer->start();
 }
 
 void TcpSocket::OnSignatureProtocol(S2CProtocol *prc)
@@ -80,7 +81,6 @@ QTcpSocket *TcpSocket::getSocket() const
 
 TcpSocket::~TcpSocket()
 {
-//    delete listenThread;
-//    delete socket;
+    timer->stop();
 }
 

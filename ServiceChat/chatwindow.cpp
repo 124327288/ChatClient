@@ -26,23 +26,19 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     ui->sendBtn->setShortcut(QString("Ctrl+Return"));
     ui->widget->setStyleSheet(QString::fromUtf8("border:1px solid #5CACEE"));
     ui->textEdit->installEventFilter(this);
-    webView = new QWebEngineView();
-    QWebChannel *channel = new QWebChannel(this);
+    QWebChannel *channel = new QWebChannel;
     channel->registerObject("connect", &WebConnect::Instance());
+    webView = new QWebEngineView();
     webView->page()->setWebChannel(channel);
-    webView->setUrl(QString("file:///%1/%2").arg(QDir::currentPath()).arg("index.html"));
-    //    webView->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessFileUrls, true);
-    //    webView->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessRemoteUrls, true);
-    //    webView->settings()->setAttribute(QWebEngineSettings::LocalStorageEnabled, true);
-    //    webView->setStyleSheet(QString::fromUtf8("border:1px solid blue"));
+    webView->load(QString("file:///%1/%2").arg(QDir::currentPath()).arg("index.html"));
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(webView);
     ui->widget->setLayout(layout);
     otherId = linkman.id;
     otherNick = !linkman.nick.trimmed().isEmpty() ? linkman.nick : otherId;
-    otherRemark = !linkman.remark.trimmed().isEmpty() ? linkman.remark : otherNick;
+//    otherRemark = !linkman.remark.trimmed().isEmpty() ? linkman.remark : otherNick;
     TimTool::Instance().AddChatWindowMap(otherId, this);
-    setWindowTitle(tr("%1 - Session").arg(otherRemark));
+    setWindowTitle(tr("%1 - Session").arg(otherNick));
     GetConversation();
     if(!TimTool::Instance().GetContentEX(otherId).isEmpty())
     {
@@ -61,25 +57,29 @@ ChatWindow::~ChatWindow()
         delete ui;
         ui = nullptr;
     }
+    webView->deleteLater();
 }
 
 void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
 {
-    std::tm *p_tm = std::localtime(&time);
-    QString str_time = QString("%1-%2 %3:%4:%5").
-            arg(p_tm->tm_mon + 1, 2, 10, QChar('0')).
-            arg(p_tm->tm_mday, 2, 10, QChar('0')).
-            arg(p_tm->tm_hour, 2, 10, QChar('0')).
-            arg(p_tm->tm_min, 2, 10, QChar('0')).
-            arg(p_tm->tm_sec, 2, 10, QChar('0'));
-    QString title = QString("%1(%2) %3").arg(id).arg(nick).arg(str_time);
+    QString title = GetMsgHead(id, nick, time);
     emit WebConnect::Instance().AddContent(title, msg);
-//    webView->page()->runJavaScript(QString("addContent('%1', '%2')").arg(title, msg));
 }
 
 void ChatWindow::AddFileDesc(const QString &id, const QString &nick, time_t time, const QString &fileName, const QString &filePath, const QString &folderPath)
 {
     DEBUG_FUNC;
+    QString title = GetMsgHead(id, nick, time);
+    emit WebConnect::Instance().AddFileDesc(title, fileName, filePath, folderPath);
+}
+
+void ChatWindow::Add2TextEdit(QString msg)
+{
+    ui->textEdit->insertHtml(msg);
+}
+
+QString ChatWindow::GetMsgHead(const QString &id, const QString &nick, time_t time)
+{
     std::tm *p_tm = std::localtime(&time);
     QString str_time = QString("%1-%2 %3:%4:%5").
             arg(p_tm->tm_mon + 1, 2, 10, QChar('0')).
@@ -88,13 +88,7 @@ void ChatWindow::AddFileDesc(const QString &id, const QString &nick, time_t time
             arg(p_tm->tm_min, 2, 10, QChar('0')).
             arg(p_tm->tm_sec, 2, 10, QChar('0'));
     QString title = QString("%1(%2) %3").arg(id).arg(nick).arg(str_time);
-    emit WebConnect::Instance().AddFileDesc(title, fileName, filePath, folderPath);
-//    webView->page()->runJavaScript(QString("addFileDesc('%1', '%2', '%3', '%4')").arg(title).arg(fileName).arg(filePath).arg(folderPath));
-}
-
-void ChatWindow::Add2TextEdit(QString msg)
-{
-    ui->textEdit->insertHtml(msg);
+    return title;
 }
 
 void ChatWindow::GetStyledMsg(const QString &rawMsg, QString *meMsg, QVector<TimMsg> *msgList)

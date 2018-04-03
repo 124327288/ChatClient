@@ -17,6 +17,7 @@ public:
     ~TcpSocket();
 private:
     QTcpSocket *socket;
+    QTimer *timer;
     std::string serverAddress;
     int port;
 

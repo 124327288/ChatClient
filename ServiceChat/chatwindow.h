@@ -21,6 +21,7 @@ public:
     void AddFileDesc(const QString &id, const QString &nick, time_t time, const QString &fileName, const QString &filePath, const QString &folderPath);
     void Add2TextEdit(QString msg);
 private:
+    QString GetMsgHead(const QString &id, const QString &nick, time_t time);
     void GetStyledMsg(const QString &rawMsg, QString *meMsg, QVector<TimMsg> *msgList);
 private slots:
     void on_sendBtn_clicked();
@@ -37,7 +38,6 @@ private slots:
 private:
     Ui::ChatWindow      *ui;
     QWebEngineView      *webView;
-    QLabel              *label;
     QString             otherId;
     QString             otherNick;
     QString             otherRemark;

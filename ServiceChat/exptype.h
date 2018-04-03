@@ -29,7 +29,7 @@ struct Linkman
 {
     QString id;
     QString nick;
-    QString remark;
+//    QString remark;
 };
 
 struct Session

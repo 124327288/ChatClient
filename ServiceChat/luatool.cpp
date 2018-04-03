@@ -33,7 +33,14 @@ void LuaTool::Init()
     if(!isAppCfgFileExist())
         genAppCfgFile();
 //    if(!isUserCfgFileExist())
-//        genUserCfgFile();
+    //        genUserCfgFile();
+}
+
+LuaTool::~LuaTool()
+{
+    if(L)
+        lua_close(L);
+    L = nullptr;
 }
 
 bool LuaTool::isDirExist() const
