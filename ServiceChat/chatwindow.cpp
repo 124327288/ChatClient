@@ -18,6 +18,7 @@
 #include <QWebEngineSettings>
 #include <ctime>
 #include "webconnect.h"
+#include <tuple>
 ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ChatWindow)
@@ -98,12 +99,13 @@ void ChatWindow::GetStyledMsg(const QString &rawMsg, QString *meMsg, QVector<Tim
     auto matchTxtMsg = [](const QString &msg){
         QRegExp rx(R"z(<p.*>.+</p>)z");
         rx.setMinimal(true);
-        QStringList txtList;
+        QVector<std::tuple<QString, int>> txtList;
         for(int pos = 0; (pos = rx.indexIn(msg, pos)) != -1;)
         {
             pos += rx.matchedLength();
-            DEBUG_VAR(rx.cap());
-            txtList << rx.cap();
+//            DEBUG_VAR(rx.cap());
+//            txtList << rx.cap();
+            txtList += { rx.cap(), pos };
         }
         return txtList;
     };
@@ -111,17 +113,20 @@ void ChatWindow::GetStyledMsg(const QString &rawMsg, QString *meMsg, QVector<Tim
     auto matchImgMsg = [](const QString &msg){
         QRegExp rx(R"z(<img src=\"(?!qrc:)(.*)\" />)z");
         rx.setMinimal(true);
-        QStringList imgList;
+        QVector<std::tuple<QString, int>> imgList;
         for(int pos = 0; (pos = rx.indexIn(msg, pos)) != -1;)
         {
             pos += rx.matchedLength();
-            DEBUG_VAR(rx.cap(1));
-            imgList << rx.cap(1);
+//            DEBUG_VAR(rx.cap(1));
+//            imgList << rx.cap(1);
+            imgList += { rx.cap(1), pos };
         }
         return imgList;
     };
     QRegExp regExp(R"(<p.*>.*</p>)");
     regExp.setMinimal(true);
+//    QString txtMsg;
+    QVector<std::tuple<TimMsg, int>> _msgList;
     for(int pos = 0; (pos = regExp.indexIn(rawMsg, pos)) != -1;)
     {
         pos += regExp.matchedLength();
@@ -129,25 +134,50 @@ void ChatWindow::GetStyledMsg(const QString &rawMsg, QString *meMsg, QVector<Tim
         *meMsg += msg;
         qDebug() << msg;
         {
-            QStringList imgList = matchImgMsg(msg);
+            auto imgList = matchImgMsg(msg);
             if(imgList.count() > 0)
             {
                 qDebug() << "kElemImage";
                 for(const auto &s : imgList)
-                    *msgList += { kElemImage, s };
+                {
+                    _msgList += { TimMsg{ kElemImage, std::get<0>(s)} , std::get<1>(s) };
+                }
             }
         }
         msg = msg.remove(QRegularExpression(R"z(<img src=\"(?!qrc:)(.*)\" />)z"));
         {
-            QStringList txtList = matchTxtMsg(msg);
+            auto txtList = matchTxtMsg(msg);
             if(txtList.count() > 0)
             {
                 qDebug() << "kElemText";
                 for(const auto &s : txtList)
-                    *msgList += { kElemText, s };
+                    _msgList += { TimMsg{ kElemText, std::get<0>(s)} , std::get<1>(s) };
+//                    txtMsg += s;
+//                    *msgList += { kElemText, s };
             }
         }
     }
+    qSort(_msgList.begin(), _msgList.end(), [](const std::tuple<TimMsg, int> &a, const std::tuple<TimMsg, int> &b){
+        return std::get<1>(a) < std::get<1>(b);
+    });
+    for(const std::tuple<TimMsg, int> &t: _msgList)
+    {
+        int type = std::get<0>(t).type;
+        if(type == kElemImage)
+            *msgList += std::get<0>(t);
+        else if(type == kElemText)
+        {
+            if(msgList->back().type == type)
+            {
+                msgList->back().msg += std::get<0>(t).msg;
+            }
+            else
+            {
+                *msgList += std::get<0>(t);
+            }
+        }
+    }
+
 }
 
 void ChatWindow::GetConversation()

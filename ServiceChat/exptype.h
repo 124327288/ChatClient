@@ -75,6 +75,7 @@ struct UserCfgStruct
 
 struct TimMsg
 {
+//    TimMsg(int t, QString m):type(t), msg(m) {}
     int type;
     QString msg;
 };

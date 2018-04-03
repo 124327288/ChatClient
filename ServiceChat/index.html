@@ -7,12 +7,22 @@
 </head>
 <body style=" font-family:'SimSun'; font-size:9pt; font-weight:400; font-style:normal;" onload="window.scrollTo(0,document.body.scrollHeight); " >
     <div id = "dv"></div>
+    <div><a id = "bottom" name = "1" href = "#1"></a></div>
     <script>
     new QWebChannel(qt.webChannelTransport, function(channel) {
        window.connect = channel.objects.connect;
        connect.AddContent.connect(addContent);
        connect.AddFileDesc.connect(addFileDesc);
     });
+    function sleep(numberMillis) {  
+        var now = new Date();  
+        var exitTime = now.getTime() + numberMillis;  
+        while (true) {  
+            now = new Date();  
+            if (now.getTime() > exitTime)  
+            return;  
+        }  
+    }  
     function openFile(path){
         if(connect){
             connect.OpenFile(path);
@@ -40,7 +50,9 @@
         elemDiv.appendChild(elemMsg);
 
         document.getElementById("dv").appendChild(elemDiv);
-        window.scrollTo(0, document.body.scrollHeight);
+        bottom.scrollIntoView();
+        // sleep(1000);
+        // window.scrollTo(0, document.body.scrollHeight);
     }
     function addFileDesc(title, fileName, filePath, folderPath){
         var elemDiv = document.createElement("div");
@@ -48,7 +60,9 @@
         var elemFile = _addFileDesc(fileName, filePath, folderPath);
         elemDiv.appendChild(elemFile);
         document.getElementById("dv").appendChild(elemDiv);
-        window.scrollTo(0, document.body.scrollHeight);
+        bottom.scrollIntoView();
+        // sleep(1000);
+        // window.scrollTo(0, document.body.scrollHeight);
     }
     function _addFileDesc(fileName, filePath, folderPath){
         var elemFile = document.createElement("p");
