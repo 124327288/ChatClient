@@ -11,6 +11,9 @@ void onKickOffline(void* data);
 void onLoginSuccess(void*);
 void onLoginError(int code, const char *desc, void *data);
 
+void onLogoutSuccess(void*);
+void onLogoutError(int code, const char *desc, void *data);
+
 void onCommSuccess(void*);
 void onCommError(int code, const char *desc, void *data);
 

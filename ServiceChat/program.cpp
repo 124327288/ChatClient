@@ -1,6 +1,9 @@
-﻿#include "program.h"
+﻿#include "mainwindow.h"
+#include "program.h"
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QProcess>
+#include <Tim/timtool.h>
 
 time_t GetTime()
 {
@@ -48,4 +51,18 @@ void SetWidgetCentral(QWidget *w)
 {
     w->move((qApp->desktop()->availableGeometry().width() - w->width()) / 2 + qApp->desktop()->availableGeometry().x(),
                (qApp->desktop()->availableGeometry().height() - w->height()) / 2 + qApp->desktop()->availableGeometry().y());
+}
+
+void Restart()
+{
+    CloseAll();
+    qApp->quit();
+    QProcess::startDetached(qApp->applicationFilePath(), QStringList("--disable-web-security"));
+}
+
+void CloseAll()
+{
+    for(auto w : TimTool::Instance().getChatWindowMap())
+        w->close();
+    MainWindow::Instance().close();
 }

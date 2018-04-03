@@ -42,7 +42,6 @@ int main(int argc, char *argv[])
     LuaTool::Instance().getConfigs();
     TcpSocket::Instance().TryConnect();
     TimTool::Instance().Init();
-    TimTool::Instance().SetMessageCallback();
     SqliteTool::Instance().CreateConnect();
     SqliteTool::Instance().Init();
     SqliteTool::Instance().ShowAllTableName();

@@ -27,6 +27,10 @@ private slots:
 
     void updateListView();
 
+    void on_actionLogout_triggered(bool checked);
+
+    void on_actionExit_triggered(bool checked);
+
 private:
     Ui::MainWindow      *ui;
     QListView           *sessionListView;

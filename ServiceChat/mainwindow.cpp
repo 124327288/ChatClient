@@ -121,3 +121,14 @@ void MainWindow::updateListView()
 {
 
 }
+
+void MainWindow::on_actionLogout_triggered(bool checked)
+{
+    TimTool::Instance().Logout();
+}
+
+void MainWindow::on_actionExit_triggered(bool checked)
+{
+    CloseAll();
+    qApp->exit();
+}

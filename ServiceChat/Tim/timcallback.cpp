@@ -5,7 +5,8 @@
 #include <fstream>
 #include <QCoreApplication>
 #include <QFileDialog>
-
+#include <mainwindow.h>
+#include "loginwindow.h"
 void onConnected(void *)
 {
     DEBUG_FUNC;
@@ -159,7 +160,8 @@ void onGetImageError(int code, const char *desc, void *data)
 void onGetText(TIMMsgTextElemHandle handle, const QString &id, const QString &nick, time_t time)
 {
     QString msg;
-    GET_ELEMENT(GetContent, handle, &msg);
+    GetElement<MAXLENCONTENT>(GetContent, __func__, handle, &msg);
+//    GET_ELEMENT(GetContent, handle, &msg);
     qDebug() << QString("receive content = %1").arg(msg);
     emit TimTool::Instance().NewMsg(id, nick, time, msg);
 }
@@ -280,5 +282,15 @@ void onSendFileError(int code, const char *desc, void *data)
 void onKickOffline(void *data)
 {
     DEBUG_FUNC;
-    QMessageBox::information(nullptr, QObject::tr("Be Kick Offline!"),  QObject::tr("Be Kick Offline! Logout!"));
+    emit TimTool::Instance().OnKickOffline(data);
+}
+
+void onLogoutSuccess(void *)
+{
+    Restart();
+}
+
+void onLogoutError(int code, const char *desc, void *data)
+{
+    DEBUG_FUNC;
 }

@@ -6,6 +6,7 @@
     <script src="./qwebchannel.js"></script>
 </head>
 <body style=" font-family:'SimSun'; font-size:9pt; font-weight:400; font-style:normal;" onload="window.scrollTo(0,document.body.scrollHeight); " >
+    <!-- <input type="button" name="btn" value="append" onclick="test()" /> -->
     <div id = "dv"></div>
     <div><a id = "bottom" name = "1" href = "#1"></a></div>
     <script>
@@ -39,6 +40,9 @@
         elemTitle.appendChild(nodeTitle);
         elemTitle.style.color = "blue";
         parent.appendChild(elemTitle);
+    }
+    function test(){
+        addContent("asd", "<img src = 'C:\\Users\\Zhang\\Pictures\\20180320163017.png '/>");
     }
     function addContent(title, msg){
         var elemDiv = document.createElement("div");

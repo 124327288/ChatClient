@@ -77,6 +77,20 @@ inline int onGetElementReturn(const char *funcName, int ret)
     }                                                   \
 }
 
+using GetElementFuncType = int(void*, char*, uint32_t*);
+
+template <int MAXLEN = MAXLENBUFFER>
+void GetElement(GetElementFuncType func, const char *funcName, void *handle, QString *pStr)
+{
+    char buf[MAXLEN];
+    uint32_t len = MAXLEN;
+    int ret = onGetElementReturn(funcName, func(handle, buf, &len));
+    if(!ret)
+    {
+        *pStr = QString::fromUtf8(buf, len);
+    }
+}
+
 template <class T>
 inline void SqlError(const T &sql, const QString &funcName)
 {
@@ -140,5 +154,7 @@ QRect InterSection2Rect(const QRect &r1, const QRect &r2);
 QString UuidToStringEx();
 time_t GetTime();
 void SetWidgetCentral(QWidget *w);
+void CloseAll();
+void Restart();
 
 #endif // PROGRAM_H

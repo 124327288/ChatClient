@@ -1,6 +1,7 @@
 ﻿#include "timtool.h"
 #include "timcallback.h"
 #include "loginwindow.h"
+#include "mainwindow.h"
 #include "Protocol/tcpsocket.h"
 #include "Protocol/C2S/userpwdprotocol.h"
 #include <QTimer>
@@ -14,6 +15,7 @@ TimTool::TimTool() :
     private_key("-----BEGIN PRIVATE KEY-----MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgySwtuhI1jDkKvsN71WD/0sNsrT7WlMT64+pk1B7OCqShRANCAASm3KZvAY2ZOh2yLU5suIYjYS1EsKZDz6lboryFZUFMt8HiBb0wPH+vH1law55/q6Imlf9k/73TGHorb4wMONhm-----END PRIVATE KEY-----"),
     timPath("./TimPath")
 {
+    connect(this, &TimTool::OnKickOffline, this, &TimTool::OnKickOfflineHandle);
     connect(this, &TimTool::NewMsg, this, &TimTool::NewMsgHandler);
     connect(this, &TimTool::GetFileSuccess, this, &TimTool::GetFileSuccessHandle);
     connect(this, &TimTool::GetFriendListSuccess, this, &TimTool::GetFriendListSuccessHandle);
@@ -38,6 +40,8 @@ void TimTool::Init()
     TIMSetPath(timPath.data());
     TIMSetLogLevel(TIMLogLevel::kLogDebug);
     SetConnCallBack();
+    SetMessageCallback();
+    SetKickOfflineCallBack();
     TIMInit();
 }
 
@@ -69,6 +73,15 @@ void TimTool::SetKickOfflineCallBack()
 void TimTool::GetLocalMessage()
 {
 
+}
+
+void TimTool::Logout()
+{
+    TIMCommCB cb;
+    cb.OnSuccess = &onLogoutSuccess;
+    cb.OnError = &onLogoutError;
+    TIMLogout(&cb);
+    Sleep(1);
 }
 
 bool TimTool::TimPathExist() const
@@ -430,6 +443,16 @@ void TimTool::NewMsgHandler(QString id, QString nick, uint32_t time, QString msg
         ChatWindow *window = chatWindowMap[id];
         window->AddContent(id, nick, time, msg);
     }
+}
+
+void TimTool::OnKickOfflineHandle(void *data)
+{
+    QMessageBox::information(nullptr, QObject::tr("Be Kick Offline!"),  QObject::tr("Be Kick Offline! Logout!"));
+    Restart();
+//    for(auto window : TimTool::Instance().getChatWindowMap())
+//        window->close();
+//    MainWindow::Instance().close();
+//    LoginWindow::Instance().show();
 }
 
 void TimTool::GetFileSuccessHandle(const QString &id, const QString &nick, time_t time, const QString &fileName, const QString &filePath, const QString &folderPath)

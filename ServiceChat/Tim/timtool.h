@@ -17,7 +17,7 @@ public:
     void SetMessageCallback();
     void SetKickOfflineCallBack();
     void GetLocalMessage();
-
+    void Logout();
 private:
     bool TimPathExist() const;
     void MakeTimPath();
@@ -62,8 +62,10 @@ signals:
     void GetSignature(QString sig);
     void SetSignatureSuccess();
     void NewConversation(const QString &id, QString &nick, time_t time);
+    void OnKickOffline(void*);
 private slots:
     void NewMsgHandler(QString id, QString nick, uint32_t time, QString msg);
+    void OnKickOfflineHandle(void* data);
     void GetFileSuccessHandle(const QString &id, const QString &nick, time_t time, const QString &fileName, const QString &filePath, const QString &folderPath);
 	void GetFriendListSuccessHandle(const QList<Linkman> &friendList);
 private:
