@@ -1,19 +1,22 @@
 #ifndef TABLE_H
 #define TABLE_H
+#include <QMap>
 #include <QString>
+#include <QStringList>
 namespace Table
 {
     class Table;
     QString GetTableName(int i);
     QString GetTableName(const Table &table);
-
     class Table
     {
     public:
-        virtual int GetType() const = 0;
-        virtual int ColoumsNum() const = 0;
-        virtual int GetIth(QString name) const = 0;
-        virtual QString GetColName(int i) const = 0;
+        virtual int Type() const = 0;
+        virtual QStringList ColNameList() const = 0;
+        int ColCount() const { return ColNameList().size(); }
+        QString GetColName(int i) const { return ColNameList().at(i); }
+        QMap<QString, int> NameToIdxMap() const;
+        int GetIth(QString name) const { return NameToIdxMap().value(name); }
     };
 
     class Id : public Table
@@ -22,12 +25,6 @@ namespace Table
     public:
         QString getId() const;
         void setId(const QString &value);
-        // Table interface
-    public:
-        int GetType() const override { return 0; }
-        int ColoumsNum() const override { return 1; }
-        int GetIth(QString name) const override;
-        QString GetColName(int i) const override;
     };
 
     class Account : public Table
@@ -39,12 +36,6 @@ namespace Table
         void setId(const QString &value);
         QString getPwd() const;
         void setPwd(const QString &value);
-        // Table interface
-    public:
-        int GetType() const override { return 1; }
-        int ColoumsNum() const override { return 2; }
-        int GetIth(QString name) const override;
-        QString GetColName(int i) const override;
     };
 
     class Sign : public Table
@@ -56,12 +47,6 @@ namespace Table
         void setId(const QString &value);
         QString getSig() const;
         void setSig(const QString &value);
-        // Table interface
-    public:
-        int GetType() const override { return 2; }
-        int ColoumsNum() const override { return 2; }
-        int GetIth(QString name) const override;
-        QString GetColName(int i) const override;
     };
 }
 

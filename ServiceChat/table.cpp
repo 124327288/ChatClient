@@ -18,8 +18,23 @@ namespace Table
 
     QString GetTableName(const Table &table)
     {
-        return GetTableName(table.GetType());
+        return GetTableName(table.Type());
     }
+
+    QMap<QString, int> Table::NameToIdxMap() const
+    {
+        static QMap<QString, int> map;
+        if(!map.isEmpty())
+            return map;
+        QStringList stringList = ColNameList();
+        int size = stringList.size();
+        for(int i = 0; i < size; ++i)
+        {
+            map[stringList[i]] = i;
+        }
+        return map;
+    }
+
 }
 
 QString Table::Id::getId() const
@@ -32,17 +47,23 @@ void Table::Id::setId(const QString &value)
     id = value;
 }
 
-int Table::Id::GetIth(QString name) const
-{
-    static QMap<QString, int> map = {{"id", 0}};
-    return map.contains(name) ? map.value(name) : -1;
-}
+//int Table::Id::GetIth(QString name) const
+//{
+//    static QMap<QString, int> map = {{"id", 0}};
+//    return map.contains(name) ? map.value(name) : -1;
+//}
 
-QString Table::Id::GetColName(int i) const
-{
-    static QString map[] = {"id"};
-    return map[i];
-}
+//QString Table::Id::GetColName(int i) const
+//{
+//    static QString map[] = {"id"};
+//    return map[i];
+//}
+
+//QStringList Table::Id::GetColNames() const
+//{
+//    static const QStringList list = {"id"};
+//    return list;
+//}
 
 QString Table::Account::getId() const
 {
