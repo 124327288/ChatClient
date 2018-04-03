@@ -80,6 +80,12 @@ struct TimMsg
     QString msg;
 };
 
+struct ParamType
+{
+    const char *name;
+    QVariant value;
+};
+
 Q_DECLARE_METATYPE(Linkman)
 Q_DECLARE_METATYPE(QList<Linkman>)
 Q_DECLARE_METATYPE(uint32_t)

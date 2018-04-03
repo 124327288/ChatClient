@@ -1,7 +1,7 @@
 ﻿#ifndef TIMTOOL_H
 #define TIMTOOL_H
 #include "stdafx.h"
-#include "tim.h"
+#include "tim_header.h"
 #include <string>
 #include "chatwindow.h"
 class TimTool : public QObject
@@ -52,8 +52,26 @@ public:
     QVector<ChatContentEX>  GetContentEX(QString id);
     void                    ClearContentEX();
 signals:
-    void LoginSuccess();
-    void LoginError(int code, const QString &desc);
+    void OnConnected(void *data);
+    void OnDisconnected(void *data);
+
+    void OnKickOffline(void *data);
+
+    void OnLoginSuccess(void *data);
+    void OnLoginError(int code, const char *desc, void *data);
+
+    void OnLogoutSuccess(void *data);
+    void OnLogoutError(int code, const char *desc, void *data);
+
+    void OnGetFriendListSuccess(TIMFriendListElemHandle *handles, uint32_t num, void *data);
+    void OnGetFriendListError(int code, const char *desc, void *data);
+
+    void OnAddFriendSuccess(TIMFriendResultHandle* handles, uint32_t num, void* data);
+    void OnAddFriendError(int code, const char* desc, void* data);
+
+    void OnGetSelfProfileSuccess(TIMSelfProfileHandle* handles, uint32_t num, void* data);
+    void OnGetSelfProfileError(int code, const char* desc, void* data);
+
     void GetFriendListSuccess(QList<Linkman> friendList);
     void GetFriendListError(int code, const char *desc);
     void GetSelfNickname(QString nick);
@@ -62,7 +80,7 @@ signals:
     void GetSignature(QString sig);
     void SetSignatureSuccess();
     void NewConversation(const QString &id, QString &nick, time_t time);
-    void OnKickOffline(void*);
+
 private slots:
     void NewMsgHandler(QString id, QString nick, uint32_t time, QString msg);
     void OnKickOfflineHandle(void* data);

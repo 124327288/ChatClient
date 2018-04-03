@@ -26,8 +26,8 @@ LoginWindow::LoginWindow(QWidget *parent) :
     for(auto str : idList)
         qDebug() << str;
     ui->usernameComboBox->addItems(idList);
-    connect(&TimTool::Instance(), &TimTool::LoginSuccess, this, &LoginWindow::onLoginSuccess);
-    connect(&TimTool::Instance(), &TimTool::LoginError, this, &LoginWindow::onLoginError);
+    connect(&TimTool::Instance(), &TimTool::OnLoginSuccess, this, &LoginWindow::onLoginSuccess);
+    connect(&TimTool::Instance(), &TimTool::OnLoginError, this, &LoginWindow::onLoginError);
 //    connect(ui->usernameComboBox, &QComboBox::currentIndexChanged,)
 //    connect(this, &LoginWindow::RemainTime, [=](int msec){
 //        QString s;

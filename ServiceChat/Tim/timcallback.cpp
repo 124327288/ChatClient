@@ -7,36 +7,35 @@
 #include <QFileDialog>
 #include <mainwindow.h>
 #include "loginwindow.h"
-void onConnected(void *)
+void onConnected(void *data)
 {
     DEBUG_FUNC;
 }
 
-void onDisconnected(void *)
+void onDisconnected(void *data)
 {
     DEBUG_FUNC;
 }
 
-void onLoginSuccess(void *)
+void onLoginSuccess(void *data)
 {
-    emit TimTool::Instance().LoginSuccess();
+    emit TimTool::Instance().OnLoginSuccess(data);
 }
 
 void onLoginError(int code, const char *desc, void *data)
 {
-    QString str = desc;
-    emit TimTool::Instance().LoginError(code, str);
+    emit TimTool::Instance().OnLoginError(code, desc, data);
 }
 
-void onCommSuccess(void *data)
-{
+//void onCommSuccess(void *data)
+//{
 
-}
+//}
 
-void onCommError(int code, const char *desc, void *data)
-{
-    DEBUG_ERROR;
-}
+//void onCommError(int code, const char *desc, void *data)
+//{
+//    DEBUG_ERROR;
+//}
 
 void onGetFriendListSuccess(TIMFriendListElemHandle *handles, uint32_t num, void *data)
 {
@@ -285,7 +284,7 @@ void onKickOffline(void *data)
     emit TimTool::Instance().OnKickOffline(data);
 }
 
-void onLogoutSuccess(void *)
+void onLogoutSuccess(void *data)
 {
     Restart();
 }

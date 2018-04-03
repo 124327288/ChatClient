@@ -59,13 +59,13 @@ SOURCES += \
         Delegate/friendlistitemdelegate.cpp \
         Delegate/sessionlistitemdelegate.cpp \
         Delegate/emotionsitemdelegate.cpp \
-        Tim/tim.cpp \
         Tim/timcallback.cpp \
         Tim/timtool.cpp \
     filewindow.cpp \
     Model/filetablemodel.cpp \
     Delegate/filetableitemdelegate.cpp \
-    webconnect.cpp
+    webconnect.cpp \
+    databasetool.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -96,13 +96,14 @@ HEADERS += \
         Delegate/friendlistitemdelegate.h \
         Delegate/sessionlistitemdelegate.h \
         Delegate/emotionsitemdelegate.h \
-        Tim/tim.h \
         Tim/timcallback.h \
         Tim/timtool.h \
     filewindow.h \
     Model/filetablemodel.h \
     Delegate/filetableitemdelegate.h \
-    webconnect.h
+    webconnect.h \
+    Tim/tim_header.h \
+    databasetool.h
 
 FORMS += \
         loginwindow.ui \

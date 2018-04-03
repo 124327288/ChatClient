@@ -448,11 +448,11 @@ void TimTool::NewMsgHandler(QString id, QString nick, uint32_t time, QString msg
 void TimTool::OnKickOfflineHandle(void *data)
 {
     QMessageBox::information(nullptr, QObject::tr("Be Kick Offline!"),  QObject::tr("Be Kick Offline! Logout!"));
-    Restart();
-//    for(auto window : TimTool::Instance().getChatWindowMap())
-//        window->close();
-//    MainWindow::Instance().close();
-//    LoginWindow::Instance().show();
+//    Restart();
+    for(auto window : TimTool::Instance().getChatWindowMap())
+        window->close();
+    MainWindow::Instance().close();
+    LoginWindow::Instance().show();
 }
 
 void TimTool::GetFileSuccessHandle(const QString &id, const QString &nick, time_t time, const QString &fileName, const QString &filePath, const QString &folderPath)

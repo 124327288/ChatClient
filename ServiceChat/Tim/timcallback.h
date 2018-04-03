@@ -1,21 +1,21 @@
 ﻿#ifndef TIMCALLBACK_H
 #define TIMCALLBACK_H
 #include "stdafx.h"
-#include "tim.h"
+#include "tim_header.h"
 
-void onConnected(void*);
-void onDisconnected(void*);
+void onConnected(void *data);
+void onDisconnected(void *data);
 
 void onKickOffline(void* data);
 
-void onLoginSuccess(void*);
+void onLoginSuccess(void* data);
 void onLoginError(int code, const char *desc, void *data);
 
-void onLogoutSuccess(void*);
+void onLogoutSuccess(void* data);
 void onLogoutError(int code, const char *desc, void *data);
 
-void onCommSuccess(void*);
-void onCommError(int code, const char *desc, void *data);
+//void onCommSuccess(void *data);
+//void onCommError(int code, const char *desc, void *data);
 
 void onGetFriendListSuccess(TIMFriendListElemHandle *handles, uint32_t num, void *data);
 void onGetFriendListError(int code, const char *desc, void *data);
@@ -31,7 +31,7 @@ void onGetText(TIMMsgTextElemHandle handle, const QString &id, const QString &ni
 void onGetImage(TIMMsgImageElemHandle handle, const QString &id, const QString &nick, time_t time);
 void onGetFile(TIMMsgFileElemHandle handle, const QString &id, const QString &nick, time_t time);
 
-void onGetImageSuccess(void*data);
+void onGetImageSuccess(void* data);
 void onGetImageError(int code, const char *desc, void *data);
 
 void onGetFileSuccess(const char* buf, uint32_t len, void* data);

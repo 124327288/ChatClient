@@ -14,7 +14,7 @@ LuaTool::LuaTool()
     dir = ".\\config\\";
     appCfgFile = "app_cfg.lua";
     userCfgFile = "user_cfg.lua";
-    connect(&TimTool::Instance(), &TimTool::LoginSuccess,this, &LuaTool::LoginSuccessHandle);
+    connect(&TimTool::Instance(), &TimTool::OnLoginSuccess,this, &LuaTool::LoginSuccessHandle);
     connect(&Signal::Instance(), &Signal::RemPwdAndAutoLogin, this, &LuaTool::RemPwdAndAutoLoginHandle);
 }
 
