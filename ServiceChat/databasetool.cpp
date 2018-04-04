@@ -79,7 +79,35 @@ bool DatabaseTool::IsTableExist(const QString &tableName)
 
 bool DatabaseTool::IsTableExist(const char *tableName)
 {
-    IsTableExist(QString(tableName));
+    return IsTableExist(QString(tableName));
+}
+
+int DatabaseTool::RowsNum(const char *tableName)
+{
+    return RowsNum(QString(tableName));
+}
+
+int DatabaseTool::RowsNum(const QString &tableName)
+{
+    if(!IsBind())
+        return -1;
+    QString s = QString("SELECT COUNT(1) FROM %1").arg(tableName);
+    QSqlQuery query;
+    if(!query.prepare(s))
+    {
+        SQL_ERROR(query);
+        return -1;
+    }
+    if(!query.exec())
+    {
+        SQL_ERROR(query);
+        return -1;
+    }
+    if(query.next())
+    {
+        return query.value(0).toInt();
+    }
+    return -1;
 }
 
 bool DatabaseTool::Update(const QString &tableName, const QVector<ParamType> &setList, const QVector<ParamType> &whereList)
@@ -153,3 +181,5 @@ bool DatabaseTool::Delete(const QString &tableName, const QVector<ParamType> &wh
     }
     return true;
 }
+
+

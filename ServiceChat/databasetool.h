@@ -12,13 +12,23 @@ class DatabaseTool
 public:
     DatabaseTool();
     DatabaseTool &Instance();
+
     bool Bind(const QString &dbName, const char *type = "QSQLITE");
     bool IsBind();
+
     void ShowAllTableName();
+
     bool IsTableExist(const QString &tableName);
     bool IsTableExist(const char *tableName);
+
+    int RowsNum(const char *tableName);
+    int RowsNum(const QString &tableName);
+
     bool Update(const QString &tableName, const QVector<ParamType> &setList, const QVector<ParamType> &whereList);
     bool Delete(const QString &tableName, const QVector<ParamType> &whereList);
+
+    template <typename T>
+    int RowsNum(const T &t);
 
     template <typename T>
     bool IsTableExist(const T &t);
@@ -135,10 +145,12 @@ bool DatabaseTool::Select(QVector<T> *tableList, const QVector<ParamType> &where
         SQL_ERROR(q);
         return false;
     }
+    bool has = false;
     while(q.next())
     {
         if(!tableList)
             return true;
+        has = true;
         T table;
         for(int i = 1; i < metaObject->propertyCount(); ++i)
         {
@@ -147,7 +159,7 @@ bool DatabaseTool::Select(QVector<T> *tableList, const QVector<ParamType> &where
         }
         tableList->push_back(table);
     }
-    return true;
+    return has;
 }
 
 template<typename T>
@@ -195,13 +207,19 @@ bool DatabaseTool::Insert(const T &t)
 template<typename T>
 bool DatabaseTool::Update(const T &t, const QVector<ParamType> &setList, const QVector<ParamType> &whereList)
 {
-    return Update(t.metaObject().className(), setList, whereList);
+    return Update(t.metaObject()->className(), setList, whereList);
 }
 
 template<typename T>
 void DatabaseTool::Delete(const T &t, const QVector<ParamType> &whereList)
 {
-    return Delete(t.metaObject().className(), whereList);
+    return Delete(t.metaObject()->className(), whereList);
+}
+
+template<typename T>
+int DatabaseTool::RowsNum(const T &t)
+{
+    return RowsNum(t.metaObject()->className());
 }
 
 #endif // DATABASETOOL_H

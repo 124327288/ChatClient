@@ -2,6 +2,8 @@
 #include "luatool.h"
 #include "sqlitetool.h"
 #include "tim/timtool.h"
+#include "Table/table.h"
+#include "databasetool.h"
 Signal::Signal()
 {
     connect(this, &Signal::RemPwdAndAutoLogin, this, &Signal::RemPwdAndAutoLoginHandle);
@@ -22,24 +24,35 @@ void Signal::RemPwdAndAutoLoginHandle(bool isRemPwd, bool isAutoLogin)
     QString sig = TimTool::Instance().getSig();
     if(isRemPwd)
     {
-        if(SqliteTool::Instance().Select4AccountTable(id))
+        DatabaseTool db;
+        QVector<Account> res;
+        Account account;
+        account.setId(id);
+        account.setPwd(pwd);
+
+        if(db.Select(&res, {{"id", id}}))
         {
-            SqliteTool::Instance().Update2AccountTable(id, pwd);
+            db.Update(account, {{"pwd", pwd}}, {{"id", id}});
         }
         else
         {
-            SqliteTool::Instance().Insert2AccountTable(id, pwd);
+            db.Insert(account);
         }
     }
     if(isAutoLogin)
     {
-        if(SqliteTool::Instance().Select4SignTable(id))
+        DatabaseTool db;
+        QVector<Sig> res;
+        Sig _sig;
+        _sig.setId(id);
+        _sig.setSig(sig);
+        if(db.Select(&res, {{"id", id}}))
         {
-            SqliteTool::Instance().Update2SignTable(id, sig);
+            db.Update(sig, {{"sig", sig}}, {{"id", id}});
         }
         else
         {
-            SqliteTool::Instance().Insert2SignTable(id, sig);
+            db.Insert(sig);
         }
     }
 }

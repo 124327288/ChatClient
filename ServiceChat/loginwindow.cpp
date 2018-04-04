@@ -22,7 +22,7 @@ LoginWindow::LoginWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->loginPushButton->setShortcut(Qt::Key_Return);
     setWindowFlags(windowFlags() & ~Qt::WindowMaximizeButtonHint);
-    SqliteTool::Instance().SelectAll4IdTable(&idList);
+//    SqliteTool::Instance().SelectAll4IdTable(&idList);
     for(auto str : idList)
         qDebug() << str;
     ui->usernameComboBox->addItems(idList);
