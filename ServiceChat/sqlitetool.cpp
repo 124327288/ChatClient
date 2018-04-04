@@ -21,6 +21,13 @@ SqliteTool &SqliteTool::Instance()
     return instance;
 }
 
+DatabaseTool &SqliteTool::Database()
+{
+    DatabaseTool instance;
+    instance.Bind("Chat.db");
+    return instance;
+}
+
 void SqliteTool::Init()
 {
     if(!dbTool.Bind(dbName))

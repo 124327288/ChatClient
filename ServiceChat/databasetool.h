@@ -11,7 +11,7 @@ class DatabaseTool
 {
 public:
     DatabaseTool();
-    DatabaseTool &Instance();
+//    DatabaseTool &Instance();
 
     bool Bind(const QString &dbName, const char *type = "QSQLITE");
     bool IsBind();

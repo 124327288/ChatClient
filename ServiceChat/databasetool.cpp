@@ -6,12 +6,12 @@ DatabaseTool::DatabaseTool()
 
 }
 
-DatabaseTool &DatabaseTool::Instance()
-{
-    static DatabaseTool instance;
-    instance.Bind("sys.db");
-    return instance;
-}
+//DatabaseTool &DatabaseTool::Instance()
+//{
+//    static DatabaseTool instance;
+//    instance.Bind("sys.db");
+//    return instance;
+//}
 
 bool DatabaseTool::Bind(const QString &dbName, const char *type)
 {
