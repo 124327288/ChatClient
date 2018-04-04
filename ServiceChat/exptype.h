@@ -89,5 +89,6 @@ struct ParamType
 Q_DECLARE_METATYPE(Linkman)
 Q_DECLARE_METATYPE(QList<Linkman>)
 Q_DECLARE_METATYPE(uint32_t)
+Q_DECLARE_METATYPE(time_t)
 
 #endif // EXPTYPE_H

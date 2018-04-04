@@ -43,7 +43,6 @@ SOURCES += \
         pdfwindow.cpp \
         settingdialog.cpp \
         sqlitetool.cpp \
-        table.cpp \
         signal.cpp \
         emotiondialog.cpp \
         screenshot.cpp  \
@@ -65,7 +64,10 @@ SOURCES += \
     Model/filetablemodel.cpp \
     Delegate/filetableitemdelegate.cpp \
     webconnect.cpp \
-    databasetool.cpp
+    databasetool.cpp \
+    Table/id.cpp \
+    Table/account.cpp \
+    Table/sig.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -79,7 +81,6 @@ HEADERS += \
         pdfwindow.h \
         settingdialog.h \
         sqlitetool.h \
-        table.h \
         signal.h \
         emotiondialog.h \
         screenshot.h    \
@@ -103,7 +104,11 @@ HEADERS += \
     Delegate/filetableitemdelegate.h \
     webconnect.h \
     Tim/tim_header.h \
-    databasetool.h
+    databasetool.h \
+    Table/id.h \
+    Table/table.h \
+    Table/account.h \
+    Table/sig.h
 
 FORMS += \
         loginwindow.ui \

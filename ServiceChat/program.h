@@ -37,7 +37,8 @@ inline void varTypeError(const QString &variable, const QString &type)
 template <typename T>
 inline void onDebugVariable(const QString &name, const T &val)
 {
-    qDebug() << QString("%1: %2").arg(name).arg(d(val));
+    qDebug() << name << ": " << d(val);
+//    qDebug() << QString("%1: %2").arg(name).arg(d(val));
 }
 
 inline void onDebugFunc(QString name)

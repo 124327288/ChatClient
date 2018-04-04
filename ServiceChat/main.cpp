@@ -13,6 +13,8 @@
 #include "filewindow.h"
 #include <typeinfo>
 #include <iostream>
+#include "Table/table.h"
+#include "databasetool.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -42,9 +44,42 @@ int main(int argc, char *argv[])
     LuaTool::Instance().getConfigs();
     TcpSocket::Instance().TryConnect();
     TimTool::Instance().Init();
-    SqliteTool::Instance().CreateConnect();
+    DatabaseTool dbTool;
+    dbTool.Bind("Chat.db");
+    Id id;
+    id.setId("asdqwe");
+    dbTool.Insert(id);
+//    SqliteTool::Instance().CreateConnect();
     SqliteTool::Instance().Init();
     SqliteTool::Instance().ShowAllTableName();
+//    Id id;
+//    Account acc;
+//    const QMetaObject *metaObject = acc.metaObject();
+//    {
+//        int cnt = metaObject->methodCount();
+//        qDebug() << "\n";
+//        for(int i = 0;i < cnt; ++i)
+//        {
+//            QMetaMethod method = metaObject->method(i);
+//            DEBUG_VAR(method.methodSignature());
+//            DEBUG_VAR(method.typeName());
+//            DEBUG_VAR(method.methodType());
+//            qDebug() << "method.parameterNames()" << method.parameterNames();
+//            qDebug() << "\n";
+//        }
+//    }
+//    {
+//        int cnt = metaObject->propertyCount();
+//        qDebug() << "\n";
+//        for(int i = 0;i < cnt; ++i)
+//        {
+//            QMetaProperty property = metaObject->property(i);
+//            DEBUG_VAR(property.name());
+//            DEBUG_VAR(property.type());
+//            DEBUG_VAR(property.typeName());
+//            qDebug() << "\n";
+//        }
+//    }
     LoginWindow::Instance().show();
 //    FileWindow window;
 //    window.show();

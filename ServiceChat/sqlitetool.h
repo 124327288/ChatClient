@@ -3,7 +3,7 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
-#include "table.h"
+#include "databasetool.h"
 class SqliteTool
 {
 private:
@@ -11,40 +11,8 @@ private:
 public:
     static SqliteTool &Instance();
     void Init();
-    bool IsOpen() const;
-    bool CreateConnect();
-    void ShowAllTableName();
 private:
-    bool IsTableExist(const QString &tableName, const QString &funcName);
-public:
-    bool IsIdTableExist();
-    bool IsAccountTableExist();
-    bool IsSignTableExist();
-
-    bool CreateIdTable();
-    bool CreateAccountTable();
-    bool CreateSignTable();
-
-    bool Insert2IdTable(const QString &id);
-    bool Insert2AccountTable(const QString &id, const QString &pwd);
-    bool Insert2SignTable(const QString &id, const QString &sig);
-
-    bool SelectAll4IdTable(QStringList *idList);
-    bool Select4IdTable(const QString &id);
-    bool Select4AccountTable(const QString &id, QString *pwd = nullptr);
-    bool Select4SignTable(const QString &id, QString *sig = nullptr);
-
-    bool Update2AccountTable(const QString &id, const QString &pwd);
-    bool Update2SignTable(const QString &id, const QString &sig);
-
-    bool Delete4AccountTable(const QString &id, bool all = false);
-    bool Delete4SignTable(const QString &id, bool all = false);
-
-    QSqlDatabase getDataBase() const;
-    void setDataBase(const QSqlDatabase &value);
-
-private:
-    QSqlDatabase dataBase;
+    DatabaseTool dbTool;
     QString dbName;
     QString idTableName;
     QString accountTableName;
