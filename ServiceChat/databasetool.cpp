@@ -9,6 +9,7 @@ DatabaseTool::DatabaseTool()
 DatabaseTool &DatabaseTool::Instance()
 {
     static DatabaseTool instance;
+    instance.Bind("sys.db");
     return instance;
 }
 
