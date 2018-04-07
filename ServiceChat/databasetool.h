@@ -149,9 +149,9 @@ bool DatabaseTool::Select(QVector<T> *tableList, const QVector<ParamType> &where
     bool has = false;
     while(q.next())
     {
-        if(!tableList)
-            return true;
         has = true;
+        if(!tableList)
+            break;
         T table;
         for(int i = 1; i < metaObject->propertyCount(); ++i)
         {
@@ -168,7 +168,7 @@ bool DatabaseTool::Insert(const T &t)
 {
     if(!IsBind())
         return false;
-    const QMetaObject *metaObject = T().metaObject();
+    const QMetaObject *metaObject = t.metaObject();
     QString tableName = metaObject->className();
     QString s = QString("INSERT INTO %1 ( ").arg(tableName);
     int cnt = metaObject->propertyCount();

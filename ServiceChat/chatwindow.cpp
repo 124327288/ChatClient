@@ -31,7 +31,7 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     channel->registerObject("connect", &WebConnect::Instance());
     webView = new QWebEngineView();
     webView->page()->setWebChannel(channel);
-    webView->load(QString("file:///%1/%2").arg(QDir::currentPath()).arg("index.html"));
+    webView->load(QString("file:///%1/%2").arg(QDir::currentPath()).arg("ChatView/index.html"));
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(webView);
     ui->widget->setLayout(layout);
