@@ -36,7 +36,6 @@ int main(int argc, char *argv[])
             trans.load(":/client_cn.qm");
         a.installTranslator(&trans);
     };
-//    std::cout << typeid(loadMineTrans).name();
     loadGlobalTrans();
     loadMineTrans();
     GenCacheDir();
@@ -44,42 +43,9 @@ int main(int argc, char *argv[])
     LuaTool::Instance().getConfigs();
     TcpSocket::Instance().TryConnect();
     TimTool::Instance().Init();
-    DatabaseTool dbTool;
-    dbTool.Bind("Chat.db");
-    Id id;
-    id.setId("asdqwe");
-    dbTool.Insert(id);
 //    SqliteTool::Instance().CreateConnect();
-    SqliteTool::Instance().Init();
-    SqliteTool::Instance().ShowAllTableName();
-//    Id id;
-//    Account acc;
-//    const QMetaObject *metaObject = acc.metaObject();
-//    {
-//        int cnt = metaObject->methodCount();
-//        qDebug() << "\n";
-//        for(int i = 0;i < cnt; ++i)
-//        {
-//            QMetaMethod method = metaObject->method(i);
-//            DEBUG_VAR(method.methodSignature());
-//            DEBUG_VAR(method.typeName());
-//            DEBUG_VAR(method.methodType());
-//            qDebug() << "method.parameterNames()" << method.parameterNames();
-//            qDebug() << "\n";
-//        }
-//    }
-//    {
-//        int cnt = metaObject->propertyCount();
-//        qDebug() << "\n";
-//        for(int i = 0;i < cnt; ++i)
-//        {
-//            QMetaProperty property = metaObject->property(i);
-//            DEBUG_VAR(property.name());
-//            DEBUG_VAR(property.type());
-//            DEBUG_VAR(property.typeName());
-//            qDebug() << "\n";
-//        }
-//    }
+//    SqliteTool::Instance().Init();
+//    SqliteTool::Instance().ShowAllTableName();
     LoginWindow::Instance().show();
 //    FileWindow window;
 //    window.show();

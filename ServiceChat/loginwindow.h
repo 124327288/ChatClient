@@ -2,6 +2,7 @@
 #define LOGINWINDOW_H
 #include "stdafx.h"
 #include <QMainWindow>
+#include "Table/table.h"
 
 namespace Ui {
 class LoginWindow;
@@ -29,7 +30,7 @@ private slots:
 private:
 
     Ui::LoginWindow *ui;
-    QStringList idList;
+    QVector<Id> idList;
 };
 
 #endif // LOGINWINDOW_H

@@ -9,6 +9,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QTranslator>
+#include "Table/table.h"
 LoginWindow &LoginWindow::Instance()
 {
     static LoginWindow instance;
@@ -22,10 +23,21 @@ LoginWindow::LoginWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->loginPushButton->setShortcut(Qt::Key_Return);
     setWindowFlags(windowFlags() & ~Qt::WindowMaximizeButtonHint);
+    DatabaseTool dbTool = SqliteTool::Database();
+    SqliteTool::CreateAll(dbTool);
+    dbTool.Select(&idList);
 //    SqliteTool::Instance().SelectAll4IdTable(&idList);
     for(auto str : idList)
-        qDebug() << str;
-    ui->usernameComboBox->addItems(idList);
+    {
+        qDebug() << str.id();
+        ui->usernameComboBox->addItem(str.id());
+    }
+//    QVector<Account> vec;
+//    dbTool.Select(&vec);
+//    for(auto acc : vec)
+//    {
+//        qDebug() << acc.id() << " " << acc.pwd();
+//    }
     connect(&TimTool::Instance(), &TimTool::OnLoginSuccess, this, &LoginWindow::onLoginSuccess);
     connect(&TimTool::Instance(), &TimTool::OnLoginError, this, &LoginWindow::onLoginError);
 //    connect(ui->usernameComboBox, &QComboBox::currentIndexChanged,)
@@ -78,8 +90,21 @@ void LoginWindow::onLoginSuccess()
     close();
     DEBUG_FUNC;
     DEBUG_VAR(ui->usernameComboBox->currentText());
-    if(!idList.contains(ui->usernameComboBox->currentText(), Qt::CaseInsensitive))
-        SqliteTool::Instance().Insert2IdTable(TimTool::Instance().getId());
+    bool isContain = false;
+    for(const Id &id : idList)
+    {
+        if(id.id().toLower() == ui->usernameComboBox->currentText().toLower())
+        {
+            isContain = true;
+            break;
+        }
+    }
+    if(!isContain)
+    {
+        Id id;
+        id.setId(TimTool::Instance().getId());
+        SqliteTool::Database().Insert(id);
+    }
     emit Signal::Instance().RemPwdAndAutoLogin(ui->rememberCheckBox->isChecked(), ui->autoCheckBox->isChecked());
     MainWindow::Instance().show();
 }
@@ -109,8 +134,16 @@ void LoginWindow::on_usernameComboBox_currentTextChanged(const QString &arg1)
     if(ui->rememberCheckBox->isChecked())
     {
         QString pwd;
-        if(!SqliteTool::Instance().Select4AccountTable(ui->usernameComboBox->currentText(), &pwd))
-            return;
-        ui->passwordLineEdit->setText(pwd);
+        Account account;
+        account.setId(ui->usernameComboBox->currentText());
+//        account.setPwd();
+//        SqliteTool::Database().Select
+        if(SqliteTool::Database().Select<Account>(nullptr, {{"id", ui->usernameComboBox->currentText()}}))
+        {
+            ui->passwordLineEdit->setText(pwd);
+        }
+//        if(!SqliteTool::Instance().Select4AccountTable(ui->usernameComboBox->currentText(), &pwd))
+//            return;
+
     }
 }

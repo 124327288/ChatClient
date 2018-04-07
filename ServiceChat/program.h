@@ -6,7 +6,6 @@
 #include <ctime>
 #include <functional>
 #include <QMessageBox>
-
 template <class T>
 inline T d(const T &val)
 {
@@ -154,7 +153,6 @@ inline int GetArraySize(const T& array)
 {
     return sizeof(array) / sizeof(array[0]);
 }
-
 bool QCopyFile(const QString &src, const QString &des, bool cover = true);
 QRect GetRectFrom2Point(const QPoint &p1, const QPoint &p2);
 QRect InterSection2Rect(const QRect &r1, const QRect &r2);

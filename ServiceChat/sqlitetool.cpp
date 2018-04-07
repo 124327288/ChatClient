@@ -5,34 +5,20 @@
 #include "Table/table.h"
 #include <vector>
 using namespace std;
-SqliteTool::SqliteTool():
-    dbName("Chat.db"),
-    idTableName(Id().metaObject()->className()),
-    accountTableName(Account().metaObject()->className()),
-    signTableName(Sig().metaObject()->className())
-{
+QString SqliteTool::dbName = "sys.db";
 
-
-}
-
-SqliteTool &SqliteTool::Instance()
-{
-    static SqliteTool instance;
-    return instance;
-}
-
-DatabaseTool &SqliteTool::Database()
+DatabaseTool SqliteTool::Database()
 {
     DatabaseTool instance;
-    instance.Bind("Chat.db");
+    instance.Bind(dbName);
     return instance;
 }
 
-void SqliteTool::Init()
+void SqliteTool::CreateAll(DatabaseTool &dbTool)
 {
-    if(!dbTool.Bind(dbName))
+    if(!dbTool.IsBind())
     {
-        qDebug() << "dbTool.Bind(dbName) ERROR";
+        qDebug() << __func__ << "dbTool.Bind(dbName) ERROR";
         return;
     }
     Id id;

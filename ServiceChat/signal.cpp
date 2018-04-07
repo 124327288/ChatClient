@@ -1,4 +1,4 @@
-#include "signal.h"
+﻿#include "signal.h"
 #include "luatool.h"
 #include "sqlitetool.h"
 #include "tim/timtool.h"
@@ -24,7 +24,7 @@ void Signal::RemPwdAndAutoLoginHandle(bool isRemPwd, bool isAutoLogin)
     QString sig = TimTool::Instance().getSig();
     if(isRemPwd)
     {
-        DatabaseTool db;
+        DatabaseTool db = SqliteTool::Database();
         QVector<Account> res;
         Account account;
         account.setId(id);
@@ -41,30 +41,18 @@ void Signal::RemPwdAndAutoLoginHandle(bool isRemPwd, bool isAutoLogin)
     }
     if(isAutoLogin)
     {
-        DatabaseTool db;
+        DatabaseTool db = SqliteTool::Database();
         QVector<Sig> res;
         Sig _sig;
         _sig.setId(id);
         _sig.setSig(sig);
         if(db.Select(&res, {{"id", id}}))
         {
-            db.Update(sig, {{"sig", sig}}, {{"id", id}});
+            db.Update(_sig, {{"sig", sig}}, {{"id", id}});
         }
         else
         {
-            db.Insert(sig);
+            db.Insert(_sig);
         }
     }
 }
-
-//void Signal::SetRememberPasswordHandle(bool checked)
-//{
-//    if(checked == LuaTool::Instance().getRememberPassword())
-//        return;
-//    SqliteTool::Instance().
-//}
-
-//void Signal::SetAutoLoginHandle(bool checked)
-//{
-
-//}

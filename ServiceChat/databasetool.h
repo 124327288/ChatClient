@@ -1,17 +1,15 @@
-#ifndef DATABASETOOL_H
+﻿#ifndef DATABASETOOL_H
 #define DATABASETOOL_H
 
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QVariant>
-//#include "table.h"
 #include "stdafx.h"
 
 class DatabaseTool
 {
 public:
     DatabaseTool();
-//    DatabaseTool &Instance();
 
     bool Bind(const QString &dbName, const char *type = "QSQLITE");
     bool IsBind();
@@ -25,7 +23,10 @@ public:
     int RowsNum(const QString &tableName);
 
     bool Update(const QString &tableName, const QVector<ParamType> &setList, const QVector<ParamType> &whereList);
+    bool Update(const char *tableName, const QVector<ParamType> &setList, const QVector<ParamType> &whereList);
+
     bool Delete(const QString &tableName, const QVector<ParamType> &whereList);
+    bool Delete(const char *tableName, const QVector<ParamType> &whereList);
 
     template <typename T>
     int RowsNum(const T &t);

@@ -1,8 +1,7 @@
-#ifndef ID_H
+﻿#ifndef ID_H
 #define ID_H
 
 #include <QObject>
-#include <algorithm>
 class Id : public QObject
 {
     Q_OBJECT
@@ -13,17 +12,15 @@ class Id : public QObject
     time_t m_time;
 
 public:
-    Id(QObject *parent = nullptr):QObject(parent){}
-    Id(const Id &t)
+    Id() = default;
+    Id(const Id &obj)
     {
-        m_id = t.m_id;
-        m_time = t.m_time;
+        m_id = obj.m_id;
+        m_time = obj.m_time;
     }
-    Id &operator =(const Id &t)
+    Id &operator =(const Id &obj)
     {
-        m_id = t.m_id;
-        m_time = t.m_time;
-//        std::swap(*this, Id(t));
+        std::swap(*this, Id(obj));
         return *this;
     }
     QString id() const

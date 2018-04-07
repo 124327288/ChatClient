@@ -1,4 +1,4 @@
-#ifndef SQLITETOOL_H
+﻿#ifndef SQLITETOOL_H
 #define SQLITETOOL_H
 #include <QSqlDatabase>
 #include <QSqlError>
@@ -9,14 +9,10 @@ class SqliteTool
 private:
     SqliteTool();
 public:
-    static SqliteTool &Instance();
-    void Init();
+    static DatabaseTool Database();
+    static void CreateAll(DatabaseTool &dbTool);
 private:
-    DatabaseTool dbTool;
-    QString dbName;
-    QString idTableName;
-    QString accountTableName;
-    QString signTableName;
+    static QString dbName;
 };
 
 #endif // SQLITETOOL_H

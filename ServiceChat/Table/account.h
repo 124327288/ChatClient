@@ -1,4 +1,4 @@
-#ifndef ACCOUNT_H
+﻿#ifndef ACCOUNT_H
 #define ACCOUNT_H
 
 #include <QObject>
@@ -13,6 +13,17 @@ class Account : public QObject
     QString m_pwd;
 
 public:
+    Account() = default;
+    Account(const Account &obj)
+    {
+        m_id = obj.m_id;
+        m_pwd = obj.m_pwd;
+    }
+    Account &operator =(const Account &obj)
+    {
+        std::swap(*this, Account(obj));
+        return *this;
+    }
 
     QString id() const
     {

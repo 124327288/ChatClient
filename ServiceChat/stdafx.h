@@ -7,6 +7,7 @@
 #if defined(__cplusplus)
     #include <QtCore>
     #include <QtGui>
+    #include <algorithm>
     #include "expdef.h"
     #include "exptype.h"
     #include "program.h"

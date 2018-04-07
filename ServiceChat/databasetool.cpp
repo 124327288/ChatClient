@@ -1,17 +1,10 @@
-#include "databasetool.h"
+﻿#include "databasetool.h"
 #include "stdafx.h"
 #include <QSqlError>
 DatabaseTool::DatabaseTool()
 {
 
 }
-
-//DatabaseTool &DatabaseTool::Instance()
-//{
-//    static DatabaseTool instance;
-//    instance.Bind("sys.db");
-//    return instance;
-//}
 
 bool DatabaseTool::Bind(const QString &dbName, const char *type)
 {
@@ -117,7 +110,7 @@ bool DatabaseTool::Update(const QString &tableName, const QVector<ParamType> &se
         return false;
     if(setList.count() <= 0)
         return false;
-    QString s = QString("UPDATE %1 SET ");
+    QString s = QString("UPDATE %1 SET ").arg(tableName);
     for(int i = 0; i < setList.count(); ++i)
     {
         QString name = QString(" %1 = ? ").arg(setList[i].name);
@@ -152,6 +145,11 @@ bool DatabaseTool::Update(const QString &tableName, const QVector<ParamType> &se
     return true;
 }
 
+bool DatabaseTool::Update(const char *tableName, const QVector<ParamType> &setList, const QVector<ParamType> &whereList)
+{
+    return Update(QString(tableName), setList, whereList);
+}
+
 bool DatabaseTool::Delete(const QString &tableName, const QVector<ParamType> &whereList)
 {
     if(!IsBind())
@@ -181,6 +179,11 @@ bool DatabaseTool::Delete(const QString &tableName, const QVector<ParamType> &wh
         return false;
     }
     return true;
+}
+
+bool DatabaseTool::Delete(const char *tableName, const QVector<ParamType> &whereList)
+{
+    return Delete(QString(tableName), whereList);
 }
 
 

@@ -1,4 +1,4 @@
-#ifndef SIG_H
+﻿#ifndef SIG_H
 #define SIG_H
 
 #include <QObject>
@@ -13,6 +13,17 @@ class Sig : public QObject
     QString m_sig;
 
 public:
+    Sig() = default;
+    Sig(const Sig &obj)
+    {
+        m_id = obj.m_id;
+        m_sig = obj.m_sig;
+    }
+    Sig &operator =(const Sig &obj)
+    {
+        std::swap(*this, Sig(obj));
+        return *this;
+    }
 
     QString id() const
     {
