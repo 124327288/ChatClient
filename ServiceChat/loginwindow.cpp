@@ -114,7 +114,12 @@ void LoginWindow::on_usernameComboBox_currentTextChanged(const QString &arg1)
 {
     std::string userDir = LuaTool::Instance().makeUserDirString(arg1);
     if(!LuaTool::Instance().isUserDirExist(userDir) || !LuaTool::Instance().isUserCfgFileExist(userDir) )
+    {
+        ui->autoCheckBox->setChecked(false);
+        ui->rememberCheckBox->setChecked(false);
+        ui->passwordLineEdit->clear();
         return;
+    }
     UserCfgStruct cfg;
     LuaTool::Instance().getUserConfig(userDir, &cfg);
     /* 需要根据选择的用户id判断*/
