@@ -6,6 +6,9 @@
 #include <ctime>
 #include <functional>
 #include <QMessageBox>
+
+#define BEGIN   {
+#define END     }
 template <class T>
 inline T d(const T &val)
 {

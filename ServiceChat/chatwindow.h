@@ -17,6 +17,7 @@ class ChatWindow : public QMainWindow
 public:
     explicit ChatWindow(const Linkman &linkman, QWidget *parent = 0);
     ~ChatWindow();
+    void InitMsgList(bool isLoadedSuccessful);
     void AddContent(QString id, QString nick, time_t time, QString msg);
     void AddFileDesc(const QString &id, const QString &nick, time_t time, const QString &fileName, const QString &filePath, const QString &folderPath);
     void Add2TextEdit(QString msg);

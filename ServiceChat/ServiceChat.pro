@@ -67,7 +67,8 @@ SOURCES += \
     databasetool.cpp \
     Table/id.cpp \
     Table/account.cpp \
-    Table/sig.cpp
+    Table/sig.cpp \
+    Tim/chatmanager.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -108,7 +109,8 @@ HEADERS += \
     Table/id.h \
     Table/table.h \
     Table/account.h \
-    Table/sig.h
+    Table/sig.h \
+    Tim/chatmanager.h
 
 FORMS += \
         loginwindow.ui \

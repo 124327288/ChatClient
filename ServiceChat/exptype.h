@@ -61,6 +61,21 @@ struct ChatContentEX
     QString text;
 };
 
+struct ChatContentIM
+{
+    bool isMine;
+    time_t time;
+    QString text;
+};
+
+struct ChatContentWithId
+{
+    QString from;
+    QString to;
+    time_t time;
+    QString text;
+};
+
 struct AppCfgStruct
 {
     std::string serverAddress;

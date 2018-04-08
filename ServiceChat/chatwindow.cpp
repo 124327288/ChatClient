@@ -19,6 +19,7 @@
 #include <ctime>
 #include "webconnect.h"
 #include <tuple>
+#include <Tim/chatmanager.h>
 ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ChatWindow)
@@ -32,6 +33,7 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     webView = new QWebEngineView();
     webView->page()->setWebChannel(channel);
     webView->load(QString("file:///%1/%2").arg(QDir::currentPath()).arg("ChatView/index.html"));
+    connect(webView, &QWebEngineView::loadFinished, this, &ChatWindow::InitMsgList);
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(webView);
     ui->widget->setLayout(layout);
@@ -41,14 +43,14 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     TimTool::Instance().AddChatWindowMap(otherId, this);
     setWindowTitle(tr("%1 - Session").arg(otherNick));
     GetConversation();
-    if(!TimTool::Instance().GetContentEX(otherId).isEmpty())
-    {
-        auto list = TimTool::Instance().GetContentEX(otherId);
-        for(auto s : list)
-        {
-            AddContent(otherId, otherNick, s.time, s.text);
-        }
-    }
+//    if(!TimTool::Instance().GetContentEX(otherId).isEmpty())
+//    {
+//        auto list = TimTool::Instance().GetContentEX(otherId);
+//        for(auto s : list)
+//        {
+//            AddContent(otherId, otherNick, s.time, s.text);
+//        }
+//    }
 }
 
 ChatWindow::~ChatWindow()
@@ -61,8 +63,28 @@ ChatWindow::~ChatWindow()
     webView->deleteLater();
 }
 
+void ChatWindow::InitMsgList(bool isLoadedSuccessful)
+{
+    DEBUG_VAR(isLoadedSuccessful);
+    if(!isLoadedSuccessful)
+        return;
+    QTimer::singleShot(200, this, [=]{
+        auto &chatMap = ChatManager::Instance().getChatMap();
+        auto msgList = chatMap[otherId];
+        DEBUG_VAR(msgList.count());
+        for(auto msg: msgList)
+        {
+            DEBUG_VAR(msg.text);
+            auto id = msg.isMine ? TimTool::Instance().getId() : otherId;
+            auto nick = msg.isMine ? TimTool::Instance().getNick() : otherNick;
+            AddContent(id, nick, msg.time, msg.text);
+        }
+    });
+}
+
 void ChatWindow::AddContent(QString id, QString nick, time_t time, QString msg)
 {
+    DEBUG_FUNC;
     QString title = GetMsgHead(id, nick, time);
     emit WebConnect::Instance().AddContent(title, msg);
 }
@@ -249,6 +271,7 @@ void ChatWindow::on_sendBtn_clicked()
     GetStyledMsg(text, &meMsg, &msgList);
     DEBUG_VAR(meMsg);
     TimTool::Instance().SendMsg(otherId, msgList);
+    ChatManager::Instance().AddToChatMap(otherId, { true, GetTime(), meMsg });
     AddContent(TimTool::Instance().getId(), TimTool::Instance().getNick(), GetTime(), meMsg);
     ui->textEdit->clear();
 }

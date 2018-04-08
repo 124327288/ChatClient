@@ -4,6 +4,7 @@
 #include "mainwindow.h"
 #include "Protocol/tcpsocket.h"
 #include "Protocol/C2S/userpwdprotocol.h"
+#include "chatmanager.h"
 #include <QTimer>
 #include <fstream>
 #include <Windows.h>
@@ -438,6 +439,7 @@ void TimTool::ClearContentEX()
 void TimTool::NewMsgHandler(QString id, QString nick, uint32_t time, QString msg)
 {
     contentMap[id] += { time, msg };
+    ChatManager::Instance().AddToChatMap(id, { false, time, msg});
     if(chatWindowMap.contains(id))
     {
         ChatWindow *window = chatWindowMap[id];

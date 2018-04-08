@@ -3,21 +3,17 @@
 <head>
     <meta name="qrichtext" content="1" />
 
-    <!-- BOOTSTRAP STYLES-->
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <!-- FONTAWESOME STYLES-->
+<!--     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <!--CUSTOM BASIC STYLES-->
     <link href="assets/css/basic.css" rel="stylesheet" />
-    <!--CUSTOM MAIN STYLES-->
-    <link href="assets/css/custom.css" rel="stylesheet" />
+    <link href="assets/css/custom.css" rel="stylesheet" /> -->
     <style type="text/css">p, li { white-space: pre-wrap; }</style>
     <script src="./qwebchannel.js"></script>
 </head>
 <body style=" font-family:'SimSun'; font-size:9pt; font-weight:400; font-style:normal;" onload="window.scrollTo(0,document.body.scrollHeight); " >
-    <!-- <input type="button" name="btn" value="append" onclick="test()" /> -->
-    <div id = "dv"></div>
-    <div><a id = "bottom" name = "1" href = "#1"></a></div>
+    <div id = "dv">
+    	<!-- <input type="button" name="btn" value="append" onclick="test()" /> -->
+    </div>
     <script>
     new QWebChannel(qt.webChannelTransport, function(channel) {
        window.connect = channel.objects.connect;
@@ -63,10 +59,7 @@
         elemDiv.appendChild(elemMsg);
 
         document.getElementById("dv").appendChild(elemDiv);
-        bottom.scrollIntoView();
         setTimeout(function(){window.scrollTo(0, document.body.scrollHeight);}, 500);
-        // sleep(1000);
-        // window.scrollTo(0, document.body.scrollHeight);
     }
     function addFileDesc(title, fileName, filePath, folderPath){
         var elemDiv = document.createElement("div");
@@ -75,10 +68,7 @@
         var elemFile = _addFileDesc(fileName, filePath, folderPath);
         elemDiv.appendChild(elemFile);
         document.getElementById("dv").appendChild(elemDiv);
-        bottom.scrollIntoView();
         setTimeout(function(){window.scrollTo(0, document.body.scrollHeight);}, 500);
-        // sleep(1000);
-        // window.scrollTo(0, document.body.scrollHeight);
     }
     function _addFileDesc(fileName, filePath, folderPath){
         var elemFile = document.createElement("p");
@@ -99,14 +89,10 @@
         return elemFile;
     }
     </script>
-    <!-- JQUERY SCRIPTS -->
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <!-- BOOTSTRAP SCRIPTS -->
+<!--     <script src="assets/js/jquery-1.10.2.js"></script>
     <script src="assets/js/bootstrap.js"></script>
-    <!-- METISMENU SCRIPTS -->
     <script src="assets/js/jquery.metisMenu.js"></script>
-       <!-- CUSTOM SCRIPTS -->
-    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/custom.js"></script> -->
 
 </body>
 </html>
