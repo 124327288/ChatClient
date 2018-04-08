@@ -21,7 +21,8 @@ public:
     }
     Sig &operator =(const Sig &obj)
     {
-        std::swap(*this, Sig(obj));
+        m_id = obj.m_id;
+        m_sig = obj.m_sig;
         return *this;
     }
 

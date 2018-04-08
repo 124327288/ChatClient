@@ -25,12 +25,11 @@ void Signal::RemPwdAndAutoLoginHandle(bool isRemPwd, bool isAutoLogin)
     if(isRemPwd)
     {
         DatabaseTool db = SqliteTool::Database();
-        QVector<Account> res;
         Account account;
         account.setId(id);
         account.setPwd(pwd);
 
-        if(db.Select(&res, {{"id", id}}))
+        if(db.Select<Account>(nullptr, {{"id", id}}))
         {
             db.Update(account, {{"pwd", pwd}}, {{"id", id}});
         }

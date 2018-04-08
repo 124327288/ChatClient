@@ -31,9 +31,10 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     QWebChannel *channel = new QWebChannel;
     channel->registerObject("connect", &WebConnect::Instance());
     webView = new QWebEngineView();
+    connect(webView, &QWebEngineView::loadFinished, this, &ChatWindow::InitMsgList);
     webView->page()->setWebChannel(channel);
     webView->load(QString("file:///%1/%2").arg(QDir::currentPath()).arg("ChatView/index.html"));
-    connect(webView, &QWebEngineView::loadFinished, this, &ChatWindow::InitMsgList);
+
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(webView);
     ui->widget->setLayout(layout);
@@ -43,14 +44,6 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     TimTool::Instance().AddChatWindowMap(otherId, this);
     setWindowTitle(tr("%1 - Session").arg(otherNick));
     GetConversation();
-//    if(!TimTool::Instance().GetContentEX(otherId).isEmpty())
-//    {
-//        auto list = TimTool::Instance().GetContentEX(otherId);
-//        for(auto s : list)
-//        {
-//            AddContent(otherId, otherNick, s.time, s.text);
-//        }
-//    }
 }
 
 ChatWindow::~ChatWindow()

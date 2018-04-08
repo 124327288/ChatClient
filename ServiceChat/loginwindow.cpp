@@ -10,6 +10,7 @@
 #include <QMessageBox>
 #include <QTranslator>
 #include "Table/table.h"
+using namespace std;
 LoginWindow &LoginWindow::Instance()
 {
     static LoginWindow instance;
@@ -26,33 +27,27 @@ LoginWindow::LoginWindow(QWidget *parent) :
     DatabaseTool dbTool = SqliteTool::Database();
     SqliteTool::CreateAll(dbTool);
     dbTool.Select(&idList);
-//    SqliteTool::Instance().SelectAll4IdTable(&idList);
-    for(auto str : idList)
-    {
-        qDebug() << str.id();
-        ui->usernameComboBox->addItem(str.id());
-    }
-//    QVector<Account> vec;
-//    dbTool.Select(&vec);
-//    for(auto acc : vec)
-//    {
-//        qDebug() << acc.id() << " " << acc.pwd();
-//    }
+    sort(idList.begin(), idList.end(), [](const auto &obj1, const auto &obj2){
+        return obj1.time() > obj2.time();
+    });
+    for_each(idList.begin(), idList.end(), [=](const auto &id){
+//        qDebug() << id.id() << id.time();
+        ui->usernameComboBox->addItem(id.id());
+    });
     connect(&TimTool::Instance(), &TimTool::OnLoginSuccess, this, &LoginWindow::onLoginSuccess);
     connect(&TimTool::Instance(), &TimTool::OnLoginError, this, &LoginWindow::onLoginError);
-//    connect(ui->usernameComboBox, &QComboBox::currentIndexChanged,)
-//    connect(this, &LoginWindow::RemainTime, [=](int msec){
-//        QString s;
-//        if(msec > 0)
-//        {
-//            s = tr("Logining(%1)").arg(QString::number(msec/1000., 'g', 2));
-//        }
-//        else
-//        {
-//            s = tr("Login timeout!Click retry.");
-//        }
-//        SetLoginLabel(s);
-//    });
+    //    connect(this, &LoginWindow::RemainTime, [=](int msec){
+    //        QString s;
+    //        if(msec > 0)
+    //        {
+    //            s = tr("Logining(%1)").arg(QString::number(msec/1000., 'g', 2));
+    //        }
+    //        else
+    //        {
+    //            s = tr("Login timeout!Click retry.");
+    //        }
+    //        SetLoginLabel(s);
+    //    });
     connect(ui->autoCheckBox, &QCheckBox::toggled, ui->rememberCheckBox, &QCheckBox::setChecked);
 }
 
@@ -90,21 +85,20 @@ void LoginWindow::onLoginSuccess()
     close();
     DEBUG_FUNC;
     DEBUG_VAR(ui->usernameComboBox->currentText());
-    bool isContain = false;
-    for(const Id &id : idList)
-    {
-        if(id.id().toLower() == ui->usernameComboBox->currentText().toLower())
-        {
-            isContain = true;
-            break;
-        }
-    }
-    if(!isContain)
-    {
+    bool isContain = find_if(idList.begin(), idList.end(), [=](const Id &id){
+        return id.id().toLower() == ui->usernameComboBox->currentText().toLower();
+        }) != idList.end();
+    BEGIN
         Id id;
         id.setId(TimTool::Instance().getId());
-        SqliteTool::Database().Insert(id);
-    }
+        id.setTime(GetTime());
+        DatabaseTool dbTool = SqliteTool::Database();
+        if(isContain)
+            DEBUG_VAR(dbTool.Update(id, {{"time", id.time()}}, {{"id", id.id()}}));
+        else
+            DEBUG_VAR(dbTool.Insert(id));
+    END
+
     emit Signal::Instance().RemPwdAndAutoLogin(ui->rememberCheckBox->isChecked(), ui->autoCheckBox->isChecked());
     MainWindow::Instance().show();
 }
@@ -128,22 +122,16 @@ void LoginWindow::on_usernameComboBox_currentTextChanged(const QString &arg1)
     ui->rememberCheckBox->setChecked(cfg.rememberPassword);
     if(ui->autoCheckBox->isChecked())
     {
-//        QString sig;
-//        SqliteTool::Instance().Select4SignTable()
+        //        QString sig;
+        //        SqliteTool::Instance().Select4SignTable()
     }
     if(ui->rememberCheckBox->isChecked())
     {
-        QString pwd;
-        Account account;
-        account.setId(ui->usernameComboBox->currentText());
-//        account.setPwd();
-//        SqliteTool::Database().Select
-        if(SqliteTool::Database().Select<Account>(nullptr, {{"id", ui->usernameComboBox->currentText()}}))
+        QVector<Account> accountList;
+        if(SqliteTool::Database().Select(&accountList, {{"id", ui->usernameComboBox->currentText()}}))
         {
-            ui->passwordLineEdit->setText(pwd);
+            ui->passwordLineEdit->setText(accountList[0].pwd());
         }
-//        if(!SqliteTool::Instance().Select4AccountTable(ui->usernameComboBox->currentText(), &pwd))
-//            return;
 
     }
 }

@@ -20,7 +20,8 @@ public:
     }
     Id &operator =(const Id &obj)
     {
-        std::swap(*this, Id(obj));
+        m_id = obj.m_id;
+        m_time = obj.m_time;
         return *this;
     }
     QString id() const

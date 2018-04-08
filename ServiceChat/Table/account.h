@@ -21,7 +21,8 @@ public:
     }
     Account &operator =(const Account &obj)
     {
-        std::swap(*this, Account(obj));
+        m_id = obj.m_id;
+        m_pwd = obj.m_pwd;
         return *this;
     }
 
