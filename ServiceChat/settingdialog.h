@@ -31,6 +31,8 @@ private:
     QLineEdit *idLine;
     QLabel *nickLabel;
     QLineEdit *nickLine;
+    QLabel *sendMsgLabel;
+    QComboBox *sendMsgComboBox;
 
     //pageSystem
     QWidget *systemWidget;

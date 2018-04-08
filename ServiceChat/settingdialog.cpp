@@ -21,11 +21,16 @@ SettingDialog::SettingDialog(QWidget *parent) : QDialog(parent)
     nickLabel = new QLabel(tr("nick"));
     nickLine = new QLineEdit;
     nickLine->setText(TimTool::Instance().getNick());
+    sendMsgLabel = new QLabel(tr("Send Message"));
+    sendMsgComboBox = new QComboBox;
+    sendMsgComboBox->addItems({"Enter", "Ctrl + Enter"});
     gridLayout = new QGridLayout;
     gridLayout->addWidget(idLabel, 0, 0);
     gridLayout->addWidget(idLine, 0, 1);
     gridLayout->addWidget(nickLabel, 1, 0);
     gridLayout->addWidget(nickLine, 1, 1);
+    gridLayout->addWidget(sendMsgLabel, 2, 0);
+    gridLayout->addWidget(sendMsgComboBox, 2, 1);
     gridLayout->setSizeConstraint(QLayout::SetFixedSize);
     userWidget->setLayout(gridLayout);
     //systemPage
