@@ -69,12 +69,12 @@ SOURCES += \
     Table/account.cpp \
     Table/sig.cpp \
     Tim/chatmanager.cpp \
-    MuPdf/mupdftool.cpp \
-    MuPdf/fzdocument.cpp \
-    MuPdf/fzpixmap.cpp \
-    MuPdf/fzcontext.cpp \
-    MuPdf/fzmatrix.cpp \
-    MuPdf/fzcolorspace.cpp
+    FzPdf/mupdftool.cpp \
+    FzPdf/fzdocument.cpp \
+    FzPdf/fzpixmap.cpp \
+    FzPdf/fzcontext.cpp \
+    FzPdf/fzmatrix.cpp \
+    FzPdf/fzcolorspace.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -117,12 +117,13 @@ HEADERS += \
     Table/account.h \
     Table/sig.h \
     Tim/chatmanager.h \
-    MuPdf/mupdftool.h \
-    MuPdf/fzdocument.h \
-    MuPdf/fzpixmap.h \
-    MuPdf/fzcontext.h \
-    MuPdf/fzmatrix.h \
-    MuPdf/fzcolorspace.h
+    FzPdf/mupdftool.h \
+    FzPdf/fzdocument.h \
+    FzPdf/fzpixmap.h \
+    FzPdf/fzcontext.h \
+    FzPdf/fzmatrix.h \
+    FzPdf/fzcolorspace.h \
+    FzPdf/fz_header.h
 
 FORMS += \
         loginwindow.ui \

@@ -34,7 +34,7 @@ void WebConnect::OpenFile(const QString &path)
     if(path.right(4).toLower() == ".pdf")
     {
         PDFWindow *window = new PDFWindow;
-        window->ShowPDF(path);
+        window->ShowPdf(path);
         SetWidgetCentral(window);
         window->show();
         return;

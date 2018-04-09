@@ -2,8 +2,8 @@
 #define PDFWINDOW_H
 #include "stdafx.h"
 #include <QMainWindow>
-#include <mupdf/fitz.h>
-#include <mupdf/pdf.h>
+#include <memory>
+#include "FzPdf/fz_header.h"
 namespace Ui {
 class PDFWindow;
 }
@@ -15,8 +15,9 @@ class PDFWindow : public QMainWindow
 public:
     explicit PDFWindow(QWidget *parent = 0);
     ~PDFWindow();
-//    void LoadDocument
-    void LoadPdf(const QString &fileName, float scaleX, float scaleY, float rotateDegree, std::vector<fz_pixmap *> *fzPixmapList);
+    void LoadDocument(const QString &fileName);
+    std::shared_ptr<FzPixmap> LoadPixmap(int number, FzMatrix *mat);
+    void LoadPdf(const QString &fileName, float scaleX, float scaleY, float rotateDegree);
     void ShowPdf(const QString &fileName);
 private slots:
     void on_actionOpen_triggered();
@@ -25,7 +26,13 @@ private slots:
 
 private:
     Ui::PDFWindow *ui;
-
+    MuPdfUtil::Document *document = nullptr;
+    struct PixmapNum
+    {
+        int number;
+        std::shared_ptr<FzPixmap> pPixmap;
+    };
+    QList<PixmapNum> pixmapList;
 };
 
 #endif // PDFWINDOW_H

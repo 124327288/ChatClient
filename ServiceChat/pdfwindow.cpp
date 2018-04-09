@@ -4,9 +4,8 @@
 #include <QFileDialog>
 #include <QLabel>
 #include <QDebug>
-#include <mupdf/fitz.h>
-#include <mupdf/pdf.h>
 #include <string>
+#include "FzPdf/fz_header.h"
 using namespace std;
 PDFWindow::PDFWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -18,118 +17,125 @@ PDFWindow::PDFWindow(QWidget *parent) :
 PDFWindow::~PDFWindow()
 {
     delete ui;
+    delete document;
 }
 
-#define FZ_CATCH(ctx, err)                                                          \
-    fz_catch(ctx)                                                                   \
-    {                                                                               \
-        qDebug() << QString("cannot %1 : %2").arg(err).arg(fz_caught_message(ctx)); \
-        fz_drop_context(ctx);                                                       \
-        return;                                                                     \
-    }
-
-#define FZ_CATCH_EX(ctx, doc, err)                                                  \
-    fz_catch(ctx)                                                                   \
-    {                                                                               \
-        qDebug() << QString("cannot %1 : %2").arg(err).arg(fz_caught_message(ctx)); \
-        fz_drop_document(ctx, doc);                                                 \
-        fz_drop_context(ctx);                                                       \
-        return;                                                                     \
-    };
-
-void PDFWindow::LoadPdf(const QString &fileName, float scaleX, float scaleY, float rotateDegree, vector<fz_pixmap*> *fzPixmapList)
+void PDFWindow::LoadDocument(const QString &fileName)
 {
-    string filename = fileName.toStdString();
-    fz_context *ctx = fz_new_context(nullptr, nullptr, FZ_STORE_UNLIMITED);
-    if(!ctx)
+    if(!document)
+        document = new MuPdfUtil::Document(fileName);
+}
+
+std::shared_ptr<FzPixmap> PDFWindow::LoadPixmap(int number, FzMatrix *mat)
+{
+    if(!document)
+        return nullptr;
+    std::shared_ptr<FzPixmap> pix = std::make_shared<FzPixmap>(document->getContext(),
+                                                               document->getDocument(),
+                                                               number, mat,
+                                                               FzColorspace::FzDeviceRgb(document->getContext()));
+    return pix;
+}
+
+void PDFWindow::LoadPdf(const QString &fileName, float scaleX, float scaleY, float rotateDegree)
+{
+//    NewContext();
+//    NewDocument(fileName);
+//    context->RegisterDocumentHandlers();
+//    pageCount = document->CountPages();
+//    FzMatrix mat;
+//    mat.Scale(scaleX, scaleY);
+//    mat.PreRotate(rotateDegree);
+
+//    for(int i = 0; i < page_count; ++i)
+//    {
+//        fz_pixmap *pix;
+//        fz_try(ctx)
+//            pix = fz_new_pixmap_from_page_number(ctx, doc, i, &ctm, fz_device_rgb(ctx), 0);
+//        FZ_CATCH_EX(ctx, doc, "fz_new_pixmap_from_page_number")
+//        fzPixmapList->push_back(pix);
+//        unsigned char *samples = pix->samples;
+////        int width = fz_pixmap_width(ctx, pix);
+////        int height = fz_pixmap_height(ctx, pix);
+
+////        max_width = max_width > width ? max_width : width;
+
+////        QImage image(samples, width, height, QImage::Format_RGB888);
+
+////        QLabel *label = new QLabel;
+////        label->setPixmap(QPixmap::fromImage(image));
+////        ui->verticalLayout->addWidget(label);
+////        ui->verticalLayout->setAlignment(label, Qt::AlignHCenter);
+////        fz_drop_pixmap(ctx, pix);
+//    }
+
+//    fz_drop_document(ctx, doc);
+//    fz_drop_context(ctx);
+}
+
+
+void PDFWindow::ShowPdf(const QString &fileName)
+{
+    if(document)
+        delete document;
+    document = nullptr;
+    LoadDocument(fileName);
+    int cnt = document->GetPageCount();
+    cnt = std::min(cnt, 10);
+    FzMatrix mat;
+    mat.Scale(scaleX, scaleY);
+    mat.PreRotate(rotateDegree);
+    for(int i = 0; i < cnt; ++i)
     {
-        qDebug() << QString("cannot create mupdf context");
-        return;
+        std::shared_ptr<FzPixmap> pix = LoadPixmap(fileName, &mat);
+        unsigned char *samples = pix->getPixmap()->samples;
+        int width = pix->getWidth();
+        int height = pix->getHeight();
+
+        QImage image(samples, width, height, QImage::Format_RGB888);
+
+        QLabel *label = new QLabel;
+        label->setPixmap(QPixmap::fromImage(image));
+        ui->verticalLayout->addWidget(label);
+        ui->verticalLayout->setAlignment(label, Qt::AlignHCenter);
     }
 
-    fz_try(ctx)
-        fz_register_document_handlers(ctx);
-    FZ_CATCH(ctx, "fz_register_document_handlers")
+//    QByteArray fileBytes = fileName.toUtf8();
+//    char *file = const_cast<char*>(fileBytes.data());
 
-    fz_document *doc;
-    fz_try(ctx)
-        doc = fz_open_document(ctx, filename.data());
-    FZ_CATCH_EX(ctx, doc, "fz_open_document")
 
-    int page_count;
-    fz_try(ctx)
-        page_count = fz_count_pages(ctx, doc);
-    FZ_CATCH_EX(ctx, doc, "fz_count_pages")
 
-    fz_matrix ctm;
-    fz_scale(&ctm, scaleX, scaleY);
-    fz_pre_rotate(&ctm, rotateDegree);
 
-    for(int i = 0; i < page_count; ++i)
-    {
-        fz_pixmap *pix;
-        fz_try(ctx)
-            pix = fz_new_pixmap_from_page_number(ctx, doc, i, &ctm, fz_device_rgb(ctx), 0);
-        FZ_CATCH_EX(ctx, doc, "fz_new_pixmap_from_page_number")
-        fzPixmapList->push_back(pix);
-        unsigned char *samples = pix->samples;
+
+//    int max_width = 0;
+
+//    for(int i = 0; i < page_count; ++i)
+//    {
+//        fz_pixmap *pix;
+//        fz_try(ctx)
+//            pix = fz_new_pixmap_from_page_number(ctx, doc, i, &ctm, fz_device_rgb(ctx), 0);
+//        FZ_CATCH_EX(ctx, doc, "fz_new_pixmap_from_page_number")
+
+//        unsigned char *samples = pix->samples;
 //        int width = fz_pixmap_width(ctx, pix);
 //        int height = fz_pixmap_height(ctx, pix);
 
 //        max_width = max_width > width ? max_width : width;
 
 //        QImage image(samples, width, height, QImage::Format_RGB888);
+//        //        image = image.scaledToWidth(2);
 
 //        QLabel *label = new QLabel;
 //        label->setPixmap(QPixmap::fromImage(image));
 //        ui->verticalLayout->addWidget(label);
 //        ui->verticalLayout->setAlignment(label, Qt::AlignHCenter);
 //        fz_drop_pixmap(ctx, pix);
-    }
+//    }
 
-    fz_drop_document(ctx, doc);
-    fz_drop_context(ctx);
-}
+//    fz_drop_document(ctx, doc);
+//    fz_drop_context(ctx);
 
-
-void PDFWindow::ShowPdf(const QString &fileName)
-{
-    QByteArray fileBytes = fileName.toUtf8();
-    char *file = const_cast<char*>(fileBytes.data());
-
-
-
-
-
-    int max_width = 0;
-
-    for(int i = 0; i < page_count; ++i)
-    {
-        fz_pixmap *pix;
-        fz_try(ctx)
-            pix = fz_new_pixmap_from_page_number(ctx, doc, i, &ctm, fz_device_rgb(ctx), 0);
-        FZ_CATCH_EX(ctx, doc, "fz_new_pixmap_from_page_number")
-
-        unsigned char *samples = pix->samples;
-        int width = fz_pixmap_width(ctx, pix);
-        int height = fz_pixmap_height(ctx, pix);
-
-        max_width = max_width > width ? max_width : width;
-
-        QImage image(samples, width, height, QImage::Format_RGB888);
-        //        image = image.scaledToWidth(2);
-
-        QLabel *label = new QLabel;
-        label->setPixmap(QPixmap::fromImage(image));
-        ui->verticalLayout->addWidget(label);
-        ui->verticalLayout->setAlignment(label, Qt::AlignHCenter);
-        fz_drop_pixmap(ctx, pix);
-    }
-
-    fz_drop_document(ctx, doc);
-    fz_drop_context(ctx);
-
-    setGeometry(geometry().x(), geometry().y(), max_width  + 100, 800);
+//    setGeometry(geometry().x(), geometry().y(), max_width  + 100, 800);
 }
 
 void PDFWindow::on_actionOpen_triggered()
@@ -139,7 +145,7 @@ void PDFWindow::on_actionOpen_triggered()
     {
         while(QLayoutItem *item = ui->verticalLayout->takeAt(0))
             delete item;
-        ShowPDF(fileName);
+//        ShowPDF(fileName);
     }
 
 }

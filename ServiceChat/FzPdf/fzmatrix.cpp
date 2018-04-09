@@ -1,6 +1,6 @@
 #include "fzmatrix.h"
 
-FzMatrix::FzMatrix()
+FzMatrix::FzMatrix() : ctm(new fz_matrix)
 {
 
 }

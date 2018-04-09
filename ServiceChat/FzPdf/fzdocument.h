@@ -9,7 +9,6 @@ public:
     ~FzDocument();
     FzDocument(FzContext *ctx, const QString &fileName);
     int CountPages();
-    void Load(float scaleX, float scaleY, float rotateDegree, int page_from, int page_count, std::vector<fz_pixmap*> *pixmapList);
     FzContext *getCtx() const;
     void setCtx(FzContext *value);
 

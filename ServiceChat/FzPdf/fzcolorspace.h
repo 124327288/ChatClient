@@ -5,9 +5,9 @@
 class FzContext;
 class FzColorspace
 {
-public:
+private:
     FzColorspace();
-
+public:
     fz_colorspace *getCs() const;
     void setCs(fz_colorspace *value);
     static FzColorspace FzDeviceRgb(const FzContext *ctx);
