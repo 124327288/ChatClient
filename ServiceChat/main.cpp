@@ -43,13 +43,11 @@ int main(int argc, char *argv[])
     LuaTool::Instance().getConfigs();
     TcpSocket::Instance().TryConnect();
     TimTool::Instance().Init();
-//    SqliteTool::Instance().CreateConnect();
-//    SqliteTool::Instance().Init();
-//    SqliteTool::Instance().ShowAllTableName();
-    LoginWindow::Instance().show();
+//    LoginWindow::Instance().show();
+    PDFWindow window;
+    window.show();
 //    FileWindow window;
 //    window.show();
-//    ScreenShot::Instance().BeginShot();
 
 
     return a.exec();

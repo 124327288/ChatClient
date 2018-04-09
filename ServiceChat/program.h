@@ -40,7 +40,12 @@ template <typename T>
 inline void onDebugVariable(const QString &name, const T &val)
 {
     qDebug() << name << ": " << d(val);
-//    qDebug() << QString("%1: %2").arg(name).arg(d(val));
+}
+
+template <typename T>
+inline void onDebugVariable(const QString &name, const T &val, const QString &funcName)
+{
+    qDebug() << funcName << ". " << name << ": " << d(val);
 }
 
 inline void onDebugFunc(QString name)
@@ -65,7 +70,7 @@ inline int onGetElementReturn(const char *funcName, int ret)
 }
 
 #define VAR_NAME(x)             (#x)
-#define DEBUG_VAR(x)			(onDebugVariable(#x, x))
+#define DEBUG_VAR(x)			(onDebugVariable(#x, x, __func__))
 #define DEBUG_FUNC				(onDebugFunc(__func__))
 #define DEBUG_ERROR				(onDebugError(__func__, code, desc))
 #define ON_INVOKE(func, ...)	(onGetElementReturn(#func, func(__VA_ARGS__)))

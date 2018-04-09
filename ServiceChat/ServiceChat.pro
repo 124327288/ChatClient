@@ -68,7 +68,13 @@ SOURCES += \
     Table/id.cpp \
     Table/account.cpp \
     Table/sig.cpp \
-    Tim/chatmanager.cpp
+    Tim/chatmanager.cpp \
+    MuPdf/mupdftool.cpp \
+    MuPdf/fzdocument.cpp \
+    MuPdf/fzpixmap.cpp \
+    MuPdf/fzcontext.cpp \
+    MuPdf/fzmatrix.cpp \
+    MuPdf/fzcolorspace.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -110,7 +116,13 @@ HEADERS += \
     Table/table.h \
     Table/account.h \
     Table/sig.h \
-    Tim/chatmanager.h
+    Tim/chatmanager.h \
+    MuPdf/mupdftool.h \
+    MuPdf/fzdocument.h \
+    MuPdf/fzpixmap.h \
+    MuPdf/fzcontext.h \
+    MuPdf/fzmatrix.h \
+    MuPdf/fzcolorspace.h
 
 FORMS += \
         loginwindow.ui \

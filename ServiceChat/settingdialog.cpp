@@ -73,7 +73,6 @@ SettingDialog::SettingDialog(QWidget *parent) : QDialog(parent)
         {
             case 0:
             {
-//                qDebug() << "nickLabel->text(): " << nickLine->text();
                 TimTool::Instance().SetNickName(nickLine->text());
                 break;
             }
