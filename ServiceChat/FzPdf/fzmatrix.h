@@ -7,6 +7,8 @@ class FzMatrix
 {
 public:
     FzMatrix();
+    FzMatrix(const FzMatrix &mat);
+    FzMatrix &operator =(const FzMatrix &mat);
     ~FzMatrix();
     void Scale(float sx, float sy);
     void PreRotate(float degrees);

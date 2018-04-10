@@ -15,6 +15,7 @@ class PDFWindow : public QMainWindow
 public:
     explicit PDFWindow(QWidget *parent = 0);
     ~PDFWindow();
+    float GetScale() const;
     void LoadDocument(const QString &fileName);
     std::shared_ptr<FzPixmap> LoadPixmap(int number, FzMatrix *mat);
     void LoadPdf(const QString &fileName, float scaleX, float scaleY, float rotateDegree);
@@ -32,7 +33,8 @@ private:
         int number;
         std::shared_ptr<FzPixmap> pPixmap;
     };
-    QList<PixmapNum> pixmapList;
+//    QList<PixmapNum> pixmapList;
+    QString m_fileName;
 };
 
 #endif // PDFWINDOW_H

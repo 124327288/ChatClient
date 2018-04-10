@@ -5,6 +5,20 @@ FzMatrix::FzMatrix() : ctm(new fz_matrix)
 
 }
 
+FzMatrix::FzMatrix(const FzMatrix &mat)
+{
+    ctm = new fz_matrix(*mat.getCtm());
+}
+
+FzMatrix &FzMatrix::operator =(const FzMatrix &mat)
+{
+    if(this == &mat)
+        return *this;
+    delete ctm;
+    ctm = new fz_matrix(*mat.getCtm());
+    return *this;
+}
+
 FzMatrix::~FzMatrix()
 {
     delete ctm;
