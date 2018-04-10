@@ -7,12 +7,12 @@ FzPixmap::~FzPixmap()
         fz_drop_pixmap(ctx->getCtx(), pixmap);
 }
 
-FzPixmap::FzPixmap(FzContext *ctx, FzDocument *doc, int number, const FzMatrix *mat, const FzColorspace &cs, int alpha)
+FzPixmap::FzPixmap(FzContext *ctx, FzDocument *doc, int number, FzMatrix *mat, const FzColorspace &cs, int alpha)
 {
     this->ctx = ctx;
     this->doc = doc;
     fz_try(ctx->getCtx())
-        pixmap = fz_new_pixmap_from_page_number(ctx->getCtx(), doc->getDoc(), number, mat->getCtm(), cs.getCs(), alpha);
+        pixmap = fz_new_pixmap_from_page_number(ctx->getCtx(), doc->getDoc(), number, &mat->getCtm(), cs.getCs(), alpha);
     FZ_CATCH_DROPDOC(ctx->getCtx(), doc->getDoc());
 }
 

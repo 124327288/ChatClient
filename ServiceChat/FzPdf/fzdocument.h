@@ -7,6 +7,9 @@ class FzDocument
 {
 public:
     ~FzDocument();
+    FzDocument() = delete;
+    FzDocument(const FzDocument &obj) = delete;
+    FzDocument &operator =(const FzDocument &obj) = delete;
     FzDocument(FzContext *ctx, const QString &fileName);
     int CountPages();
     FzContext *getCtx() const;

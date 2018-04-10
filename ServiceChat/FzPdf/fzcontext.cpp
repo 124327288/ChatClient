@@ -15,6 +15,21 @@ FzContext::FzContext()
     }
 }
 
+//FzContext::FzContext(const FzContext &obj)
+//{
+//    ctx = new fz_context(*obj.getCtx());
+//}
+
+//FzContext &FzContext::operator =(const FzContext &obj)
+//{
+//    if(this == &obj)
+//        return *this;
+//    if(ctx)
+//        fz_drop_context(ctx);
+//    ctx = new fz_context(*obj.getCtx());
+//    return *this;
+//}
+
 void FzContext::RegisterDocumentHandlers()
 {
     fz_try(ctx)

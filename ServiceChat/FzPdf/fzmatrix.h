@@ -12,11 +12,12 @@ public:
     ~FzMatrix();
     void Scale(float sx, float sy);
     void PreRotate(float degrees);
-    fz_matrix *getCtm() const;
-    void setCtm(fz_matrix *value);
+    fz_matrix &getCtm();
+    const fz_matrix &getCtm() const;
+    void setCtm(const fz_matrix &value);
 
 private:
-    fz_matrix *ctm;
+    fz_matrix ctm;
 };
 
 #endif // FZMATRIX_H

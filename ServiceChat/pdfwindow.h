@@ -18,7 +18,7 @@ public:
     float GetScale() const;
     void LoadDocument(const QString &fileName);
     std::shared_ptr<FzPixmap> LoadPixmap(int number, FzMatrix *mat);
-    void LoadPdf(const QString &fileName, float scaleX, float scaleY, float rotateDegree);
+//    void LoadPdf(const QString &fileName, float scaleX, float scaleY, float rotateDegree);
     void ShowPdf(const QString &fileName);
 private slots:
     void on_actionOpen_triggered();
