@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
@@ -55,22 +55,7 @@
      </layout>
     </item>
     <item>
-     <widget class="QScrollArea" name="scrollArea">
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>743</width>
-         <height>481</height>
-        </rect>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout"/>
-      </widget>
-     </widget>
+     <widget class="QListView" name="listView"/>
     </item>
    </layout>
   </widget>

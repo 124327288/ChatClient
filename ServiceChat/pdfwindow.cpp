@@ -12,14 +12,19 @@ PDFWindow::PDFWindow(QWidget *parent) :
     ui(new Ui::PDFWindow)
 {
     ui->setupUi(this);
+    setWindowTitle(tr("Mini PDF Reader"));
     ui->comboBox->setCurrentIndex(2);
+    pdfListModel = new PdfListModel;
+    pdfListItemDelegate = new PdfListItemDelegate;
+    ui->listView->setModel(pdfListModel);
+    ui->listView->setItemDelegate(pdfListItemDelegate);
     connect(ui->actionCloseDoc, &QAction::triggered, this, &PDFWindow::ClosePdf);
 }
 
 PDFWindow::~PDFWindow()
 {
     delete ui;
-    delete document;
+//    delete document;
 }
 
 float PDFWindow::GetScale() const
@@ -31,67 +36,83 @@ float PDFWindow::GetScale() const
     return s / 100;
 }
 
-void PDFWindow::LoadDocument()
-{
-    if(!document)
-        document = new MuPdfUtil::Document(FileName());
-}
+//void PDFWindow::LoadDocument()
+//{
+//    if(!document)
+//        document = new MuPdfUtil::RDocument(m_fileName);
+//}
 
-std::shared_ptr<FzPixmap> PDFWindow::LoadPixmap(int number, FzMatrix *mat)
-{
-    if(!document)
-        return nullptr;
-    std::shared_ptr<FzPixmap> pix = std::make_shared<FzPixmap>(document->getContext(),
-                                                               document->getDocument(),
-                                                               number, mat,
-                                                               FzColorspace::FzDeviceRgb(document->getContext()));
-    return pix;
-}
+//std::shared_ptr<FzPixmap> PDFWindow::LoadPixmap(int number, FzMatrix *mat)
+//{
+//    if(!document)
+//        return nullptr;
+//    std::shared_ptr<FzPixmap> pix = std::make_shared<FzPixmap>(document->getContext(),
+//                                                               document->getDocument(),
+//                                                               number, mat,
+//                                                               FzColorspace::FzDeviceRgb(document->getContext()));
+//    return pix;
+//}
+
+//fz_pixmap *PDFWindow::LoadPixmap(int number, fz_matrix *mat)
+//{
+//    return document->LoadPixmap(number, mat);
+//}
 
 void PDFWindow::ShowPdf()
 {
     setWindowTitle(tr("%1 - Mini PDF Reader").arg(m_fileName));
-    if(document)
-        delete document;
-    document = nullptr;
-    LoadDocument();
-    int cnt = document->GetPageCount();
-//    cnt = std::min(cnt, 10);
     float scale = GetScale();
-    FzMatrix mat;
-    mat.Scale(scale, scale);
-    mat.PreRotate(1);
-    QTimer *timer = new QTimer(this);
-    timer->setInterval(200);
-    int i = 0;
-    connect(timer, &QTimer::timeout, [=]() mutable {
-        if(i >= cnt)
-        {
-            timer->stop();
-            return;
-        }
-        std::shared_ptr<FzPixmap> fzpix = LoadPixmap(i, &mat);
-        unsigned char *samples = fzpix->getPixmap()->samples;
-        int width = fzpix->getWidth();
-        int height = fzpix->getHeight();
+    fz_matrix ctm;
+    fz_scale(&ctm, scale, scale);
+//    FzMatrix mat;
+//    mat.Scale(scale, scale);
+//    mat.PreRotate(0);
+    pdfListModel->LoadDocument(m_fileName);
+//    pdfListModel->setMat(mat);
+    pdfListModel->setCtm(ctm);
+    pdfListModel->Update();
+//    if(document)
+//        delete document;
+//    document = nullptr;
+//    LoadDocument();
+//    int cnt = document->GetPageCount();
+////    cnt = std::min(cnt, 10);
+//    float scale = GetScale();
+//    FzMatrix mat;
+//    mat.Scale(scale, scale);
+//    mat.PreRotate(1);
+//    QTimer *timer = new QTimer(this);
+//    timer->setInterval(200);
+//    int i = 0;
+//    connect(timer, &QTimer::timeout, [=]() mutable {
+//        if(i >= cnt)
+//        {
+//            timer->stop();
+//            return;
+//        }
+//        std::shared_ptr<FzPixmap> fzpix = LoadPixmap(i, &mat);
+//        unsigned char *samples = fzpix->getPixmap()->samples;
+//        int width = fzpix->getWidth();
+//        int height = fzpix->getHeight();
 
-        QImage image(samples, width, height, QImage::Format_RGB888);
-        QPixmap pix = QPixmap::fromImage(image);
-        QLabel *label = new QLabel;
-        label->setPixmap(pix);
-        ui->verticalLayout->addWidget(label);
-//        DEBUG_VAR(ui->verticalLayout->count());
-        ui->verticalLayout->setAlignment(label, Qt::AlignHCenter);
-        ++i;
-    });
-    timer->start();
+//        QImage image(samples, width, height, QImage::Format_RGB888);
+//        QPixmap pix = QPixmap::fromImage(image);
+//        QLabel *label = new QLabel;
+//        label->setPixmap(pix);
+//        ui->verticalLayout->addWidget(label);
+////        DEBUG_VAR(ui->verticalLayout->count());
+//        ui->verticalLayout->setAlignment(label, Qt::AlignHCenter);
+//        ++i;
+//    });
+//    timer->start();
 
     //    setGeometry(geometry().x(), geometry().y(), max_width  + 100, 800);
 }
 
 void PDFWindow::ShowPdf(const QString &fileName)
 {
-    FileName() = fileName;
+    m_fileName = fileName;
+
     ShowPdf();
 }
 
@@ -120,7 +141,7 @@ void PDFWindow::on_actionOpen_triggered()
     m_fileName = QFileDialog::getOpenFileName(this, tr("Open PDF file"), "D:/", "*.pdf");
     if(!m_fileName.isNull())
     {
-        ClosePdf();
+//        ClosePdf();
         ShowPdf();
     }
 

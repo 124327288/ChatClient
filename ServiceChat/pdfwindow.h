@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <memory>
 #include "FzPdf/fz_header.h"
+#include "Model/pdflistmodel.h"
+#include "Delegate/pdflistitemdelegate.h"
 namespace Ui {
 class PDFWindow;
 }
@@ -16,8 +18,9 @@ public:
     explicit PDFWindow(QWidget *parent = 0);
     ~PDFWindow();
     float GetScale() const;
-    void LoadDocument();
-    std::shared_ptr<FzPixmap> LoadPixmap(int number, FzMatrix *mat);
+//    void LoadDocument();
+//    std::shared_ptr<FzPixmap> LoadPixmap(int number, FzMatrix *mat);
+//    fz_pixmap *LoadPixmap(int number, fz_matrix *mat);
     void ShowPdf();
     void ShowPdf(const QString &fileName);
     QString &FileName();
@@ -29,7 +32,8 @@ private slots:
 
 private:
     Ui::PDFWindow *ui;
-    MuPdfUtil::Document *document = nullptr;
+//    MuPdfUtil::Document *document = nullptr;
+//    MuPdfUtil::RDocument *document = nullptr;
 //    struct PixmapNum
 //    {
 //        int number;
@@ -37,6 +41,8 @@ private:
 //    };
 //    QList<PixmapNum> pixmapList;
     QString m_fileName;
+    PdfListModel *pdfListModel;
+    PdfListItemDelegate *pdfListItemDelegate;
 };
 
 #endif // PDFWINDOW_H

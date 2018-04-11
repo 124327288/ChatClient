@@ -50,6 +50,27 @@ namespace MuPdfUtil
         FzDocument *document = nullptr;
         int pageCount = -1;
     };
+    class RDocument
+    {
+    public:
+        ~RDocument();
+        RDocument();
+        RDocument(const QString &fileName);
+        void Open(const QString &fileName);
+        int GetPageCount() const;
+        fz_pixmap *LoadPixmap(int i, fz_matrix *mat) const;
+
+        fz_context *getContext() const;
+        void setContext(fz_context *value);
+
+        fz_document *getDocument() const;
+        void setDocument(fz_document *value);
+
+    private:
+        fz_context *context = nullptr;
+        fz_document *document = nullptr;
+        mutable int pageCount = -1;
+    };
 }
 class MuPdfTool
 {

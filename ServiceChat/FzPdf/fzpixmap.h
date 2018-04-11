@@ -10,9 +10,6 @@ class FzPixmap
 {
 public:
     ~FzPixmap();
-    FzPixmap() = delete;
-    FzPixmap(const FzPixmap &obj) = delete;
-    FzPixmap &operator =(const FzPixmap &obj) = delete;
     FzPixmap(FzContext *ctx, FzDocument *doc, int number, FzMatrix *mat, const FzColorspace &cs, int alpha = 0);
     fz_pixmap *getPixmap() const;
     void setPixmap(fz_pixmap *value);
@@ -28,6 +25,10 @@ public:
     int getWidth();
 
 private:
+    FzPixmap() = delete;
+    FzPixmap(const FzPixmap &obj) = delete;
+    FzPixmap &operator =(const FzPixmap &obj) = delete;
+
     FzContext *ctx;
     FzDocument *doc;
     fz_pixmap *pixmap;
