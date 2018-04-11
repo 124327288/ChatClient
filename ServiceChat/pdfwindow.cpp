@@ -16,6 +16,7 @@ PDFWindow::PDFWindow(QWidget *parent) :
     ui->comboBox->setCurrentIndex(2);
     pdfListModel = new PdfListModel;
     pdfListItemDelegate = new PdfListItemDelegate;
+    ui->listView->setVerticalScrollMode(QListView::ScrollPerPixel);
     ui->listView->setModel(pdfListModel);
     ui->listView->setItemDelegate(pdfListItemDelegate);
     connect(ui->actionCloseDoc, &QAction::triggered, this, &PDFWindow::ClosePdf);
