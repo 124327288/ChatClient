@@ -56,35 +56,31 @@ void PDFWindow::ShowPdf()
     document = nullptr;
     LoadDocument();
     int cnt = document->GetPageCount();
-    DEBUG_VAR(cnt);
 //    cnt = std::min(cnt, 10);
     float scale = GetScale();
     FzMatrix mat;
     mat.Scale(scale, scale);
-//    mat.PreRotate(rotateDegree);
+    mat.PreRotate(1);
     QTimer *timer = new QTimer(this);
     timer->setInterval(200);
-    connect(timer, &QTimer::timeout, [=]{
-        FzMatrix _mat = mat;
-        static int i = 0;
+    int i = 0;
+    connect(timer, &QTimer::timeout, [=]() mutable {
         if(i >= cnt)
         {
-            i = 0;
-
             timer->stop();
             return;
         }
-        std::shared_ptr<FzPixmap> pix = LoadPixmap(i, &_mat);
-        unsigned char *samples = pix->getPixmap()->samples;
-        int width = pix->getWidth();
-        int height = pix->getHeight();
+        std::shared_ptr<FzPixmap> fzpix = LoadPixmap(i, &mat);
+        unsigned char *samples = fzpix->getPixmap()->samples;
+        int width = fzpix->getWidth();
+        int height = fzpix->getHeight();
 
         QImage image(samples, width, height, QImage::Format_RGB888);
-
+        QPixmap pix = QPixmap::fromImage(image);
         QLabel *label = new QLabel;
-        label->setPixmap(QPixmap::fromImage(image));
+        label->setPixmap(pix);
         ui->verticalLayout->addWidget(label);
-        DEBUG_VAR(ui->verticalLayout->count());
+//        DEBUG_VAR(ui->verticalLayout->count());
         ui->verticalLayout->setAlignment(label, Qt::AlignHCenter);
         ++i;
     });
@@ -106,7 +102,7 @@ QString &PDFWindow::FileName()
 
 void PDFWindow::ClosePdf()
 {
-
+    setWindowTitle(tr("Mini PDF Reader"));
     for(int i = 0; i < ui->verticalLayout->count(); ++i)
     {
         QWidget *widget = ui->verticalLayout->itemAt(i)->widget();

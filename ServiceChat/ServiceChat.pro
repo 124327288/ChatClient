@@ -74,7 +74,9 @@ SOURCES += \
     FzPdf/fzpixmap.cpp \
     FzPdf/fzcontext.cpp \
     FzPdf/fzmatrix.cpp \
-    FzPdf/fzcolorspace.cpp
+    FzPdf/fzcolorspace.cpp \
+    Model/pdflistmodel.cpp \
+    Delegate/pdflistitemdelegate.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -123,7 +125,9 @@ HEADERS += \
     FzPdf/fzcontext.h \
     FzPdf/fzmatrix.h \
     FzPdf/fzcolorspace.h \
-    FzPdf/fz_header.h
+    FzPdf/fz_header.h \
+    Model/pdflistmodel.h \
+    Delegate/pdflistitemdelegate.h
 
 FORMS += \
         loginwindow.ui \

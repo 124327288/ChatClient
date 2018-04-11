@@ -25,12 +25,12 @@ FzMatrix::~FzMatrix()
 
 void FzMatrix::Scale(float sx, float sy)
 {
-    fz_scale(&ctm, sx, sy);
+    ctm = *fz_scale(&ctm, sx, sy);
 }
 
 void FzMatrix::PreRotate(float degrees)
 {
-    fz_pre_rotate(&ctm, degrees);
+    ctm = *fz_pre_rotate(&ctm, degrees);
 }
 
 fz_matrix &FzMatrix::getCtm()
