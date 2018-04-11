@@ -16,10 +16,12 @@ public:
     explicit PDFWindow(QWidget *parent = 0);
     ~PDFWindow();
     float GetScale() const;
-    void LoadDocument(const QString &fileName);
+    void LoadDocument();
     std::shared_ptr<FzPixmap> LoadPixmap(int number, FzMatrix *mat);
-//    void LoadPdf(const QString &fileName, float scaleX, float scaleY, float rotateDegree);
+    void ShowPdf();
     void ShowPdf(const QString &fileName);
+    QString &FileName();
+    void ClosePdf();
 private slots:
     void on_actionOpen_triggered();
 
@@ -28,11 +30,11 @@ private slots:
 private:
     Ui::PDFWindow *ui;
     MuPdfUtil::Document *document = nullptr;
-    struct PixmapNum
-    {
-        int number;
-        std::shared_ptr<FzPixmap> pPixmap;
-    };
+//    struct PixmapNum
+//    {
+//        int number;
+//        std::shared_ptr<FzPixmap> pPixmap;
+//    };
 //    QList<PixmapNum> pixmapList;
     QString m_fileName;
 };

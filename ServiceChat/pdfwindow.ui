@@ -88,6 +88,7 @@
      <string>File</string>
     </property>
     <addaction name="actionOpen"/>
+    <addaction name="actionCloseDoc"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -95,6 +96,11 @@
   <action name="actionOpen">
    <property name="text">
     <string>Open</string>
+   </property>
+  </action>
+  <action name="actionCloseDoc">
+   <property name="text">
+    <string>CloseDoc</string>
    </property>
   </action>
  </widget>
