@@ -1,7 +1,6 @@
 #ifndef MUPDFTOOL_H
 #define MUPDFTOOL_H
 #include "stdafx.h"
-#include <mupdf/fitz.h>
 #include <mupdf/pdf.h>
 
 #define FZ_CATCH(ctx)                                                                       \
@@ -26,9 +25,6 @@
         fz_drop_document(ctx, doc);                                                         \
         fz_drop_context(ctx);                                                               \
     }
-class FzContext;
-class FzDocument;
-class FzMatrix;
 namespace MuPdfUtil
 {
     class Document
@@ -38,44 +34,19 @@ namespace MuPdfUtil
         Document();
         Document(const QString &fileName);
         void Open(const QString &fileName);
-        int GetPageCount();
-        FzContext *getContext() const;
-        void setContext(FzContext *value);
-
-        FzDocument *getDocument() const;
-        void setDocument(FzDocument *value);
-
-    private:
-        FzContext *context = nullptr;
-        FzDocument *document = nullptr;
-        int pageCount = -1;
-    };
-    class RDocument
-    {
-    public:
-        ~RDocument();
-        RDocument();
-        RDocument(const QString &fileName);
-        void Open(const QString &fileName);
         int GetPageCount() const;
         fz_pixmap *LoadPixmap(int i, fz_matrix *mat) const;
 
-        fz_context *getContext() const;
-        void setContext(fz_context *value);
+        fz_context *ctx() const;
+        void setCtx(fz_context *ctx);
 
-        fz_document *getDocument() const;
-        void setDocument(fz_document *value);
+        fz_document *doc() const;
+        void setDoc(fz_document *doc);
 
     private:
-        fz_context *context = nullptr;
-        fz_document *document = nullptr;
+        fz_context *m_ctx = nullptr;
+        fz_document *m_doc = nullptr;
         mutable int pageCount = -1;
     };
 }
-class MuPdfTool
-{
-public:
-    MuPdfTool();
-
-};
 #endif // MUPDFTOOL_H

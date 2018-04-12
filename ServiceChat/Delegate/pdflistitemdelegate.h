@@ -18,6 +18,11 @@ public slots:
 public:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    QSize size() const;
+    void setSize(const QSize &size);
+
+private:
+    mutable QSize m_size;
 };
 
 #endif // PDFLISTITEMDELEGATE_H

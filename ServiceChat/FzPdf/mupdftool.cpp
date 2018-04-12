@@ -1,21 +1,23 @@
 #include "mupdftool.h"
 #include "fz_header.h"
 using namespace std;
-MuPdfTool::MuPdfTool()
-{
-
-}
 
 MuPdfUtil::Document::~Document()
 {
-    delete document;
-    delete context;
+    fz_drop_document(m_ctx, m_doc);
+    fz_drop_context(m_ctx);
 }
 
 MuPdfUtil::Document::Document()
 {
-    context = new FzContext;
-    context->RegisterDocumentHandlers();
+    m_ctx = fz_new_context(nullptr, nullptr, FZ_STORE_UNLIMITED);
+    if(!m_ctx)
+    {
+        qDebug() << QString("%1. cannot create mupdf m_ctx").arg(__func__);
+    }
+    fz_register_document_handlers(m_ctx);
+
+
 }
 
 MuPdfUtil::Document::Document(const QString &fileName) : Document()
@@ -25,107 +27,51 @@ MuPdfUtil::Document::Document(const QString &fileName) : Document()
 
 void MuPdfUtil::Document::Open(const QString &fileName)
 {
-    document = new FzDocument(context, fileName);
-}
-
-int MuPdfUtil::Document::GetPageCount()
-{
-    if(pageCount >= 0)
-        return pageCount;
-    pageCount = document->CountPages();
-    return pageCount;
-}
-
-FzDocument *MuPdfUtil::Document::getDocument() const
-{
-    return document;
-}
-
-void MuPdfUtil::Document::setDocument(FzDocument *value)
-{
-    document = value;
-}
-
-FzContext *MuPdfUtil::Document::getContext() const
-{
-    return context;
-}
-
-void MuPdfUtil::Document::setContext(FzContext *value)
-{
-    context = value;
-}
-
-MuPdfUtil::RDocument::~RDocument()
-{
-    fz_drop_document(context, document);
-    fz_drop_context(context);
-}
-
-MuPdfUtil::RDocument::RDocument()
-{
-    context = fz_new_context(nullptr, nullptr, FZ_STORE_UNLIMITED);
-    if(!context)
-    {
-        qDebug() << QString("%1. cannot create mupdf context").arg(__func__);
-    }
-    fz_register_document_handlers(context);
-
-
-}
-
-MuPdfUtil::RDocument::RDocument(const QString &fileName) : RDocument()
-{
-    Open(fileName);
-}
-
-void MuPdfUtil::RDocument::Open(const QString &fileName)
-{
     string name = fileName.toStdString();
-    fz_try(context)
+    fz_try(m_ctx)
     {
-        document = fz_open_document(context, name.data());
+        m_doc = fz_open_document(m_ctx, name.data());
     }
-    FZ_CATCH_DROPDOC(context, document);
+    FZ_CATCH_DROPDOC(m_ctx, m_doc);
 }
 
-int MuPdfUtil::RDocument::GetPageCount() const
+int MuPdfUtil::Document::GetPageCount() const
 {
     if(pageCount >= 0)
         return pageCount;
-    fz_try(context)
+    fz_try(m_ctx)
     {
-        pageCount = fz_count_pages(context, document);
+        pageCount = fz_count_pages(m_ctx, m_doc);
     }
-    FZ_CATCH_DROPDOC_NORETURN(context, document);
+    FZ_CATCH_DROPDOC_NORETURN(m_ctx, m_doc);
     return pageCount;
 }
 
-fz_pixmap *MuPdfUtil::RDocument::LoadPixmap(int i, fz_matrix *mat) const
+fz_pixmap *MuPdfUtil::Document::LoadPixmap(int i, fz_matrix *mat) const
 {
     fz_pixmap *pixmap;
-    fz_try(context)
-        pixmap = fz_new_pixmap_from_page_number(context, document, i, mat, fz_device_rgb(context), 0);
-    FZ_CATCH_DROPDOC_NORETURN(context, document);
+    fz_try(m_ctx)
+        pixmap = fz_new_pixmap_from_page_number(m_ctx, m_doc, i, mat, fz_device_rgb(m_ctx), 0);
+    FZ_CATCH_DROPDOC_NORETURN(m_ctx, m_doc);
     return pixmap;
 }
 
-fz_document *MuPdfUtil::RDocument::getDocument() const
+fz_document *MuPdfUtil::Document::doc() const
 {
-    return document;
+    return m_doc;
 }
 
-void MuPdfUtil::RDocument::setDocument(fz_document *value)
+void MuPdfUtil::Document::setDoc(fz_document *doc)
 {
-    document = value;
+    m_doc = doc;
 }
 
-fz_context *MuPdfUtil::RDocument::getContext() const
+fz_context *MuPdfUtil::Document::ctx() const
 {
-    return context;
+    return m_ctx;
 }
 
-void MuPdfUtil::RDocument::setContext(fz_context *value)
+void MuPdfUtil::Document::setCtx(fz_context *ctx)
 {
-    context = value;
+    m_ctx = ctx;
 }

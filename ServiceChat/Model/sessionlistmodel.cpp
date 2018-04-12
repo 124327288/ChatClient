@@ -11,11 +11,9 @@ SessionListModel::SessionListModel(QObject *parent)
 
 int SessionListModel::rowCount(const QModelIndex &parent) const
 {
-    // For list models only the root node (an invalid parent) should return the list's size. For all
-    // other (valid) parents, rowCount() should return 0 so that it does not become a tree model.
     if (parent.isValid())
         return 0;
-    return sessionList.count();
+    return m_sessionList.count();
 }
 
 QVariant SessionListModel::data(const QModelIndex &index, int role) const
@@ -26,9 +24,9 @@ QVariant SessionListModel::data(const QModelIndex &index, int role) const
     {
 //    case Qt::DisplayRole:
     case Role::RoleID:
-        return sessionList[index.row()].id;
+        return m_sessionList[index.row()].id;
     case Role::RoleNick:
-        return sessionList[index.row()].nick;
+        return m_sessionList[index.row()].nick;
     default:
         return QVariant();
     }
@@ -45,7 +43,6 @@ bool SessionListModel::insertRows(int row, int count, const QModelIndex &parent)
 bool SessionListModel::removeRows(int row, int count, const QModelIndex &parent)
 {
     beginRemoveRows(parent, row, row + count - 1);
-//    for(int i = 0;)
     // FIXME: Implement me!
     endRemoveRows();
     return true;
@@ -54,7 +51,7 @@ bool SessionListModel::removeRows(int row, int count, const QModelIndex &parent)
 void SessionListModel::Sort()
 {
 //    beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    qSort(sessionList.begin(), sessionList.end(), [](const Session &a, const Session &b){
+    qSort(m_sessionList.begin(), m_sessionList.end(), [](const Session &a, const Session &b){
         return a.time > b.time;
     });
 //    endInsertRows();
@@ -63,7 +60,7 @@ void SessionListModel::Sort()
 void SessionListModel::UpdateData()
 {
     beginInsertRows(QModelIndex(), rowCount(), TimTool::Instance().getContentMap().size());
-    sessionList.clear();
+    m_sessionList.clear();
     for(auto i = TimTool::Instance().getContentMap().begin(); i != TimTool::Instance().getContentMap().end(); ++i)
     {
         Session s;
@@ -74,7 +71,7 @@ void SessionListModel::UpdateData()
             t = std::max(static_cast<time_t>(content.time), t);
         }
         s.time = t;
-        sessionList += s;
+        m_sessionList += s;
     }
     Sort();
     endInsertRows();
@@ -82,7 +79,7 @@ void SessionListModel::UpdateData()
 
 bool SessionListModel::IsContainInSessionList(const QString &id)
 {
-    for(Session s : sessionList)
+    for(Session s : m_sessionList)
     {
         if(s.id == id)
         {
@@ -100,7 +97,7 @@ void SessionListModel::AddSingleSession(const QString &id, const QString &nick, 
         return;
     }
     beginInsertRows(QModelIndex(), rowCount(), rowCount() + 1);
-    sessionList += {id, nick, time};
+    m_sessionList += {id, nick, time};
     Sort();
     endInsertRows();
 }
@@ -108,7 +105,7 @@ void SessionListModel::AddSingleSession(const QString &id, const QString &nick, 
 void SessionListModel::UpdateSingleSession(const QString &id, const QString &nick, time_t time)
 {
     beginResetModel();
-    for(Session s : sessionList)
+    for(Session s : m_sessionList)
     {
         if(s.id == id)
         {

@@ -13,7 +13,7 @@ public:
 private slots:
     void updateList(QList<Linkman> list);
 private:
-    QList<Linkman> linkmanList;
+    QList<Linkman> m_friendList;
 
     // QAbstractItemModel interface
 public:

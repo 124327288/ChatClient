@@ -4,8 +4,7 @@
 #include <QMainWindow>
 #include <memory>
 #include "FzPdf/fz_header.h"
-#include "Model/pdflistmodel.h"
-#include "Delegate/pdflistitemdelegate.h"
+#include <View/pdflistview.h>
 namespace Ui {
 class PDFWindow;
 }
@@ -18,13 +17,22 @@ public:
     explicit PDFWindow(QWidget *parent = 0);
     ~PDFWindow();
     float GetScale() const;
-//    void LoadDocument();
-//    std::shared_ptr<FzPixmap> LoadPixmap(int number, FzMatrix *mat);
-//    fz_pixmap *LoadPixmap(int number, fz_matrix *mat);
     void ShowPdf();
     void ShowPdf(const QString &fileName);
-    QString &FileName();
     void ClosePdf();
+
+    PdfListView *pdfListView() const;
+    void setPdfListView(PdfListView *pdfListView);
+
+    QString fileName() const;
+    void setFileName(const QString &fileName);
+
+    PdfListModel *pdfListModel() const;
+    void setPdfListModel(PdfListModel *pdfListModel);
+
+    PdfListItemDelegate *pdfListItemDelegate() const;
+    void setPdfListItemDelegate(PdfListItemDelegate *pdfListItemDelegate);
+
 private slots:
     void on_actionOpen_triggered();
 
@@ -32,11 +40,10 @@ private slots:
 
 private:
     Ui::PDFWindow *ui;
-//    MuPdfUtil::Document *document = nullptr;
-//    MuPdfUtil::RDocument *document = nullptr;
     QString m_fileName;
-    PdfListModel *pdfListModel;
-    PdfListItemDelegate *pdfListItemDelegate;
+    PdfListView *m_pdfListView;
+    PdfListModel *m_pdfListModel;
+    PdfListItemDelegate *m_pdfListItemDelegate;
 };
 
 #endif // PDFWINDOW_H

@@ -70,13 +70,9 @@ SOURCES += \
     Table/sig.cpp \
     Tim/chatmanager.cpp \
     FzPdf/mupdftool.cpp \
-    FzPdf/fzdocument.cpp \
-    FzPdf/fzpixmap.cpp \
-    FzPdf/fzcontext.cpp \
-    FzPdf/fzmatrix.cpp \
-    FzPdf/fzcolorspace.cpp \
     Model/pdflistmodel.cpp \
-    Delegate/pdflistitemdelegate.cpp
+    Delegate/pdflistitemdelegate.cpp \
+    View/pdflistview.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -120,14 +116,10 @@ HEADERS += \
     Table/sig.h \
     Tim/chatmanager.h \
     FzPdf/mupdftool.h \
-    FzPdf/fzdocument.h \
-    FzPdf/fzpixmap.h \
-    FzPdf/fzcontext.h \
-    FzPdf/fzmatrix.h \
-    FzPdf/fzcolorspace.h \
     FzPdf/fz_header.h \
     Model/pdflistmodel.h \
-    Delegate/pdflistitemdelegate.h
+    Delegate/pdflistitemdelegate.h \
+    View/pdflistview.h
 
 FORMS += \
         loginwindow.ui \

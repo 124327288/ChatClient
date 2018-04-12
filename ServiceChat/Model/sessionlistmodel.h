@@ -32,7 +32,7 @@ public:
     void UpdateSingleSession(const QString &id, const QString &nick, time_t time);
 
 private:
-    QList<Session> sessionList;
+    QList<Session> m_sessionList;
 };
 
 #endif // SESSIONLISTMODEL_H

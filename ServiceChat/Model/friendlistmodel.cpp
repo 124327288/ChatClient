@@ -3,13 +3,13 @@
 FriendListModel::FriendListModel(QObject *parent) :QAbstractListModel(parent)
 {
     if(!TimTool::Instance().getFriendList().isEmpty())
-        linkmanList = TimTool::Instance().getFriendList();
+        m_friendList = TimTool::Instance().getFriendList();
     connect(&TimTool::Instance(), &TimTool::GetFriendListSuccess, this, &FriendListModel::updateList);
 }
 
 int FriendListModel::rowCount(const QModelIndex & parent) const
 {
-    return linkmanList.count();
+    return m_friendList.count();
 }
 
 QVariant FriendListModel::data(const QModelIndex & index, int role) const
@@ -20,9 +20,9 @@ QVariant FriendListModel::data(const QModelIndex & index, int role) const
 	{
 //    case Qt::DisplayRole:
     case Role::RoleID:
-        return linkmanList[index.row()].id;
+        return m_friendList[index.row()].id;
     case Role::RoleNick:
-        return linkmanList[index.row()].nick;
+        return m_friendList[index.row()].nick;
 //    case Role::RoleRemark:
 //        return linkmanList[index.row()].remark;
 //    case Qt::BackgroundColorRole:
@@ -35,7 +35,7 @@ QVariant FriendListModel::data(const QModelIndex & index, int role) const
 void FriendListModel::updateList(QList<Linkman> list)
 {
     beginResetModel();
-    linkmanList = list;
+    m_friendList = list;
     endResetModel();
 //    for(auto man : list)
 //    {
