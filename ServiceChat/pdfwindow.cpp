@@ -1,11 +1,13 @@
 ﻿#include "pdfwindow.h"
 #include "ui_pdfwindow.h"
 
+#include <QScrollBar>
 #include <QFileDialog>
 #include <QLabel>
 #include <QDebug>
 #include <string>
 #include "FzPdf/fz_header.h"
+
 using namespace std;
 PDFWindow::PDFWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -16,7 +18,9 @@ PDFWindow::PDFWindow(QWidget *parent) :
     ui->comboBox->setCurrentIndex(2);
     pdfListModel = new PdfListModel;
     pdfListItemDelegate = new PdfListItemDelegate;
-    ui->listView->setVerticalScrollMode(QListView::ScrollPerPixel);
+    ui->listView->setSpacing(10);
+    ui->listView->setVerticalScrollMode(QListView::ScrollPerItem);
+//    ui->listView->verticalScrollBar()->setSingleStep(20);
     ui->listView->setModel(pdfListModel);
     ui->listView->setItemDelegate(pdfListItemDelegate);
     connect(ui->actionCloseDoc, &QAction::triggered, this, &PDFWindow::ClosePdf);
@@ -72,6 +76,7 @@ void PDFWindow::ShowPdf()
 //    pdfListModel->setMat(mat);
     pdfListModel->setCtm(ctm);
     pdfListModel->Update();
+
 //    if(document)
 //        delete document;
 //    document = nullptr;

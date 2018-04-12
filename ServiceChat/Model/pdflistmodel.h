@@ -3,6 +3,7 @@
 
 #include <QAbstractListModel>
 #include "FzPdf/fz_header.h"
+#include <unordered_map>
 class PdfListModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -37,6 +38,13 @@ private:
 //    MuPdfUtil::Document *document = nullptr;
     mutable fz_matrix m_ctm;
     MuPdfUtil::RDocument rdoc;
+//    struct PixmapNum
+//    {
+//        int number;
+//        fz_pixmap *pixmap;
+//    };
+//    QList<PixmapNum> pixmapList;
+    mutable std::unordered_map<int, fz_pixmap*> pixMap;
 };
 
 #endif // PDFLISTMODEL_H

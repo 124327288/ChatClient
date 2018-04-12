@@ -34,12 +34,6 @@ private:
     Ui::PDFWindow *ui;
 //    MuPdfUtil::Document *document = nullptr;
 //    MuPdfUtil::RDocument *document = nullptr;
-//    struct PixmapNum
-//    {
-//        int number;
-//        std::shared_ptr<FzPixmap> pPixmap;
-//    };
-//    QList<PixmapNum> pixmapList;
     QString m_fileName;
     PdfListModel *pdfListModel;
     PdfListItemDelegate *pdfListItemDelegate;
