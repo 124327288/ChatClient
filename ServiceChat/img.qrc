@@ -25,6 +25,7 @@
         <file>images/ok.jpg</file>
         <file>images/save.jpg</file>
         <file>images/x.jpg</file>
+        <file>images/enter.png</file>
     </qresource>
     <qresource prefix="/emotions">
         <file>emotions/0.gif</file>

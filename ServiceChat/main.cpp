@@ -38,14 +38,14 @@ int main(int argc, char *argv[])
     };
     loadGlobalTrans();
     loadMineTrans();
-//    GenCacheDir();
-//    LuaTool::Instance().Init();
-//    LuaTool::Instance().getConfigs();
-//    TcpSocket::Instance().TryConnect();
-//    TimTool::Instance().Init();
-//    LoginWindow::Instance().show();
-    PDFWindow window;
-    window.show();
+    GenCacheDir();
+    LuaTool::Instance().Init();
+    LuaTool::Instance().getConfigs();
+    TcpSocket::Instance().TryConnect();
+    TimTool::Instance().Init();
+    LoginWindow::Instance().show();
+//    PDFWindow window;
+//    window.show();
 //    FileWindow window;
 //    window.show();
 

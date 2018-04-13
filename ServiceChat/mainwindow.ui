@@ -16,21 +16,43 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QLabel" name="nickLabel">
-      <property name="text">
-       <string>nick</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
+     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="3,1">
+      <item>
+       <widget class="QLabel" name="nickLabel">
+        <property name="text">
+         <string>nick</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="onlineLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
-     <widget class="QPushButton" name="addFriendBtn">
-      <property name="text">
-       <string>add friend</string>
-      </property>
-     </widget>
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="5,1">
+      <item>
+       <widget class="QComboBox" name="comboBox"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="img.qrc">
+          <normaloff>:/img/images/enter.png</normaloff>:/img/images/enter.png</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <widget class="QTabWidget" name="tabWidget">
@@ -68,7 +90,16 @@
     <addaction name="actionAbout"/>
     <addaction name="actionAboutQt"/>
    </widget>
+   <widget class="QMenu" name="menuOperator">
+    <property name="title">
+     <string>Operator</string>
+    </property>
+    <addaction name="actionAdd_a_friend"/>
+    <addaction name="separator"/>
+    <addaction name="actionSession_with"/>
+   </widget>
    <addaction name="menu_File"/>
+   <addaction name="menuOperator"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -97,7 +128,19 @@
     <string>AboutQt</string>
    </property>
   </action>
+  <action name="actionAdd_a_friend">
+   <property name="text">
+    <string>Add a friend</string>
+   </property>
+  </action>
+  <action name="actionSession_with">
+   <property name="text">
+    <string>Session with</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="img.qrc"/>
+ </resources>
  <connections/>
 </ui>
