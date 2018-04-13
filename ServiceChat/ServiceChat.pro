@@ -72,7 +72,8 @@ SOURCES += \
     FzPdf/mupdftool.cpp \
     Model/pdflistmodel.cpp \
     Delegate/pdflistitemdelegate.cpp \
-    View/pdflistview.cpp
+    View/pdflistview.cpp \
+    pdfprinttool.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -119,7 +120,8 @@ HEADERS += \
     FzPdf/fz_header.h \
     Model/pdflistmodel.h \
     Delegate/pdflistitemdelegate.h \
-    View/pdflistview.h
+    View/pdflistview.h \
+    pdfprinttool.h
 
 FORMS += \
         loginwindow.ui \

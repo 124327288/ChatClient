@@ -69,11 +69,17 @@ inline int onGetElementReturn(const char *funcName, int ret)
 	return ret;
 }
 
+inline void popErrorMsg(const QString &title, const QString &content)
+{
+    QMessageBox::critical(nullptr, title, content);
+}
+
 #define VAR_NAME(x)             (#x)
-#define DEBUG_VAR(x)			(onDebugVariable(#x, x, __func__))
-#define DEBUG_FUNC				(onDebugFunc(__func__))
-#define DEBUG_ERROR				(onDebugError(__func__, code, desc))
-#define ON_INVOKE(func, ...)	(onGetElementReturn(#func, func(__VA_ARGS__)))
+#define DEBUG_VAR(x)			onDebugVariable(#x, x, __func__)
+#define DEBUG_FUNC				onDebugFunc(__func__)
+#define DEBUG_ERROR				onDebugError(__func__, code, desc)
+#define POP_ERROR(txt)          popErrorMsg(__func__, txt);
+#define ON_INVOKE(func, ...)	onGetElementReturn(#func, func(__VA_ARGS__))
 
 #define GET_ELEMENT(func, handle, p_str)        {       \
     char buf[MAXLENBUFFER];                             \

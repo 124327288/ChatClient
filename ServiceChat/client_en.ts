@@ -92,39 +92,57 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="42"/>
+        <location filename="chatwindow.cpp" line="45"/>
         <source>%1 - Session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="229"/>
-        <location filename="chatwindow.cpp" line="244"/>
+        <location filename="chatwindow.cpp" line="284"/>
+        <location filename="chatwindow.cpp" line="294"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="229"/>
+        <location filename="chatwindow.cpp" line="284"/>
         <source>Images (*.jpg *.xpm *.png);;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="247"/>
+        <location filename="chatwindow.cpp" line="297"/>
         <source>Send this File?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="247"/>
+        <location filename="chatwindow.cpp" line="297"/>
         <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="247"/>
+        <location filename="chatwindow.cpp" line="297"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="249"/>
+        <location filename="chatwindow.cpp" line="299"/>
         <source>Send File: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>FileTableModel</name>
+    <message>
+        <location filename="Model/filetablemodel.cpp" line="15"/>
+        <source>File Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Model/filetablemodel.cpp" line="17"/>
+        <source>Time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Model/filetablemodel.cpp" line="19"/>
+        <source>More</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -162,29 +180,29 @@
     </message>
     <message>
         <location filename="loginwindow.ui" line="123"/>
-        <location filename="loginwindow.cpp" line="91"/>
+        <location filename="loginwindow.cpp" line="110"/>
         <source>Login</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="63"/>
-        <location filename="loginwindow.cpp" line="68"/>
-        <location filename="loginwindow.cpp" line="90"/>
+        <location filename="loginwindow.cpp" line="70"/>
+        <location filename="loginwindow.cpp" line="75"/>
+        <location filename="loginwindow.cpp" line="109"/>
         <source>ERROR</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="63"/>
+        <location filename="loginwindow.cpp" line="70"/>
         <source>Username cannot be empty!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="68"/>
+        <location filename="loginwindow.cpp" line="75"/>
         <source>Password cannot be empty!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="71"/>
+        <location filename="loginwindow.cpp" line="78"/>
         <source>Logining......</source>
         <translation></translation>
     </message>
@@ -260,17 +278,63 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="pdfwindow.ui" line="49"/>
+        <location filename="pdfwindow.ui" line="36"/>
+        <source>50%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="pdfwindow.ui" line="41"/>
+        <source>75%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="pdfwindow.ui" line="46"/>
+        <source>100%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="pdfwindow.ui" line="51"/>
+        <source>125%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="pdfwindow.ui" line="56"/>
+        <source>150%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="pdfwindow.ui" line="76"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="pdfwindow.ui" line="58"/>
+        <location filename="pdfwindow.ui" line="88"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="pdfwindow.cpp" line="102"/>
+        <location filename="pdfwindow.ui" line="93"/>
+        <source>CloseDoc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="pdfwindow.ui" line="98"/>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="pdfwindow.cpp" line="17"/>
+        <location filename="pdfwindow.cpp" line="75"/>
+        <source>Mini PDF Reader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="pdfwindow.cpp" line="45"/>
+        <source>%1 - Mini PDF Reader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="pdfwindow.cpp" line="98"/>
         <source>Open PDF file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -278,15 +342,25 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="program.h" line="105"/>
-        <location filename="program.h" line="110"/>
+        <location filename="program.h" line="111"/>
+        <location filename="program.h" line="116"/>
         <source>%1 Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="sqlitetool.cpp" line="33"/>
-        <location filename="sqlitetool.cpp" line="34"/>
+        <location filename="databasetool.cpp" line="24"/>
+        <location filename="databasetool.cpp" line="25"/>
         <source>DataBase is not open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Tim/timtool.cpp" line="452"/>
+        <source>Be Kick Offline!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Tim/timtool.cpp" line="452"/>
+        <source>Be Kick Offline! Logout!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -306,37 +380,42 @@
 <context>
     <name>SettingDialog</name>
     <message>
-        <location filename="View/settingdialog.cpp" line="9"/>
+        <location filename="settingdialog.cpp" line="9"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="View/settingdialog.cpp" line="11"/>
+        <location filename="settingdialog.cpp" line="11"/>
         <source>User Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="View/settingdialog.cpp" line="12"/>
+        <location filename="settingdialog.cpp" line="12"/>
         <source>System Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="View/settingdialog.cpp" line="21"/>
+        <location filename="settingdialog.cpp" line="21"/>
         <source>nick</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="View/settingdialog.cpp" line="33"/>
+        <location filename="settingdialog.cpp" line="24"/>
+        <source>Send Message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingdialog.cpp" line="38"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="View/settingdialog.cpp" line="46"/>
+        <location filename="settingdialog.cpp" line="51"/>
         <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="View/settingdialog.cpp" line="47"/>
+        <location filename="settingdialog.cpp" line="52"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>

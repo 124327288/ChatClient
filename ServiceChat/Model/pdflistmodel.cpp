@@ -2,7 +2,7 @@
 
 PdfListModel::~PdfListModel()
 {
-    for(auto &p : pixMap)
+    for(auto &p : m_pixMap)
     {
         fz_drop_pixmap(m_doc.ctx(), p.second);
         p.second = nullptr;
@@ -58,19 +58,25 @@ QVariant PdfListModel::data(const QModelIndex &index, int role) const
     if(role == Qt::DisplayRole)
     {
         int i = index.row();
-        fz_pixmap *pix = nullptr;
-        if(pixMap.find(i) != pixMap.end() || pixMap[i])
+        if(m_pixMap.size() > MAX_COUNT)
         {
-            pix = pixMap[i];
+            static QImage img(m_size, QImage::Format_RGB888);
+            img.fill(Qt::white);
+            return img;
+        }
+        fz_pixmap *pix = nullptr;
+        if(m_pixMap.find(i) != m_pixMap.end() || m_pixMap[i])
+        {
+            pix = m_pixMap[i];
         }
         else
         {
             pix = LoadPixmap(i);
-            pixMap[i] = pix;
+            m_pixMap[i] = pix;
         }
         int w = fz_pixmap_width(m_doc.ctx(), pix);
         int h = fz_pixmap_height(m_doc.ctx(), pix);
-
+        m_size = {w, h};
         QImage img = QImage(pix->samples, w, h, QImage::Format_RGB888);
         return img;
     }

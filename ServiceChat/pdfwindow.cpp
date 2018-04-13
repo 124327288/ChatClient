@@ -7,7 +7,7 @@
 #include <QDebug>
 #include <string>
 #include "FzPdf/fz_header.h"
-
+#include "pdfprinttool.h"
 using namespace std;
 PDFWindow::PDFWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -23,6 +23,7 @@ PDFWindow::PDFWindow(QWidget *parent) :
     ui->verticalLayout->addWidget(m_pdfListView);
     ui->comboBox->setCurrentIndex(2);
     connect(ui->actionCloseDoc, &QAction::triggered, this, &PDFWindow::ClosePdf);
+    connect(ui->actionPrint, &QAction::triggered, this, &PDFWindow::PrintPdf);
 }
 
 PDFWindow::~PDFWindow()
@@ -82,6 +83,16 @@ void PDFWindow::ClosePdf()
     }
     while(QLayoutItem *item = ui->verticalLayout->takeAt(0))
         delete item;
+}
+
+void PDFWindow::PrintPdf()
+{
+    if(fileName().isEmpty())
+        return;
+    DEBUG_FUNC;
+    DEBUG_VAR(fileName());
+    QString cmd = QString("pdfprint.exe -prompt \"%1\"").arg(fileName());
+    DEBUG_VAR(PdfPrintTool::Instance().PrintW(cmd));
 }
 
 void PDFWindow::on_actionOpen_triggered()

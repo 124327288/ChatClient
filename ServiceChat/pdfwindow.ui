@@ -77,6 +77,8 @@
     </property>
     <addaction name="actionOpen"/>
     <addaction name="actionCloseDoc"/>
+    <addaction name="separator"/>
+    <addaction name="actionPrint"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -89,6 +91,11 @@
   <action name="actionCloseDoc">
    <property name="text">
     <string>CloseDoc</string>
+   </property>
+  </action>
+  <action name="actionPrint">
+   <property name="text">
+    <string>Print</string>
    </property>
   </action>
  </widget>

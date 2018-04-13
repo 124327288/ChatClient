@@ -20,7 +20,7 @@ public:
     void ShowPdf();
     void ShowPdf(const QString &fileName);
     void ClosePdf();
-
+    void PrintPdf();
     PdfListView *pdfListView() const;
     void setPdfListView(PdfListView *pdfListView);
 
