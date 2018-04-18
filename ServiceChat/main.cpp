@@ -2,7 +2,6 @@
 #include <QWebEngineView>
 #include "loginwindow.h"
 #include "mainwindow.h"
-#include "pdfwindow.h"
 #include "luatool.h"
 #include "Protocol/tcpsocket.h"
 #include "Tim/timtool.h"

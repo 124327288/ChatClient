@@ -4,7 +4,6 @@
 #include <QDesktopWidget>
 #include <QDesktopServices>
 #include <QMessageBox>
-#include "pdfwindow.h"
 #include "stdafx.h"
 
 WebConnect::WebConnect(QObject *parent) : QObject(parent)
@@ -33,10 +32,11 @@ void WebConnect::OpenFile(const QString &path)
 {
     if(path.right(4).toLower() == ".pdf")
     {
-        PDFWindow *window = new PDFWindow;
-        window->ShowPdf(path);
-        SetWidgetCentral(window);
-        window->show();
+        QProcess::startDetached(qApp->applicationDirPath() + "Mini-Pdf-Reader.exe -" + path);
+//        PDFWindow *window = new PDFWindow;
+//        window->ShowPdf(path);
+//        SetWidgetCentral(window);
+//        window->show();
         return;
     }
     QDesktopServices::openUrl(QUrl(QString("file:") + path, QUrl::TolerantMode));

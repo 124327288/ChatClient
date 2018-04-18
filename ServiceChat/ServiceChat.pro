@@ -40,7 +40,6 @@ SOURCES += \
         program.cpp \
         chatwindow.cpp \
         stdafx.cpp \
-        pdfwindow.cpp \
         settingdialog.cpp \
         sqlitetool.cpp \
         signal.cpp \
@@ -68,12 +67,7 @@ SOURCES += \
     Table/id.cpp \
     Table/account.cpp \
     Table/sig.cpp \
-    Tim/chatmanager.cpp \
-    FzPdf/mupdftool.cpp \
-    Model/pdflistmodel.cpp \
-    Delegate/pdflistitemdelegate.cpp \
-    View/pdflistview.cpp \
-    pdfprinttool.cpp
+    Tim/chatmanager.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -84,7 +78,6 @@ HEADERS += \
         program.h \
         chatwindow.h \
         stdafx.h \
-        pdfwindow.h \
         settingdialog.h \
         sqlitetool.h \
         signal.h \
@@ -115,13 +108,7 @@ HEADERS += \
     Table/table.h \
     Table/account.h \
     Table/sig.h \
-    Tim/chatmanager.h \
-    FzPdf/mupdftool.h \
-    FzPdf/fz_header.h \
-    Model/pdflistmodel.h \
-    Delegate/pdflistitemdelegate.h \
-    View/pdflistview.h \
-    pdfprinttool.h
+    Tim/chatmanager.h
 
 FORMS += \
         loginwindow.ui \
