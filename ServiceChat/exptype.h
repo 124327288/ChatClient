@@ -18,11 +18,12 @@ enum PROGRAMSTATE
     EXIT,
 };
 
-enum LOGINRESTYPE : byte
+enum class LOGINRESTYPE : byte
 {
     SUCCESS = 0,
     NOUSER = 1,
     PWDERROR = 2,
+    FAIL = 3,
 };
 
 struct Linkman

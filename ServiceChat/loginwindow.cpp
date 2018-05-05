@@ -34,6 +34,7 @@ LoginWindow::LoginWindow(QWidget *parent) :
 //        qDebug() << id.id() << id.time();
         ui->usernameComboBox->addItem(id.id());
     });
+    connect(&Signal::Instance(), &Signal::SelfLogin, this, &LoginWindow::SelfLoginCallback);
     connect(&TimTool::Instance(), &TimTool::OnLoginSuccess, this, &LoginWindow::onLoginSuccess);
     connect(&TimTool::Instance(), &TimTool::OnLoginError, this, &LoginWindow::onLoginError);
     //    connect(this, &LoginWindow::RemainTime, [=](int msec){
@@ -59,6 +60,11 @@ LoginWindow::~LoginWindow()
 void LoginWindow::SetLoginLabel(const QString &str)
 {
     ui->loginPushButton->setText(str);
+}
+
+void LoginWindow::SelfLoginCallback(LOGINRESTYPE state)
+{
+    POP_ERROR(tr("用户名或密码错误"));
 }
 
 void LoginWindow::on_loginPushButton_clicked()

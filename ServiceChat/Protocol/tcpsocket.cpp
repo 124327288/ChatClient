@@ -6,6 +6,7 @@
 #include "program.h"
 #include <QTimer>
 #include <QObject>
+#include <signal.h>
 
 TcpSocket::TcpSocket():
     socket(new QTcpSocket(this)),
@@ -35,8 +36,10 @@ void TcpSocket::Listen()
 {
     QObject::connect(timer, &QTimer::timeout, [=]{
         QByteArray bytes = socket->readAll();
+
         if(!bytes.isEmpty())
         {
+            DEBUG_VAR(bytes.size());
             PROTOCOLTYPE type = (PROTOCOLTYPE) bytes.at(0);
             qDebug() << QString("Protocol Type: %1").arg(type);
             S2CProtocol *prc = nullptr;
@@ -68,6 +71,11 @@ void TcpSocket::OnLoginResProtocol(S2CProtocol *prc)
     PrcDynamicCast(LoginResProtocol);
     switch (castPrc->getRes()) {
     case LOGINRESTYPE::SUCCESS:
+        qDebug() << "LOGINRESTYPE::SUCCESS";
+        break;
+    case LOGINRESTYPE::FAIL:
+        qDebug() << "LOGINRESTYPE::ERROR";
+        emit Signal::Instance().SelfLogin(LOGINRESTYPE::FAIL);
         break;
     default:
         break;

@@ -1,7 +1,6 @@
-#ifndef SIGNAL_H
+﻿#ifndef SIGNAL_H
 #define SIGNAL_H
-#include <QString>
-#include <QObject>
+#include "stdafx.h"
 class Signal : public QObject
 {
     Q_OBJECT
@@ -16,7 +15,7 @@ private slots:
 signals:
     void LoginSuccess();
     void LoginError(int code, const QString &desc);
-
+    void SelfLogin(LOGINRESTYPE state);
     void GetFriendListSuccess(QList<Linkman> friendList);
     void GetFriendListError(int code, const char *desc);
 

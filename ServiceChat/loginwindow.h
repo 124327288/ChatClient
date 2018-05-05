@@ -18,6 +18,7 @@ public:
 
     ~LoginWindow();
     void SetLoginLabel(const QString &str);
+    void SelfLoginCallback(LOGINRESTYPE state);
 signals:
     void RemainTime(int msec);
 private slots:
