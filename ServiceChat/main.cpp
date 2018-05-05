@@ -43,8 +43,6 @@ int main(int argc, char *argv[])
     TcpSocket::Instance().TryConnect();
     TimTool::Instance().Init();
     LoginWindow::Instance().show();
-//    PDFWindow window;
-//    window.show();
 //    FileWindow window;
 //    window.show();
 

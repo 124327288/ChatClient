@@ -215,48 +215,58 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="21"/>
+        <location filename="mainwindow.ui" line="23"/>
         <source>nick</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="31"/>
-        <source>add friend</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="55"/>
+        <location filename="mainwindow.ui" line="77"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="65"/>
+        <location filename="mainwindow.ui" line="87"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="77"/>
+        <location filename="mainwindow.ui" line="95"/>
+        <source>Operator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="108"/>
         <source>Logout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="82"/>
+        <location filename="mainwindow.ui" line="113"/>
         <source>Setting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="87"/>
+        <location filename="mainwindow.ui" line="118"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="92"/>
+        <location filename="mainwindow.ui" line="123"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="97"/>
+        <location filename="mainwindow.ui" line="128"/>
         <source>AboutQt</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="133"/>
+        <source>Add a friend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="138"/>
+        <source>Session with</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -320,22 +330,6 @@
     <message>
         <location filename="pdfwindow.ui" line="98"/>
         <source>Print</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="pdfwindow.cpp" line="17"/>
-        <location filename="pdfwindow.cpp" line="75"/>
-        <source>Mini PDF Reader</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="pdfwindow.cpp" line="45"/>
-        <source>%1 - Mini PDF Reader</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="pdfwindow.cpp" line="98"/>
-        <source>Open PDF file</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

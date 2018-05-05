@@ -6,7 +6,7 @@
 class WebConnect : public QObject
 {
     Q_OBJECT
-private:
+public:
     explicit WebConnect(QObject *parent = nullptr);
 public:
     static WebConnect &Instance();

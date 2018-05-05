@@ -36,13 +36,14 @@ private slots:
     void on_shotToolButton_clicked(bool checked);
     void on_clearToolButton_clicked(bool checked);
 
+    void on_recordPushButton_clicked(bool checked);
+
 private:
     Ui::ChatWindow      *ui;
     QWebEngineView      *webView;
     QString             otherId;
     QString             otherNick;
     QString             otherRemark;
-    QString             webContent;
     TIMConversationHandle convHandle = nullptr;
     void GetConversation();
 

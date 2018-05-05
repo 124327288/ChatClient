@@ -20,6 +20,7 @@
 #include "webconnect.h"
 #include <tuple>
 #include <Tim/chatmanager.h>
+#include "chatrecordwindow.h"
 ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ChatWindow)
@@ -58,16 +59,15 @@ ChatWindow::~ChatWindow()
 
 void ChatWindow::InitMsgList(bool isLoadedSuccessful)
 {
-    DEBUG_VAR(isLoadedSuccessful);
     if(!isLoadedSuccessful)
         return;
     QTimer::singleShot(200, this, [=]{
         auto &chatMap = ChatManager::Instance().getChatMap();
         auto msgList = chatMap[otherId];
-        DEBUG_VAR(msgList.count());
+//        DEBUG_VAR(msgList.count());
         for(auto msg: msgList)
         {
-            DEBUG_VAR(msg.text);
+//            DEBUG_VAR(msg.text);
             auto id = msg.isMine ? TimTool::Instance().getId() : otherId;
             auto nick = msg.isMine ? TimTool::Instance().getNick() : otherNick;
             AddContent(id, nick, msg.time, msg.text);
@@ -341,4 +341,20 @@ void ChatWindow::on_clearToolButton_clicked(bool checked)
 {
     webView->reload();
 //    TimTool::Instance().getContentMap().remove(otherId);
+}
+/**
+Description:    获取本地会话消息
+@param    [in]    conv_handle    TIMConversationHandle
+@param    [in]    count        获取数量
+@param    [in]    last_msg    上次最后一条消息
+@param    [in]    callback    用户回调
+@return            void
+@exception      none
+*/
+//TIM_DECL void GetLocalMsgs(TIMConversationHandle conv_handle, int count, TIMMessageHandle last_msg, TIMGetMsgCB * callback);
+void ChatWindow::on_recordPushButton_clicked(bool checked)
+{
+    ChatRecordWindow *window = new ChatRecordWindow(otherId, otherNick);
+    window->show();
+//    GetLocalMsgs(convHandle, 100, )
 }
