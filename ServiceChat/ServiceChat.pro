@@ -68,7 +68,9 @@ SOURCES += \
     Table/account.cpp \
     Table/sig.cpp \
     Tim/chatmanager.cpp \
-    chatrecordwindow.cpp
+    chatrecordwindow.cpp \
+    orderdialog.cpp \
+    Model/ordertablemodel.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -110,14 +112,17 @@ HEADERS += \
     Table/account.h \
     Table/sig.h \
     Tim/chatmanager.h \
-    chatrecordwindow.h
+    chatrecordwindow.h \
+    orderdialog.h \
+    Model/ordertablemodel.h
 
 FORMS += \
         loginwindow.ui \
         mainwindow.ui \
         chatwindow.ui \
         pdfwindow.ui \
-    chatrecordwindow.ui
+    chatrecordwindow.ui \
+    orderdialog.ui
 
 RESOURCES += \
     img.qrc \

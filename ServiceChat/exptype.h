@@ -102,6 +102,13 @@ struct ParamType
     QVariant value;
 };
 
+struct Order
+{
+    QString id;
+    QString name;
+    int cnt;
+};
+Q_DECLARE_METATYPE(Order)
 Q_DECLARE_METATYPE(Linkman)
 Q_DECLARE_METATYPE(QList<Linkman>)
 Q_DECLARE_METATYPE(uint32_t)

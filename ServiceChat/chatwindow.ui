@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>586</width>
-    <height>588</height>
+    <width>602</width>
+    <height>624</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,14 +21,8 @@
        <enum>Qt::Vertical</enum>
       </property>
       <widget class="QWidget" name="widget" native="true"/>
-      <widget class="QWidget" name="layoutWidget">
+      <widget class="QWidget" name="">
        <layout class="QHBoxLayout" name="horizontalLayout">
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <property name="sizeConstraint">
-         <enum>QLayout::SetMinAndMaxSize</enum>
-        </property>
         <item>
          <widget class="QToolButton" name="fontToolButton">
           <property name="toolTip">
@@ -38,7 +32,7 @@
            <string>Font</string>
           </property>
           <property name="icon">
-           <iconset resource="img.qrc">
+           <iconset>
             <normaloff>:/img/images/A.jpg</normaloff>:/img/images/A.jpg</iconset>
           </property>
           <property name="toolButtonStyle">
@@ -58,7 +52,7 @@
            <string>emotion</string>
           </property>
           <property name="icon">
-           <iconset resource="img.qrc">
+           <iconset>
             <normaloff>:/img/images/0.gif</normaloff>:/img/images/0.gif</iconset>
           </property>
           <property name="toolButtonStyle">
@@ -78,7 +72,7 @@
            <string>shot</string>
           </property>
           <property name="icon">
-           <iconset resource="img.qrc">
+           <iconset>
             <normaloff>:/img/images/rect.jpg</normaloff>:/img/images/rect.jpg</iconset>
           </property>
           <property name="toolButtonStyle">
@@ -98,7 +92,7 @@
            <string>pic</string>
           </property>
           <property name="icon">
-           <iconset resource="img.qrc">
+           <iconset>
             <normaloff>:/img/images/pic.jpg</normaloff>:/img/images/pic.jpg</iconset>
           </property>
           <property name="iconSize">
@@ -127,7 +121,7 @@
            <string>color</string>
           </property>
           <property name="icon">
-           <iconset resource="img.qrc">
+           <iconset>
             <normaloff>:/img/images/color.png</normaloff>:/img/images/color.png</iconset>
           </property>
           <property name="iconSize">
@@ -156,7 +150,24 @@
            <string>File</string>
           </property>
           <property name="icon">
-           <iconset resource="img.qrc">
+           <iconset>
+            <normaloff>:/img/images/file.png</normaloff>:/img/images/file.png</iconset>
+          </property>
+          <property name="toolButtonStyle">
+           <enum>Qt::ToolButtonTextBesideIcon</enum>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButton">
+          <property name="text">
+           <string>Order</string>
+          </property>
+          <property name="icon">
+           <iconset>
             <normaloff>:/img/images/file.png</normaloff>:/img/images/file.png</iconset>
           </property>
           <property name="toolButtonStyle">
@@ -174,8 +185,8 @@
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>128</width>
-            <height>20</height>
+            <width>38</width>
+            <height>42</height>
            </size>
           </property>
          </spacer>
@@ -189,7 +200,7 @@
            <string>clear</string>
           </property>
           <property name="icon">
-           <iconset resource="img.qrc">
+           <iconset>
             <normaloff>:/img/images/clear.png</normaloff>:/img/images/clear.png</iconset>
           </property>
           <property name="toolButtonStyle">
@@ -250,7 +261,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>586</width>
+     <width>602</width>
      <height>23</height>
     </rect>
    </property>
@@ -275,8 +286,6 @@
    </property>
   </action>
  </widget>
- <resources>
-  <include location="img.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

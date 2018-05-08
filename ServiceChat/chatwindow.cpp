@@ -21,6 +21,7 @@
 #include <tuple>
 #include <Tim/chatmanager.h>
 #include "chatrecordwindow.h"
+#include "orderdialog.h"
 ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ChatWindow)
@@ -357,4 +358,10 @@ void ChatWindow::on_recordPushButton_clicked(bool checked)
     ChatRecordWindow *window = new ChatRecordWindow(otherId, otherNick);
     window->show();
 //    GetLocalMsgs(convHandle, 100, )
+}
+
+void ChatWindow::on_toolButton_clicked(bool checked)
+{
+    OrderDialog *dialog = new OrderDialog(this);
+    dialog->exec();
 }

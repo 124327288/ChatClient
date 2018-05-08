@@ -94,7 +94,8 @@ void LoginWindow::onLoginSuccess()
     bool isContain = find_if(idList.begin(), idList.end(), [=](const Id &id){
         return id.id().toLower() == ui->usernameComboBox->currentText().toLower();
         }) != idList.end();
-    BEGIN
+
+    [=]{
         Id id;
         id.setId(TimTool::Instance().getId());
         id.setTime(GetTime());
@@ -103,7 +104,7 @@ void LoginWindow::onLoginSuccess()
             DEBUG_VAR(dbTool.Update(id, {{"time", id.time()}}, {{"id", id.id()}}));
         else
             DEBUG_VAR(dbTool.Insert(id));
-    END
+    }();
 
     emit Signal::Instance().RemPwdAndAutoLogin(ui->rememberCheckBox->isChecked(), ui->autoCheckBox->isChecked());
     MainWindow::Instance().show();

@@ -38,6 +38,8 @@ private slots:
 
     void on_recordPushButton_clicked(bool checked);
 
+    void on_toolButton_clicked(bool checked);
+
 private:
     Ui::ChatWindow      *ui;
     QWebEngineView      *webView;
