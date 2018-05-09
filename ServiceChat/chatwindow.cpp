@@ -22,6 +22,7 @@
 #include <Tim/chatmanager.h>
 #include "chatrecordwindow.h"
 #include "orderdialog.h"
+#include "luatool.h"
 ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ChatWindow)
@@ -46,6 +47,7 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     TimTool::Instance().AddChatWindowMap(otherId, this);
     setWindowTitle(tr("%1 - Session").arg(otherNick));
     GetConversation();
+    connect(this, &ChatWindow::SelectedOrder, this, &ChatWindow::AddOrderText);
 }
 
 ChatWindow::~ChatWindow()
@@ -194,6 +196,20 @@ void ChatWindow::GetStyledMsg(const QString &rawMsg, QString *meMsg, QVector<Tim
         }
     }
 
+}
+
+void ChatWindow::AddOrderText(int i)
+{
+    Order order = LuaTool::Instance().getOrderList()[i];
+    QString id = tr("<p>id: %1</p>").arg(order.id);
+    QString name = tr("<p>name: %1</p>").arg(order.name);
+    QString count = tr("<p>count: %1</p>").arg(order.cnt);
+    Add2TextEdit(id);
+    Add2TextEdit("<br />");
+    Add2TextEdit(name);
+    Add2TextEdit("<br />");
+    Add2TextEdit(count);
+    Add2TextEdit("<br />");
 }
 
 void ChatWindow::GetConversation()
@@ -360,7 +376,7 @@ void ChatWindow::on_recordPushButton_clicked(bool checked)
 //    GetLocalMsgs(convHandle, 100, )
 }
 
-void ChatWindow::on_toolButton_clicked(bool checked)
+void ChatWindow::on_orderToolButton_clicked(bool checked)
 {
     OrderDialog *dialog = new OrderDialog(this);
     dialog->exec();

@@ -15,10 +15,11 @@ class OrderDialog : public QDialog
 public:
     explicit OrderDialog(QWidget *parent = 0);
     ~OrderDialog();
-
+    void SendOrder(const QModelIndex &index);
 private:
     Ui::OrderDialog *ui;
     OrderTableModel *model;
+
 };
 
 #endif // ORDERDIALOG_H

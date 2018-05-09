@@ -1,12 +1,8 @@
 ﻿#include "ordertablemodel.h"
-
+#include "luatool.h"
 OrderTableModel::OrderTableModel(QObject *parent)
     : QAbstractTableModel(parent),
-      m_orderList({
-                    {"00000123" , "PRADA 机器人拼皮休闲鞋", 1},
-                    {"00000123" , "PRADA 机器人拼皮休闲鞋", 1},
-                    {"00000123" , "PRADA 机器人拼皮休闲鞋", 1},
-                  })
+      m_orderList(LuaTool::Instance().getOrderList())
 {
 
 }

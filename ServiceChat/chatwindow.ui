@@ -21,7 +21,7 @@
        <enum>Qt::Vertical</enum>
       </property>
       <widget class="QWidget" name="widget" native="true"/>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QToolButton" name="fontToolButton">
@@ -32,7 +32,7 @@
            <string>Font</string>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="img.qrc">
             <normaloff>:/img/images/A.jpg</normaloff>:/img/images/A.jpg</iconset>
           </property>
           <property name="toolButtonStyle">
@@ -52,7 +52,7 @@
            <string>emotion</string>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="img.qrc">
             <normaloff>:/img/images/0.gif</normaloff>:/img/images/0.gif</iconset>
           </property>
           <property name="toolButtonStyle">
@@ -72,7 +72,7 @@
            <string>shot</string>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="img.qrc">
             <normaloff>:/img/images/rect.jpg</normaloff>:/img/images/rect.jpg</iconset>
           </property>
           <property name="toolButtonStyle">
@@ -92,7 +92,7 @@
            <string>pic</string>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="img.qrc">
             <normaloff>:/img/images/pic.jpg</normaloff>:/img/images/pic.jpg</iconset>
           </property>
           <property name="iconSize">
@@ -121,7 +121,7 @@
            <string>color</string>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="img.qrc">
             <normaloff>:/img/images/color.png</normaloff>:/img/images/color.png</iconset>
           </property>
           <property name="iconSize">
@@ -150,7 +150,7 @@
            <string>File</string>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="img.qrc">
             <normaloff>:/img/images/file.png</normaloff>:/img/images/file.png</iconset>
           </property>
           <property name="toolButtonStyle">
@@ -162,12 +162,12 @@
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="toolButton">
+         <widget class="QToolButton" name="orderToolButton">
           <property name="text">
            <string>Order</string>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="img.qrc">
             <normaloff>:/img/images/file.png</normaloff>:/img/images/file.png</iconset>
           </property>
           <property name="toolButtonStyle">
@@ -200,7 +200,7 @@
            <string>clear</string>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="img.qrc">
             <normaloff>:/img/images/clear.png</normaloff>:/img/images/clear.png</iconset>
           </property>
           <property name="toolButtonStyle">
@@ -286,6 +286,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="img.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -26,9 +26,11 @@ public:
     bool isAppCfgFileExist() const;
     bool isUserCfgFileExist() const;
     bool isUserCfgFileExist(const std::string &_userDir) const;
+    bool isOrderCfgFileExist() const;
 
     void genAppCfgFile() const;
     void genUserCfgFile() const;
+    void genOrderCfgFile() const;
 
     void updateAppCfgFile() const;
     void updateUserCfgFile() const;
@@ -36,6 +38,7 @@ public:
     void getAppConfig();
     void getUserConfig(const std::string &_userDir, UserCfgStruct *pUserCfg);
     void getUserConfig();
+    void getOrderConfig();
 
     void getConfigs();
 
@@ -56,6 +59,9 @@ public:
 
     std::string getLanguage() const;
     void setLanguage(const std::string &value);
+    QList<Order> getOrderList() const;
+    void setOrderList(const QList<Order> &orderList);
+
 private slots:
     void LoginSuccessHandle();
     void RemPwdAndAutoLoginHandle(bool isRemPwd, bool isAutoLogin);
@@ -65,6 +71,8 @@ private:
     std::string userDir;
     std::string appCfgFile;
     std::string userCfgFile;
+    std::string orderCfgFile;
+    QList<Order> m_orderList;
 
     bool rememberPassword;
     bool autoLogin;

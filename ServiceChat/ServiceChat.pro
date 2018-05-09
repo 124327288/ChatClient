@@ -70,7 +70,8 @@ SOURCES += \
     Tim/chatmanager.cpp \
     chatrecordwindow.cpp \
     orderdialog.cpp \
-    Model/ordertablemodel.cpp
+    Model/ordertablemodel.cpp \
+    Delegate/ordertableitemdelegate.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -114,7 +115,8 @@ HEADERS += \
     Tim/chatmanager.h \
     chatrecordwindow.h \
     orderdialog.h \
-    Model/ordertablemodel.h
+    Model/ordertablemodel.h \
+    Delegate/ordertableitemdelegate.h
 
 FORMS += \
         loginwindow.ui \

@@ -14,6 +14,7 @@ LuaTool::LuaTool()
     dir = ".\\config\\";
     appCfgFile = "app_cfg.lua";
     userCfgFile = "user_cfg.lua";
+    orderCfgFile = "order.lua";
     connect(&TimTool::Instance(), &TimTool::OnLoginSuccess,this, &LuaTool::LoginSuccessHandle);
     connect(&Signal::Instance(), &Signal::RemPwdAndAutoLogin, this, &LuaTool::RemPwdAndAutoLoginHandle);
 }
@@ -116,6 +117,14 @@ bool LuaTool::isUserCfgFileExist(const string &_userDir) const
     return file.exists();
 }
 
+bool LuaTool::isOrderCfgFileExist() const
+{
+    if(!isUserDirExist())
+        return false;
+    auto _path = userDir + orderCfgFile;
+    return QFile(_path.data()).exists();
+}
+
 void LuaTool::genAppCfgFile() const
 {
     DEBUG_FUNC;
@@ -141,6 +150,18 @@ void LuaTool::genUserCfgFile() const
         os << QString("%1 = %2\n").arg("rememberPassword").arg("false");
         os << QString("%1 = %2\n").arg("autoLogin").arg("false");
 //        os << QString("%1 = %2\n").arg("language").arg(R"("cn")");
+    }
+}
+
+void LuaTool::genOrderCfgFile() const
+{
+    DEBUG_FUNC;
+    auto _path = userDir + orderCfgFile;
+    QFile file(_path.data());
+    if(file.open(QFile::WriteOnly))
+    {
+        QTextStream os(&file);
+        os << "return {}";
     }
 }
 
@@ -207,6 +228,16 @@ void LuaTool::RemPwdAndAutoLoginHandle(bool isRemPwd, bool isAutoLogin)
     updateUserCfgFile();
 }
 
+QList<Order> LuaTool::getOrderList() const
+{
+    return m_orderList;
+}
+
+void LuaTool::setOrderList(const QList<Order> &orderList)
+{
+    m_orderList = orderList;
+}
+
 std::string LuaTool::getUserDir() const
 {
     return userDir;
@@ -228,9 +259,10 @@ void LuaTool::setUserDir(const std::string &value)
     }                                                           \
 }
 
-#define getGoNumber(var, varStr) getGlobal(lua_isnumber, lua_tonumber, (var), (varStr), "number")
-#define getGoString(var, varStr) getGlobal(lua_isstring, lua_tostring, (var), (varStr), "string")
-#define getGoBoolean(var, varStr) getGlobal(lua_isboolean, lua_toboolean, (var), (varStr), "boolean")
+#define getGoNumber(var, varStr)    getGlobal(lua_isnumber, lua_tonumber, (var), (varStr), "number")
+#define getGoString(var, varStr)    getGlobal(lua_isstring, lua_tostring, (var), (varStr), "string")
+#define getGoBoolean(var, varStr)   getGlobal(lua_isboolean, lua_toboolean, (var), (varStr), "boolean")
+#define getGoTable(var, varStr)     getGlobal(lua_istable, lua_to, (var), (varStr), "boolean")
 
 void LuaTool::getUserConfig()
 {
@@ -239,11 +271,84 @@ void LuaTool::getUserConfig()
     {
 //		QMessageBox::information(nullptr, "ERROR!", QString("cannot do file %1").arg(pf.data()));
         qDebug() << QString("cannot do file %1").arg(pf.data());
+//        POP_ERROR("luaL_dofile");
+//        DEBUG_VAR(error);
         return;
     }
     getGoBoolean(rememberPassword, "rememberPassword");
     getGoBoolean(autoLogin, "autoLogin");
+    getOrderConfig();
     isGetLoginedUserCfg = true;
+}
+
+void LuaTool::getOrderConfig()
+{
+    string pf = userDir + orderCfgFile;
+    if(luaL_dofile(L, pf.data()))
+    {
+        qDebug() << QString("cannot do file %1").arg(pf.data());
+//        POP_ERROR("luaL_dofile");
+        return;
+    }
+    lua_getglobal(L, "orderList");
+    if(!lua_istable(L, -1))
+    {
+        lua_pop(L, -1);
+        QString error = "orderList is not a table!";
+        DEBUG_VAR(error);
+//        POP_ERROR(error);
+        return;
+    }
+    int tableIndex = lua_gettop(L);
+    lua_pushnil(L);
+    while (lua_next(L, tableIndex))
+    {
+        static int i = 1;
+        if(!lua_istable(L, -1)) //t
+        {
+            QString error = QString("orderList[%1] is not a table").arg(i);
+            DEBUG_VAR(error);
+//            POP_ERROR(error);
+            return;
+        }
+
+        lua_getfield(L, -1, "id");//t,id
+        if(!lua_isstring(L, -1))
+        {
+            QString error = QString("orderList[%1].id is not a string").arg(i);
+            DEBUG_VAR(error);
+//            POP_ERROR(error);
+            return;
+        }
+        QString id = lua_tostring(L, -1);
+        lua_pop(L, 1);//t
+
+        lua_getfield(L, -1, "name");
+        if(!lua_isstring(L, -1))
+        {
+            QString error = QString("orderList[%1].name is not a string").arg(i);
+            DEBUG_VAR(error);
+//            POP_ERROR(error);
+            return;
+        }
+        QString name = lua_tostring(L, -1);
+        lua_pop(L, 1);//t
+
+        lua_getfield(L, -1, "count");
+        if(!lua_isnumber(L, -1))
+        {
+            QString error = QString("orderList[%1].count is not a number").arg(i);
+            DEBUG_VAR(error);
+//            POP_ERROR(error);
+            return;
+        }
+        int count = lua_tonumber(L, -1);
+        lua_pop(L, 1);//t
+        m_orderList += { id, name, count };
+        lua_pop(L, 1);
+        i = lua_tonumber(L, -1) + 1;
+    }
+    lua_pop(L, 1);
 }
 
 void LuaTool::getUserConfig(const string &_userDir, UserCfgStruct *pUserCfg)
