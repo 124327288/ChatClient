@@ -2,6 +2,19 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
+    <name>ChatRecordWindow</name>
+    <message>
+        <location filename="chatrecordwindow.ui" line="14"/>
+        <source>MainWindow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatrecordwindow.cpp" line="18"/>
+        <source>Chatting Records With %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ChatWindow</name>
     <message>
         <location filename="chatwindow.ui" line="14"/>
@@ -9,121 +22,146 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="35"/>
+        <location filename="chatwindow.ui" line="29"/>
         <source>设置字体格式</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="38"/>
+        <location filename="chatwindow.ui" line="32"/>
         <source>Font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="55"/>
+        <location filename="chatwindow.ui" line="49"/>
         <source>选择表情</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="58"/>
+        <location filename="chatwindow.ui" line="52"/>
         <source>emotion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="75"/>
+        <location filename="chatwindow.ui" line="69"/>
         <source>捕捉屏幕</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="78"/>
+        <location filename="chatwindow.ui" line="72"/>
         <source>shot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="95"/>
+        <location filename="chatwindow.ui" line="89"/>
         <source>插入图片</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="98"/>
+        <location filename="chatwindow.ui" line="92"/>
         <source>pic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="124"/>
+        <location filename="chatwindow.ui" line="118"/>
         <source>选择字体颜色</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="127"/>
+        <location filename="chatwindow.ui" line="121"/>
         <source>color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="153"/>
+        <location filename="chatwindow.ui" line="147"/>
         <source>发送文件</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="186"/>
+        <location filename="chatwindow.ui" line="167"/>
+        <source>Order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.ui" line="197"/>
         <source>清空会话窗口</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="189"/>
+        <location filename="chatwindow.ui" line="200"/>
         <source>clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="226"/>
-        <location filename="chatwindow.ui" line="262"/>
-        <location filename="chatwindow.ui" line="267"/>
+        <location filename="chatwindow.ui" line="224"/>
+        <source>Record</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.ui" line="244"/>
+        <location filename="chatwindow.ui" line="280"/>
+        <location filename="chatwindow.ui" line="285"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="233"/>
+        <location filename="chatwindow.ui" line="251"/>
         <source>Send</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.ui" line="156"/>
-        <location filename="chatwindow.ui" line="252"/>
+        <location filename="chatwindow.ui" line="150"/>
+        <location filename="chatwindow.ui" line="270"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="45"/>
+        <location filename="chatwindow.cpp" line="48"/>
         <source>%1 - Session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="284"/>
-        <location filename="chatwindow.cpp" line="294"/>
+        <location filename="chatwindow.cpp" line="204"/>
+        <source>&lt;p&gt;id: %1&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.cpp" line="205"/>
+        <source>&lt;p&gt;name: %1&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.cpp" line="206"/>
+        <source>&lt;p&gt;count: %1&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.cpp" line="301"/>
+        <location filename="chatwindow.cpp" line="311"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="284"/>
+        <location filename="chatwindow.cpp" line="301"/>
         <source>Images (*.jpg *.xpm *.png);;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="297"/>
+        <location filename="chatwindow.cpp" line="314"/>
         <source>Send this File?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="297"/>
+        <location filename="chatwindow.cpp" line="314"/>
         <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="297"/>
+        <location filename="chatwindow.cpp" line="314"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="299"/>
+        <location filename="chatwindow.cpp" line="316"/>
         <source>Send File: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -180,29 +218,34 @@
     </message>
     <message>
         <location filename="loginwindow.ui" line="123"/>
-        <location filename="loginwindow.cpp" line="110"/>
+        <location filename="loginwindow.cpp" line="117"/>
         <source>Login</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="70"/>
-        <location filename="loginwindow.cpp" line="75"/>
-        <location filename="loginwindow.cpp" line="109"/>
+        <location filename="loginwindow.cpp" line="67"/>
+        <source>用户名或密码错误</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loginwindow.cpp" line="76"/>
+        <location filename="loginwindow.cpp" line="81"/>
+        <location filename="loginwindow.cpp" line="116"/>
         <source>ERROR</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="70"/>
+        <location filename="loginwindow.cpp" line="76"/>
         <source>Username cannot be empty!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="75"/>
+        <location filename="loginwindow.cpp" line="81"/>
         <source>Password cannot be empty!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="78"/>
+        <location filename="loginwindow.cpp" line="84"/>
         <source>Logining......</source>
         <translation></translation>
     </message>
@@ -277,6 +320,19 @@
     <message>
         <location filename="mainwindow.cpp" line="68"/>
         <source>Friend</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OrderDialog</name>
+    <message>
+        <location filename="orderdialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="orderdialog.cpp" line="9"/>
+        <source>My Order</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
