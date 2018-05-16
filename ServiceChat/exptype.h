@@ -7,7 +7,8 @@ enum PROTOCOLTYPE : byte
 {
     USERPWD = 1,
     SIGNATURE = 2,
-    LOGINRES
+    LOGINRES,
+    Register
 };
 
 enum PROGRAMSTATE

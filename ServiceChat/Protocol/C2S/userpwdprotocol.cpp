@@ -1,9 +1,6 @@
 ﻿#include "userpwdprotocol.h"
 void UserPwdProtocol::Marshal()
 {
-
-//    QByteArray arr;
-//    arr += (byte)type;
     QByteArray uarr = username.toUtf8();
     byte ul = uarr.length();
     Add(ul);
@@ -12,16 +9,6 @@ void UserPwdProtocol::Marshal()
     byte pl = parr.length();
     Add(pl);
     Add(password);
-//    arr += ul;
-
-//    arr += username;
-
-//
-//    arr += pl;
-
-//    arr += password;
-
-//    socket->write(arr.trimmed());
 }
 
 QString UserPwdProtocol::getUsername() const

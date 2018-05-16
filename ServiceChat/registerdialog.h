@@ -14,9 +14,9 @@ class RegisterDialog : public QDialog
 public:
     explicit RegisterDialog(QWidget *parent = 0);
     ~RegisterDialog();
-
 private slots:
-    void on_buttonBox_accepted();
+    void onRegister();
+    void on_cancelPushButton_clicked(bool checked);
 
 private:
     Ui::RegisterDialog *ui;

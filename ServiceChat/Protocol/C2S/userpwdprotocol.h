@@ -10,8 +10,9 @@ public:
     }
 
     // C2SProtocol interface
-public:
+private:
     void Marshal() override;
+public:
     QString getUsername() const;
     void setUsername(const QString &value);
 
