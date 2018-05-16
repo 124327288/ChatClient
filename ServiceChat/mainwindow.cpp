@@ -16,6 +16,7 @@
 #include "Delegate/sessionlistitemdelegate.h"
 #include "settingdialog.h"
 #include "chatwindow.h"
+#include "orderdialog.h"
 MainWindow &MainWindow::Instance()
 {
     static MainWindow instance;
@@ -40,7 +41,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(friendListView, &QListView::doubleClicked, this, &MainWindow::PopChatWindow);
 	connect(sessionListView, &QListView::doubleClicked, this, &MainWindow::PopChatWindow);
     connect(friendListView, &QListView::customContextMenuRequested,[]{});
-    connect(ui->actionSetting, &QAction::triggered, [=]{auto dialog = new SettingDialog(this);dialog->show();});
+    connect(ui->actionSetting, &QAction::triggered, this, &MainWindow::popSettingDialog);
+    connect(ui->actionOrderList, &QAction::triggered, this, &MainWindow::popOrderDialog);
     TimTool::Instance().GetSelfProfile();
     TimTool::Instance().GetFriendList();
 }
@@ -101,6 +103,18 @@ MainWindow::~MainWindow()
         delete ui;
         ui = nullptr;
     }
+}
+
+void MainWindow::popOrderDialog()
+{
+    OrderDialog *dialog = new OrderDialog;
+    dialog->show();
+}
+
+void MainWindow::popSettingDialog()
+{
+    SettingDialog *dialog = new SettingDialog;
+    dialog->show();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

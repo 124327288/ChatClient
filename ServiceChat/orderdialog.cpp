@@ -25,6 +25,6 @@ void OrderDialog::SendOrder(const QModelIndex &index)
     if(window)
     {
         emit window->SelectedOrder(r);
+        close();
     }
-    close();
 }

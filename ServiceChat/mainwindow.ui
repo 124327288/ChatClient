@@ -97,6 +97,8 @@
     <addaction name="actionAdd_a_friend"/>
     <addaction name="separator"/>
     <addaction name="actionSession_with"/>
+    <addaction name="separator"/>
+    <addaction name="actionOrderList"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menuOperator"/>
@@ -136,6 +138,11 @@
   <action name="actionSession_with">
    <property name="text">
     <string>Session with</string>
+   </property>
+  </action>
+  <action name="actionOrderList">
+   <property name="text">
+    <string>OrderList</string>
    </property>
   </action>
  </widget>

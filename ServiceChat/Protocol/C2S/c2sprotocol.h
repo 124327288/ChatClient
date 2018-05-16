@@ -12,7 +12,7 @@ public:
         Add((byte)type);
     }
     void SendData();
-
+protected:
     template <class T>
     void Add(T t)
     {

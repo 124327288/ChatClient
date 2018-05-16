@@ -23,12 +23,11 @@ public:
     static MainWindow &Instance();
     ~MainWindow();
 private slots:
-    void on_addFriendBtn_clicked();
-
+    void popOrderDialog();
+    void popSettingDialog();
     void updateListView();
-
+    void on_addFriendBtn_clicked();    
     void on_actionLogout_triggered(bool checked);
-
     void on_actionExit_triggered(bool checked);
 
 private:

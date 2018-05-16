@@ -37,7 +37,6 @@ void TcpSocket::Listen()
 {
     QObject::connect(timer, &QTimer::timeout, [=]{
         QByteArray bytes = socket->readAll();
-
         if(!bytes.isEmpty())
         {
             DEBUG_VAR(bytes.size());
