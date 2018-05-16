@@ -10,6 +10,7 @@
 #include <QMessageBox>
 #include <QTranslator>
 #include "Table/table.h"
+#include "registerdialog.h"
 using namespace std;
 LoginWindow &LoginWindow::Instance()
 {
@@ -146,4 +147,10 @@ void LoginWindow::on_usernameComboBox_currentTextChanged(const QString &arg1)
         }
 
     }
+}
+
+void LoginWindow::on_registerToolButton_clicked(bool checked)
+{
+    RegisterDialog *dialog = new RegisterDialog(this);
+    dialog->exec();
 }

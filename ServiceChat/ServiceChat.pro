@@ -71,7 +71,8 @@ SOURCES += \
     chatrecordwindow.cpp \
     orderdialog.cpp \
     Model/ordertablemodel.cpp \
-    Delegate/ordertableitemdelegate.cpp
+    Delegate/ordertableitemdelegate.cpp \
+    registerdialog.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -116,7 +117,8 @@ HEADERS += \
     chatrecordwindow.h \
     orderdialog.h \
     Model/ordertablemodel.h \
-    Delegate/ordertableitemdelegate.h
+    Delegate/ordertableitemdelegate.h \
+    registerdialog.h
 
 FORMS += \
         loginwindow.ui \
@@ -124,7 +126,8 @@ FORMS += \
         chatwindow.ui \
         pdfwindow.ui \
     chatrecordwindow.ui \
-    orderdialog.ui
+    orderdialog.ui \
+    registerdialog.ui
 
 RESOURCES += \
     img.qrc \
