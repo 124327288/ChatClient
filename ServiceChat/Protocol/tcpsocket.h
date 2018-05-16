@@ -23,5 +23,6 @@ private:
 
     void OnSignatureProtocol(S2CProtocol *prc);
     void OnLoginResProtocol(S2CProtocol *prc);
+    void OnRegisterRetProtocol(S2CProtocol *prc);
 };
 #endif // TCPSOCKET_H

@@ -2,7 +2,7 @@
 #define REGISTERDIALOG_H
 
 #include <QDialog>
-
+#include "stdafx.h"
 namespace Ui {
 class RegisterDialog;
 }
@@ -15,6 +15,7 @@ public:
     explicit RegisterDialog(QWidget *parent = 0);
     ~RegisterDialog();
 private slots:
+    void onRegisterRet(REGISTERRETTYPE type);
     void onRegister();
     void on_cancelPushButton_clicked(bool checked);
 

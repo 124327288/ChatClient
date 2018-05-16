@@ -7,8 +7,9 @@ enum PROTOCOLTYPE : byte
 {
     USERPWD = 1,
     SIGNATURE = 2,
-    LOGINRES,
-    Register
+    LOGINRES = 3,
+    REGISTER = 4,
+    REGISTER_RET = 5,
 };
 
 enum PROGRAMSTATE
@@ -25,6 +26,13 @@ enum class LOGINRESTYPE : byte
     NOUSER = 1,
     PWDERROR = 2,
     FAIL = 3,
+};
+
+enum class REGISTERRETTYPE : byte
+{
+    SUCCESS = 0,
+    EXIST = 1,
+    REGISTERERROR = 2,
 };
 
 struct Linkman

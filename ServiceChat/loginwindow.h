@@ -22,12 +22,10 @@ public:
 signals:
     void RemainTime(int msec);
 private slots:
-
     void on_loginPushButton_clicked();
     void onLoginSuccess();
     void onLoginError(int code, const QString &desc);
     void on_usernameComboBox_currentTextChanged(const QString &arg1);
-
     void on_registerToolButton_clicked(bool checked);
 
 private:

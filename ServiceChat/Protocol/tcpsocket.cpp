@@ -1,6 +1,7 @@
 ﻿#include "tcpsocket.h"
 #include "S2C/signatureprotocol.h"
 #include "S2C/loginresprotocol.h"
+#include "S2C/registerretprotocol.h"
 #include "Tim/timtool.h"
 #include "luatool.h"
 #include "program.h"
@@ -51,6 +52,9 @@ void TcpSocket::Listen()
             case PROTOCOLTYPE::LOGINRES:
                 ListenCallBack(LoginResProtocol);
                 break;
+            case PROTOCOLTYPE::REGISTER_RET:
+                ListenCallBack(RegisterRetProtocol);
+                break;
             default:
                 break;
             }
@@ -80,6 +84,13 @@ void TcpSocket::OnLoginResProtocol(S2CProtocol *prc)
     default:
         break;
     }
+}
+
+void TcpSocket::OnRegisterRetProtocol(S2CProtocol *prc)
+{
+    PrcDynamicCast(RegisterRetProtocol);
+    DEBUG_VAR((byte)castPrc->res());
+    emit Signal::Instance().RegisterRet(castPrc->res());
 }
 
 QTcpSocket *TcpSocket::getSocket() const

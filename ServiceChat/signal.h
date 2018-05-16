@@ -15,6 +15,8 @@ private slots:
 signals:
     void LoginSuccess();
     void LoginError(int code, const QString &desc);
+    void RegisterSuccess();
+    void RegisterRet(REGISTERRETTYPE type);
     void SelfLogin(LOGINRESTYPE state);
     void GetFriendListSuccess(QList<Linkman> friendList);
     void GetFriendListError(int code, const char *desc);

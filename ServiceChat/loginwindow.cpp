@@ -51,6 +51,7 @@ LoginWindow::LoginWindow(QWidget *parent) :
     //        SetLoginLabel(s);
     //    });
     connect(ui->autoCheckBox, &QCheckBox::toggled, ui->rememberCheckBox, &QCheckBox::setChecked);
+
 }
 
 LoginWindow::~LoginWindow()
@@ -65,7 +66,7 @@ void LoginWindow::SetLoginLabel(const QString &str)
 
 void LoginWindow::SelfLoginCallback(LOGINRESTYPE state)
 {
-    POP_ERROR(tr("用户名或密码错误"));
+    POP_ERROR(tr("Username or password error."));
 }
 
 void LoginWindow::on_loginPushButton_clicked()
@@ -151,6 +152,6 @@ void LoginWindow::on_usernameComboBox_currentTextChanged(const QString &arg1)
 
 void LoginWindow::on_registerToolButton_clicked(bool checked)
 {
-    RegisterDialog *dialog = new RegisterDialog(this);
+    RegisterDialog *dialog = new RegisterDialog;
     dialog->exec();
 }

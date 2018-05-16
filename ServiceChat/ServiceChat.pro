@@ -73,7 +73,8 @@ SOURCES += \
     Model/ordertablemodel.cpp \
     Delegate/ordertableitemdelegate.cpp \
     registerdialog.cpp \
-    Protocol/C2S/registerprotocol.cpp
+    Protocol/C2S/registerprotocol.cpp \
+    Protocol/S2C/registerretprotocol.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -120,7 +121,8 @@ HEADERS += \
     Model/ordertablemodel.h \
     Delegate/ordertableitemdelegate.h \
     registerdialog.h \
-    Protocol/C2S/registerprotocol.h
+    Protocol/C2S/registerprotocol.h \
+    Protocol/S2C/registerretprotocol.h
 
 FORMS += \
         loginwindow.ui \

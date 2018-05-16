@@ -5,7 +5,7 @@
 class RegisterProtocol : public C2SProtocol
 {
 public:
-    RegisterProtocol():C2SProtocol(PROTOCOLTYPE::Register)
+    RegisterProtocol():C2SProtocol(PROTOCOLTYPE::REGISTER)
     {
 
     }
