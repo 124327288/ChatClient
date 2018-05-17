@@ -121,8 +121,6 @@ void ChatWindow::GetStyledMsg(const QString &rawMsg, QString *meMsg, QVector<Tim
         for(int pos = 0; (pos = rx.indexIn(msg, pos)) != -1;)
         {
             pos += rx.matchedLength();
-//            DEBUG_VAR(rx.cap());
-//            txtList << rx.cap();
             txtList += { rx.cap(), pos };
         }
         return txtList;
@@ -135,15 +133,26 @@ void ChatWindow::GetStyledMsg(const QString &rawMsg, QString *meMsg, QVector<Tim
         for(int pos = 0; (pos = rx.indexIn(msg, pos)) != -1;)
         {
             pos += rx.matchedLength();
-//            DEBUG_VAR(rx.cap(1));
-//            imgList << rx.cap(1);
             imgList += { rx.cap(1), pos };
         }
         return imgList;
     };
+
+    auto matchFileMsg = [](const QString &msg){
+        QRegExp rx(R"z(<a href=\"(.*)\"><span .*>(.*)</span></a>)z");
+        rx.setMinimal(true);
+        QVector<std::tuple<QString, int>> fileList;
+        for(int pos = 0; (pos = rx.indexIn(msg, pos)) != -1;)
+        {
+            pos += rx.matchedLength();
+            DEBUG_VAR(rx.cap(1));
+            fileList += { rx.cap(1), pos };
+        }
+        return fileList;
+    };
+
     QRegExp regExp(R"(<p.*>.*</p>)");
     regExp.setMinimal(true);
-//    QString txtMsg;
     QVector<std::tuple<TimMsg, int>> _msgList;
     for(int pos = 0; (pos = regExp.indexIn(rawMsg, pos)) != -1;)
     {
@@ -164,14 +173,24 @@ void ChatWindow::GetStyledMsg(const QString &rawMsg, QString *meMsg, QVector<Tim
         }
         msg = msg.remove(QRegularExpression(R"z(<img src=\"(?!qrc:)(.*)\" />)z"));
         {
+            auto fileList = matchFileMsg(msg);
+            if(fileList.count() > 0)
+            {
+                qDebug() << "kElemFile";
+                for(const auto &s : fileList)
+                {
+                    _msgList += { TimMsg{ kElemFile, std::get<0>(s)} , std::get<1>(s) };
+                }
+            }
+        }
+        msg = msg.remove(QRegularExpression(R"z(<a href=\"(.*)\"><span .*>(.*)</span></a><br />)z"));
+        {
             auto txtList = matchTxtMsg(msg);
             if(txtList.count() > 0)
             {
                 qDebug() << "kElemText";
                 for(const auto &s : txtList)
                     _msgList += { TimMsg{ kElemText, std::get<0>(s)} , std::get<1>(s) };
-//                    txtMsg += s;
-//                    *msgList += { kElemText, s };
             }
         }
     }
@@ -183,6 +202,10 @@ void ChatWindow::GetStyledMsg(const QString &rawMsg, QString *meMsg, QVector<Tim
         int type = std::get<0>(t).type;
         if(type == kElemImage)
             *msgList += std::get<0>(t);
+        else if(type == kElemFile)
+        {
+            *msgList += std::get<0>(t);
+        }
         else if(type == kElemText)
         {
             if(msgList->back().type == type)
@@ -311,11 +334,14 @@ void ChatWindow::on_fileToolButton_clicked(bool checked)
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString());
     if(!fileName.isNull())
     {
-        if(!QMessageBox::information(this, tr("Send this File?"), tr("Send this File?"), tr("Ok"), tr("Cancel")))
+//        if(!QMessageBox::information(this, tr("Send this File?"), tr("Send this File?"), tr("Ok"), tr("Cancel")))
         {
-            QString html = tr("Send File: %1").arg(fileName);
-            AddContent(TimTool::Instance().getId(), TimTool::Instance().getNick(), GetTime(), html);
-            TimTool::Instance().SendFile(otherId, fileName);
+//            QString html = tr("Send File: %1").arg(fileName);
+            QString simpleName = fileName.mid(fileName.lastIndexOf('/') + 1);
+            QString html = QString(R"(<a href = "%1">%2</a><br />)").arg(fileName).arg(simpleName);
+            ui->textEdit->insertHtml(html);
+//            AddContent(TimTool::Instance().getId(), TimTool::Instance().getNick(), GetTime(), html);
+//            TimTool::Instance().SendFile(otherId, fileName);
         }
     }
 }

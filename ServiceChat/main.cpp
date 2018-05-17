@@ -44,9 +44,8 @@ int main(int argc, char *argv[])
     TcpSocket::Instance().TryConnect();
     TimTool::Instance().Init();
     LoginWindow::Instance().show();
-//    FileWindow window;
-//    window.show();
-
-
+//    QString fullPath = qApp->applicationDirPath() + "/Mini-Pdf-Reader.exe";
+//    POP_INFOMATION(fullPath);
+//    QProcess::startDetached(fullPath);
     return a.exec();
 }
