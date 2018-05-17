@@ -34,7 +34,7 @@ void WebConnect::OpenFile(const QString &path)
     DEBUG_VAR(qApp->applicationDirPath());
     if(path.right(4).toLower() == ".pdf")
     {
-        QString fullPath = qApp->applicationDirPath() + "/Mini-Pdf-Reader.exe -" + path;
+        QString fullPath = qApp->applicationDirPath() + "/Mini-Pdf-Reader.exe " + path;
 //        POP_INFOMATION(fullPath);
         QProcess::startDetached(fullPath);
         return;
