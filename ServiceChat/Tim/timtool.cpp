@@ -215,6 +215,7 @@ void TimTool::SendMsg(const QString &id, const QVector<TimMsg> &msgList)
     QVector<TIMMsgTextElemHandle>  txtHandleList;
     QVector<TIMMsgImageElemHandle> imgHandleList;
     QVector<TIMMsgFileElemHandle>  fileHandleList;
+
     for(const TimMsg &msg : msgList)
     {
         switch (msg.type)
@@ -239,26 +240,27 @@ void TimTool::SendMsg(const QString &id, const QVector<TimMsg> &msgList)
         }
         case kElemFile:
         {
-            TIMMsgFileElemHandle fileHandle = CreateFileElemHandle();
-            QString filePath = msg.msg;
-            auto setFileName = [=]{
-                std::string stdFilePath = filePath.toStdString();
-                std::string fileName = stdFilePath.substr(stdFilePath.find_last_of('/') + 1);
-                DEBUG_VAR(fileName);
-                SetFileElemFileName(fileHandle, fileName.data(), fileName.length());
-            };
+            SendFile(id, msg.msg);
+//            TIMMsgFileElemHandle fileHandle = CreateFileElemHandle();
+//            QString filePath = msg.msg;
+//            auto setFileName = [=]{
+//                std::string stdFilePath = filePath.toStdString();
+//                std::string fileName = stdFilePath.substr(stdFilePath.find_last_of('/') + 1);
+//                DEBUG_VAR(fileName);
+//                SetFileElemFileName(fileHandle, fileName.data(), fileName.length());
+//            };
 
-            auto setFileData = [=]{
-                std::wstring stdFilePath = filePath.toStdWString();
-                std::fstream sendFile(stdFilePath.data(), std::fstream::in | std::fstream::binary);
-                std::string fileData((std::istreambuf_iterator<char>(sendFile)), std::istreambuf_iterator<char>());
-                SetFileElemData(fileHandle, fileData.data(), fileData.length());
-            };
+//            auto setFileData = [=]{
+//                std::wstring stdFilePath = filePath.toStdWString();
+//                std::fstream sendFile(stdFilePath.data(), std::fstream::in | std::fstream::binary);
+//                std::string fileData((std::istreambuf_iterator<char>(sendFile)), std::istreambuf_iterator<char>());
+//                SetFileElemData(fileHandle, fileData.data(), fileData.length());
+//            };
 
-            setFileName();
-            setFileData();
-            ON_INVOKE(AddElem, msgHandle, fileHandle);
-            fileHandleList += fileHandle;
+//            setFileName();
+//            setFileData();
+//            ON_INVOKE(AddElem, msgHandle, fileHandle);
+//            fileHandleList += fileHandle;
             break;
         }
         default:
