@@ -111,12 +111,23 @@ struct ParamType
     QVariant value;
 };
 
-struct Order
+//struct Order
+//{
+//    QString id;
+//    QString name;
+//    int cnt;
+//};
+
+struct Order_S
 {
-    QString id;
-    QString name;
-    int cnt;
+    QString oid;
+    QString servid;
+    int filenum;
+    double totalamt;
 };
+
+using Order = Order_S;
+
 Q_DECLARE_METATYPE(Order)
 Q_DECLARE_METATYPE(Linkman)
 Q_DECLARE_METATYPE(QList<Linkman>)

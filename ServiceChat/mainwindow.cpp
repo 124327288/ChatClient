@@ -146,3 +146,30 @@ void MainWindow::on_actionExit_triggered(bool checked)
     CloseAll();
     qApp->exit();
 }
+
+void MainWindow::on_actionAdd_a_friend_triggered(bool checked)
+{
+    QString id = QInputDialog::getText(this, "Input Friend ID", "Friend ID");
+    if(id.trimmed().isEmpty())
+     return;
+    TimTool::Instance().AddSingleFriend(id, "hehe");
+
+}
+
+void MainWindow::on_actionSession_with_triggered(bool checked)
+{
+    QString id = QInputDialog::getText(this, "Input User ID", "User ID");
+    if(id.trimmed().isEmpty())
+     return;
+    ChatWindow *window;
+    if (TimTool::Instance().ContainInChatWindowMap(id))
+    {
+        window = TimTool::Instance().GetChatWindow(id);
+        window->activateWindow();
+    }
+    else
+    {
+        window = new ChatWindow({ id });
+        window->show();
+    }
+}

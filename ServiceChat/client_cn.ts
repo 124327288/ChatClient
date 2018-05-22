@@ -147,50 +147,61 @@
         <translation>%1 - 会话</translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="204"/>
-        <source>&lt;p&gt;id: %1&lt;/p&gt;</source>
+        <source>&lt;p&gt;name: %1&lt;/p&gt;</source>
+        <translation type="vanished">&lt;p&gt;商品名称: %1&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;count: %1&lt;/p&gt;</source>
+        <translation type="vanished">&lt;p&gt;商品数量: %1&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="chatwindow.cpp" line="228"/>
+        <source>&lt;p&gt;order id: %1&lt;/p&gt;</source>
+        <oldsource>&lt;p&gt;servid: %1&lt;/p&gt;</oldsource>
+        <translation>&lt;p&gt;订单ID: %1&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="chatwindow.cpp" line="229"/>
+        <source>&lt;p&gt;server id: %1&lt;/p&gt;</source>
+        <oldsource>&lt;p&gt;filenum: %1&lt;/p&gt;</oldsource>
+        <translation>&lt;p&gt;服务ID: %1&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="chatwindow.cpp" line="230"/>
+        <source>&lt;p&gt;file num: %1&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="205"/>
-        <source>&lt;p&gt;name: %1&lt;/p&gt;</source>
-        <translation>&lt;p&gt;商品名称: %1&lt;/p&gt;</translation>
+        <location filename="chatwindow.cpp" line="231"/>
+        <source>&lt;p&gt;total price %1&lt;/p&gt;</source>
+        <translation>&lt;p&gt;总价: %1&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="206"/>
-        <source>&lt;p&gt;count: %1&lt;/p&gt;</source>
-        <translation>&lt;p&gt;商品数量: %1&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="chatwindow.cpp" line="301"/>
-        <location filename="chatwindow.cpp" line="311"/>
+        <location filename="chatwindow.cpp" line="328"/>
+        <location filename="chatwindow.cpp" line="338"/>
         <source>Open File</source>
         <translation>打开图片</translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="301"/>
+        <location filename="chatwindow.cpp" line="328"/>
         <source>Images (*.jpg *.xpm *.png);;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="314"/>
         <source>Send this File?</source>
-        <translation>发送这个文件？</translation>
+        <translation type="vanished">发送这个文件？</translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="314"/>
         <source>Ok</source>
-        <translation>确认</translation>
+        <translation type="vanished">确认</translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="314"/>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="vanished">取消</translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="316"/>
         <source>Send File: %1</source>
-        <translation>发送文件：</translation>
+        <translation type="vanished">发送文件：</translation>
     </message>
 </context>
 <context>
@@ -216,36 +227,36 @@
     <message>
         <location filename="loginwindow.ui" line="38"/>
         <source>ServiceChat</source>
-        <translation>聊天客户端</translation>
+        <translation type="unfinished">微印系统登录</translation>
     </message>
     <message>
-        <location filename="loginwindow.ui" line="62"/>
+        <location filename="loginwindow.ui" line="47"/>
         <source>Username</source>
         <translation>用户名</translation>
     </message>
     <message>
-        <location filename="loginwindow.ui" line="76"/>
+        <location filename="loginwindow.ui" line="112"/>
         <source>Register</source>
         <translation>注册</translation>
     </message>
     <message>
-        <location filename="loginwindow.ui" line="83"/>
+        <location filename="loginwindow.ui" line="67"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="loginwindow.ui" line="101"/>
+        <location filename="loginwindow.ui" line="91"/>
         <source>Remember Password</source>
         <translation>记住密码</translation>
     </message>
     <message>
-        <location filename="loginwindow.ui" line="108"/>
+        <location filename="loginwindow.ui" line="101"/>
         <source>Auto Login</source>
         <translation>自动登录</translation>
     </message>
     <message>
-        <location filename="loginwindow.ui" line="123"/>
-        <location filename="loginwindow.cpp" line="117"/>
+        <location filename="loginwindow.ui" line="128"/>
+        <location filename="loginwindow.cpp" line="120"/>
         <source>Login</source>
         <translation>登录</translation>
     </message>
@@ -262,29 +273,29 @@
         <translation type="vanished">登录超时！点击重新登录</translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="67"/>
-        <source>用户名或密码错误</source>
-        <translation type="unfinished"></translation>
+        <location filename="loginwindow.cpp" line="70"/>
+        <source>Username or password error.</source>
+        <translation>用户名或密码错误</translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="76"/>
-        <location filename="loginwindow.cpp" line="81"/>
-        <location filename="loginwindow.cpp" line="116"/>
+        <location filename="loginwindow.cpp" line="79"/>
+        <location filename="loginwindow.cpp" line="84"/>
+        <location filename="loginwindow.cpp" line="119"/>
         <source>ERROR</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="76"/>
+        <location filename="loginwindow.cpp" line="79"/>
         <source>Username cannot be empty!</source>
         <translation>用户名不可为空</translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="81"/>
+        <location filename="loginwindow.cpp" line="84"/>
         <source>Password cannot be empty!</source>
         <translation>密码不可为空</translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="84"/>
+        <location filename="loginwindow.cpp" line="87"/>
         <source>Logining......</source>
         <translation>登录中……</translation>
     </message>
@@ -321,47 +332,52 @@
         <translation>操作</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="108"/>
+        <location filename="mainwindow.ui" line="110"/>
         <source>Logout</source>
         <translation>注销</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="113"/>
+        <location filename="mainwindow.ui" line="115"/>
         <source>Setting</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="118"/>
+        <location filename="mainwindow.ui" line="120"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="123"/>
+        <location filename="mainwindow.ui" line="125"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="128"/>
+        <location filename="mainwindow.ui" line="130"/>
         <source>AboutQt</source>
         <translation>关于Qt</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="133"/>
+        <location filename="mainwindow.ui" line="135"/>
         <source>Add a friend</source>
         <translation>添加好友</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="138"/>
+        <location filename="mainwindow.ui" line="140"/>
         <source>Session with</source>
         <translation>发起会话</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="61"/>
+        <location filename="mainwindow.ui" line="145"/>
+        <source>OrderList</source>
+        <translation>订单列表</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="63"/>
         <source>Session</source>
         <translation>会话</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="68"/>
+        <location filename="mainwindow.cpp" line="70"/>
         <source>Friend</source>
         <translation>好友</translation>
     </message>
@@ -439,8 +455,8 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="program.h" line="111"/>
-        <location filename="program.h" line="116"/>
+        <location filename="program.h" line="117"/>
+        <location filename="program.h" line="122"/>
         <source>%1 Error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -451,14 +467,58 @@
         <translation>数据库未打开</translation>
     </message>
     <message>
-        <location filename="Tim/timtool.cpp" line="452"/>
+        <location filename="Tim/timtool.cpp" line="454"/>
         <source>Be Kick Offline!</source>
-        <translation type="unfinished"></translation>
+        <translation>被踢下线！</translation>
     </message>
     <message>
-        <location filename="Tim/timtool.cpp" line="452"/>
+        <location filename="Tim/timtool.cpp" line="454"/>
         <source>Be Kick Offline! Logout!</source>
-        <translation type="unfinished"></translation>
+        <translation>被踢下线！已退出登录！</translation>
+    </message>
+</context>
+<context>
+    <name>RegisterDialog</name>
+    <message>
+        <location filename="registerdialog.ui" line="14"/>
+        <location filename="registerdialog.ui" line="80"/>
+        <source>Register</source>
+        <translation>注册</translation>
+    </message>
+    <message>
+        <location filename="registerdialog.ui" line="25"/>
+        <source>Username</source>
+        <translation>用户名</translation>
+    </message>
+    <message>
+        <location filename="registerdialog.ui" line="46"/>
+        <source>Password</source>
+        <translation>密码</translation>
+    </message>
+    <message>
+        <location filename="registerdialog.ui" line="92"/>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <location filename="registerdialog.cpp" line="28"/>
+        <source>Register Success!</source>
+        <translation>注册成功！</translation>
+    </message>
+    <message>
+        <location filename="registerdialog.cpp" line="32"/>
+        <source>The username already exists.</source>
+        <translation>该用户名已存在。</translation>
+    </message>
+    <message>
+        <location filename="registerdialog.cpp" line="45"/>
+        <source>The username or password cannot be empty!</source>
+        <translation>用户名或密码不可为空！</translation>
+    </message>
+    <message>
+        <location filename="registerdialog.cpp" line="50"/>
+        <source>No Spaces in username or password!</source>
+        <translation>用户名或密码中不可含有空格！</translation>
     </message>
 </context>
 <context>

@@ -2,6 +2,7 @@
 #include "program.h"
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QNetworkReply>
 #include <QProcess>
 #include <Tim/timtool.h>
 
@@ -65,4 +66,64 @@ void CloseAll()
     for(auto w : TimTool::Instance().getChatWindowMap())
         w->close();
     MainWindow::Instance().close();
+}
+
+void RequestOrderList()
+{
+    QUrl url("http://www.yunprint.com/api/cse49910p/myorders/uid/chengyong");
+    QNetworkAccessManager *man = new QNetworkAccessManager;
+    QObject::connect(man, &QNetworkAccessManager::finished, [=](QNetworkReply *reply){
+        QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+        DEBUG_VAR(statusCode);
+        if(reply->error() == QNetworkReply::NoError)
+        {
+            QString orders = QString::fromUtf8(reply->readAll());
+            OrderListStr(orders);
+            OrderList();
+        }
+    });
+    man->get(QNetworkRequest(url));
+}
+
+
+QString OrderListStr(QString orderList)
+{
+    static QString instance;
+    if(!orderList.isEmpty())
+        instance = orderList;
+//    DEBUG_VAR(instance);
+    return instance;
+}
+
+
+QList<Order_S> OrderList()
+{
+    static QList<Order_S> instance;
+    if(!instance.isEmpty())
+        return instance;
+    QString str = OrderListStr();
+    if(str.isNull())
+    {
+        return instance;
+    }
+    QJsonParseError parseError;
+    QJsonDocument document = QJsonDocument::fromJson(str.toUtf8(), &parseError);
+    if(parseError.error == QJsonParseError::NoError)
+    {
+        if(document.isArray())
+        {
+            QJsonArray arr = document.array();
+            for(QJsonValue val : arr)
+            {
+                QJsonObject obj = val.toObject();
+                QString oid = obj.take("oid").toString();
+                QString servid = obj.take("servid").toString();
+                int filenum = obj.take("filenum").toInt();
+                double totalamt = obj.take("totalamt").toDouble();
+                instance.push_back({oid, servid, filenum, totalamt});
+
+            }
+        }
+    }
+    return instance;
 }

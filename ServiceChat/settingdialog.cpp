@@ -7,7 +7,7 @@
 SettingDialog::SettingDialog(QWidget *parent) : QDialog(parent)
 {
     setWindowTitle(tr("Settings"));
-    list = new QListWidget(this);
+    list = new QListWidget;
     list->addItem(tr("User Settings"));
     list->addItem(tr("System Settings"));
     stackWidget = new QStackedWidget;

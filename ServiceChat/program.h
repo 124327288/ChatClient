@@ -181,5 +181,7 @@ time_t GetTime();
 void SetWidgetCentral(QWidget *w);
 void CloseAll();
 void Restart();
-
+QString OrderListStr(QString orderList = nullptr);
+void RequestOrderList();
+QList<Order_S> OrderList();
 #endif // PROGRAM_H

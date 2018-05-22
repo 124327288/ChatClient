@@ -30,20 +30,23 @@ int main(int argc, char *argv[])
     };
     auto loadMineTrans = [&a]{
         static QTranslator trans;
+        DEBUG_VAR(LuaTool::Instance().getLanguage());
         if(LuaTool::Instance().getLanguage() == "en")
             trans.load(":/client_en.qm");
         else
             trans.load(":/client_cn.qm");
         a.installTranslator(&trans);
     };
-    loadGlobalTrans();
-    loadMineTrans();
+
     GenCacheDir();
     LuaTool::Instance().Init();
     LuaTool::Instance().getConfigs();
+    loadGlobalTrans();
+    loadMineTrans();
     TcpSocket::Instance().TryConnect();
     TimTool::Instance().Init();
     LoginWindow::Instance().show();
+    RequestOrderList();
 //    QString fullPath = qApp->applicationDirPath() + "/Mini-Pdf-Reader.exe";
 //    POP_INFOMATION(fullPath);
 //    QProcess::startDetached(fullPath);

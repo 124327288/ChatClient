@@ -25,6 +25,7 @@ LoginWindow::LoginWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->loginPushButton->setShortcut(Qt::Key_Return);
     setWindowFlags(windowFlags() & ~Qt::WindowMaximizeButtonHint);
+    ui->autoCheckBox->setVisible(false);
     DatabaseTool dbTool = SqliteTool::Database();
     SqliteTool::CreateAll(dbTool);
     dbTool.Select(&idList);

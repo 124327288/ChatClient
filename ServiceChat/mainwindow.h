@@ -29,6 +29,8 @@ private slots:
     void on_addFriendBtn_clicked();    
     void on_actionLogout_triggered(bool checked);
     void on_actionExit_triggered(bool checked);
+    void on_actionAdd_a_friend_triggered(bool checked);
+    void on_actionSession_with_triggered(bool checked);
 
 private:
     Ui::MainWindow      *ui;

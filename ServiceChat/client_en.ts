@@ -120,49 +120,36 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="204"/>
-        <source>&lt;p&gt;id: %1&lt;/p&gt;</source>
+        <location filename="chatwindow.cpp" line="228"/>
+        <source>&lt;p&gt;order id: %1&lt;/p&gt;</source>
+        <oldsource>&lt;p&gt;servid: %1&lt;/p&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="205"/>
-        <source>&lt;p&gt;name: %1&lt;/p&gt;</source>
+        <location filename="chatwindow.cpp" line="229"/>
+        <source>&lt;p&gt;server id: %1&lt;/p&gt;</source>
+        <oldsource>&lt;p&gt;filenum: %1&lt;/p&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="206"/>
-        <source>&lt;p&gt;count: %1&lt;/p&gt;</source>
+        <location filename="chatwindow.cpp" line="230"/>
+        <source>&lt;p&gt;file num: %1&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="301"/>
-        <location filename="chatwindow.cpp" line="311"/>
+        <location filename="chatwindow.cpp" line="231"/>
+        <source>&lt;p&gt;total price %1&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="chatwindow.cpp" line="328"/>
+        <location filename="chatwindow.cpp" line="338"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chatwindow.cpp" line="301"/>
+        <location filename="chatwindow.cpp" line="328"/>
         <source>Images (*.jpg *.xpm *.png);;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="chatwindow.cpp" line="314"/>
-        <source>Send this File?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="chatwindow.cpp" line="314"/>
-        <source>Ok</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="chatwindow.cpp" line="314"/>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="chatwindow.cpp" line="316"/>
-        <source>Send File: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -192,60 +179,60 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.ui" line="62"/>
+        <location filename="loginwindow.ui" line="47"/>
         <source>Username</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.ui" line="76"/>
+        <location filename="loginwindow.ui" line="112"/>
         <source>Register</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.ui" line="83"/>
+        <location filename="loginwindow.ui" line="67"/>
         <source>Password</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.ui" line="101"/>
+        <location filename="loginwindow.ui" line="91"/>
         <source>Remember Password</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.ui" line="108"/>
+        <location filename="loginwindow.ui" line="101"/>
         <source>Auto Login</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.ui" line="123"/>
-        <location filename="loginwindow.cpp" line="117"/>
+        <location filename="loginwindow.ui" line="128"/>
+        <location filename="loginwindow.cpp" line="120"/>
         <source>Login</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="67"/>
-        <source>用户名或密码错误</source>
+        <location filename="loginwindow.cpp" line="70"/>
+        <source>Username or password error.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="76"/>
-        <location filename="loginwindow.cpp" line="81"/>
-        <location filename="loginwindow.cpp" line="116"/>
+        <location filename="loginwindow.cpp" line="79"/>
+        <location filename="loginwindow.cpp" line="84"/>
+        <location filename="loginwindow.cpp" line="119"/>
         <source>ERROR</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="76"/>
+        <location filename="loginwindow.cpp" line="79"/>
         <source>Username cannot be empty!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="81"/>
+        <location filename="loginwindow.cpp" line="84"/>
         <source>Password cannot be empty!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginwindow.cpp" line="84"/>
+        <location filename="loginwindow.cpp" line="87"/>
         <source>Logining......</source>
         <translation></translation>
     </message>
@@ -278,47 +265,52 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="108"/>
+        <location filename="mainwindow.ui" line="110"/>
         <source>Logout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="113"/>
+        <location filename="mainwindow.ui" line="115"/>
         <source>Setting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="118"/>
+        <location filename="mainwindow.ui" line="120"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="123"/>
+        <location filename="mainwindow.ui" line="125"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="128"/>
+        <location filename="mainwindow.ui" line="130"/>
         <source>AboutQt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="133"/>
+        <location filename="mainwindow.ui" line="135"/>
         <source>Add a friend</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="138"/>
+        <location filename="mainwindow.ui" line="140"/>
         <source>Session with</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="61"/>
+        <location filename="mainwindow.ui" line="145"/>
+        <source>OrderList</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="63"/>
         <source>Session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="68"/>
+        <location filename="mainwindow.cpp" line="70"/>
         <source>Friend</source>
         <translation type="unfinished"></translation>
     </message>
@@ -392,8 +384,8 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="program.h" line="111"/>
-        <location filename="program.h" line="116"/>
+        <location filename="program.h" line="117"/>
+        <location filename="program.h" line="122"/>
         <source>%1 Error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -404,13 +396,57 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tim/timtool.cpp" line="452"/>
+        <location filename="Tim/timtool.cpp" line="454"/>
         <source>Be Kick Offline!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tim/timtool.cpp" line="452"/>
+        <location filename="Tim/timtool.cpp" line="454"/>
         <source>Be Kick Offline! Logout!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RegisterDialog</name>
+    <message>
+        <location filename="registerdialog.ui" line="14"/>
+        <location filename="registerdialog.ui" line="80"/>
+        <source>Register</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="registerdialog.ui" line="25"/>
+        <source>Username</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="registerdialog.ui" line="46"/>
+        <source>Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="registerdialog.ui" line="92"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="registerdialog.cpp" line="28"/>
+        <source>Register Success!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="registerdialog.cpp" line="32"/>
+        <source>The username already exists.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="registerdialog.cpp" line="45"/>
+        <source>The username or password cannot be empty!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="registerdialog.cpp" line="50"/>
+        <source>No Spaces in username or password!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

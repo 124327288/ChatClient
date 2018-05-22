@@ -223,15 +223,19 @@ void ChatWindow::GetStyledMsg(const QString &rawMsg, QString *meMsg, QVector<Tim
 
 void ChatWindow::AddOrderText(int i)
 {
-    Order order = LuaTool::Instance().getOrderList()[i];
-    QString id = tr("<p>id: %1</p>").arg(order.id);
-    QString name = tr("<p>name: %1</p>").arg(order.name);
-    QString count = tr("<p>count: %1</p>").arg(order.cnt);
-    Add2TextEdit(id);
+    DEBUG_FUNC;
+    Order order = OrderList()[i];
+    QString oid = tr("<p>order id: %1</p>").arg(order.oid);
+    QString servid = tr("<p>server id: %1</p>").arg(order.servid);
+    QString filenum = tr("<p>file num: %1</p>").arg(order.filenum);
+    QString totalamt = tr("<p>total price %1</p>").arg(order.totalamt);
+    Add2TextEdit(oid);
     Add2TextEdit("<br />");
-    Add2TextEdit(name);
+    Add2TextEdit(servid);
     Add2TextEdit("<br />");
-    Add2TextEdit(count);
+    Add2TextEdit(filenum);
+    Add2TextEdit("<br />");
+    Add2TextEdit(totalamt);
     Add2TextEdit("<br />");
 }
 

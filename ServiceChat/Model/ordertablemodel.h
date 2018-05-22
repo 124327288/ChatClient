@@ -21,7 +21,7 @@ public:
     void setOrderList(const QList<Order> &orderList);
 
 private:
-    QList<Order> m_orderList;
+    QList<Order_S> m_orderList;
 
     // QAbstractItemModel interface
 public:

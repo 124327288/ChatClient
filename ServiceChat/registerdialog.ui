@@ -54,6 +54,12 @@
        <pointsize>12</pointsize>
       </font>
      </property>
+     <property name="echoMode">
+      <enum>QLineEdit::Password</enum>
+     </property>
+     <property name="cursorMoveStyle">
+      <enum>Qt::LogicalMoveStyle</enum>
+     </property>
     </widget>
    </item>
    <item row="2" column="0" colspan="2">
