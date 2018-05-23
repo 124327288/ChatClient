@@ -99,6 +99,7 @@ void onGetNewMessage(TIMMessageHandle *handles, uint32_t msg_num, void *data)
         if(id == TimTool::Instance().getId())
             continue;
         GET_ELEMENT(GetNickName4ProfileHandle, profile, &nick);
+        emit TimTool::Instance().NewConversation(id, nick, msgTime);
         DestroyProfileHandle(profile);
         if(!TimTool::Instance().ContainInConvMap(id))
         {
