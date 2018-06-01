@@ -183,5 +183,5 @@ void CloseAll();
 void Restart();
 QString OrderListStr(QString orderList = nullptr);
 void RequestOrderList();
-QList<Order_S> OrderList();
+QList<Order_S> &OrderList();
 #endif // PROGRAM_H

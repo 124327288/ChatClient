@@ -96,7 +96,7 @@ QString OrderListStr(QString orderList)
 }
 
 
-QList<Order_S> OrderList()
+QList<Order_S> &OrderList()
 {
     static QList<Order_S> instance;
     if(!instance.isEmpty())
