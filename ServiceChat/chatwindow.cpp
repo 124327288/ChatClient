@@ -34,7 +34,10 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     QWebChannel *channel = new QWebChannel;
     channel->registerObject("connect", &WebConnect::Instance());
     webView = new QWebEngineView();
-    connect(webView, &QWebEngineView::loadFinished, this, &ChatWindow::InitMsgList);
+    connect(webView, &QWebEngineView::loadFinished, this, [=](auto b){
+        if(!isClear())
+            this->InitMsgList(b);
+    });
     webView->page()->setWebChannel(channel);
     webView->load(QString("file:///%1/%2").arg(QDir::currentPath()).arg("ChatView/index.html"));
 
@@ -386,6 +389,7 @@ void ChatWindow::on_shotToolButton_clicked(bool checked)
 
 void ChatWindow::on_clearToolButton_clicked(bool checked)
 {
+    setIsClear(true);
     webView->reload();
 //    TimTool::Instance().getContentMap().remove(otherId);
 }
@@ -410,4 +414,14 @@ void ChatWindow::on_orderToolButton_clicked(bool checked)
 {
     OrderDialog *dialog = new OrderDialog(this);
     dialog->exec();
+}
+
+bool ChatWindow::isClear() const
+{
+    return m_isClear;
+}
+
+void ChatWindow::setIsClear(bool isClear)
+{
+    m_isClear = isClear;
 }

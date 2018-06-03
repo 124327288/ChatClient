@@ -58,12 +58,12 @@ QVariant OrderTableModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-QList<Order_S> OrderTableModel::orderList() const
+QList<Order_S> &OrderTableModel::orderList() const
 {
     return m_orderList;
 }
 
-void OrderTableModel::setOrderList(const QList<Order> &orderList)
+void OrderTableModel::setOrderList(const QList<Order_S> &orderList)
 {
     m_orderList = orderList;
 }

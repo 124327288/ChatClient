@@ -42,12 +42,13 @@ private slots:
     void on_orderToolButton_clicked(bool checked);
 
 private:
-    Ui::ChatWindow      *ui;
-    QWebEngineView      *webView;
-    QString             otherId;
-    QString             otherNick;
-    QString             otherRemark;
-    TIMConversationHandle convHandle = nullptr;
+    Ui::ChatWindow          *ui;
+    QWebEngineView          *webView;
+    QString                 otherId;
+    QString                 otherNick;
+    QString                 otherRemark;
+    TIMConversationHandle   convHandle = nullptr;
+    bool                    m_isClear = false;
     void GetConversation();
 
     // QWidget interface
@@ -57,6 +58,8 @@ protected:
     // QObject interface
 public:
     virtual bool eventFilter(QObject *watched, QEvent *event) override;
+    bool isClear() const;
+    void setIsClear(bool isClear);
 };
 
 #endif // CHATWINDOW_H

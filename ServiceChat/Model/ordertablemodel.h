@@ -17,15 +17,14 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    QList<Order> orderList() const;
-    void setOrderList(const QList<Order> &orderList);
-
 private:
     QList<Order_S> &m_orderList;
 
     // QAbstractItemModel interface
 public:
     virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
+    QList<Order_S> &orderList() const;
+    void setOrderList(const QList<Order_S> &orderList);
 };
 
 #endif // ORDERTABLEMODEL_H

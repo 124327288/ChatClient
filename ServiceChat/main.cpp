@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
     qRegisterMetaType<uint32_t>("uint32_t");
     qRegisterMetaType<time_t>("time_t");
     qRegisterMetaType<Order>("Order");
+//    qRegisterMetaType<QString&>("QString&");
 
     auto loadGlobalTrans = [&a]{
         static QTranslator trans;
