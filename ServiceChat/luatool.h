@@ -62,6 +62,9 @@ public:
     QList<Order> getOrderList() const;
     void setOrderList(const QList<Order> &orderList);
 
+    std::string getSendMsg() const;
+    void setSendMsg(const std::string &value);
+
 private slots:
     void LoginSuccessHandle();
     void RemPwdAndAutoLoginHandle(bool isRemPwd, bool isAutoLogin);
@@ -76,6 +79,7 @@ private:
 
     bool rememberPassword;
     bool autoLogin;
+    std::string sendMsg;
     std::string language;
 
     std::string serverAddress;
@@ -84,5 +88,5 @@ private:
     bool isGetLoginedUserCfg = false;
 
 };
-
+#define LuaInstance (LuaTool::Instance())
 #endif // LUATOOL_H

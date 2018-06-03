@@ -149,6 +149,7 @@ void LuaTool::genUserCfgFile() const
         QTextStream os(&file);
         os << QString("%1 = %2\n").arg("rememberPassword").arg("false");
         os << QString("%1 = %2\n").arg("autoLogin").arg("false");
+        os << QString("%1 = \"%2\"\n").arg("sendMsg").arg("Ctrl+Enter");
 //        os << QString("%1 = %2\n").arg("language").arg(R"("cn")");
     }
 }
@@ -189,6 +190,7 @@ void LuaTool::updateUserCfgFile() const
         QTextStream os(&file);
         os << QString("%1 = %2\n").arg("rememberPassword").arg(bts(rememberPassword));
         os << QString("%1 = %2\n").arg("autoLogin").arg(bts(autoLogin));
+        os << QString("%1 = \"%2\"\n").arg("sendMsg").arg(sendMsg.data());
     }
 }
 
@@ -226,6 +228,16 @@ void LuaTool::RemPwdAndAutoLoginHandle(bool isRemPwd, bool isAutoLogin)
     setRememberPassword(isRemPwd);
     setAutoLogin(isAutoLogin);
     updateUserCfgFile();
+}
+
+std::string LuaTool::getSendMsg() const
+{
+    return sendMsg;
+}
+
+void LuaTool::setSendMsg(const std::string &value)
+{
+    sendMsg = value;
 }
 
 QList<Order> LuaTool::getOrderList() const
@@ -277,6 +289,7 @@ void LuaTool::getUserConfig()
     }
     getGoBoolean(rememberPassword, "rememberPassword");
     getGoBoolean(autoLogin, "autoLogin");
+    getGoString(sendMsg, "sendMsg");
     getOrderConfig();
     isGetLoginedUserCfg = true;
 }
@@ -364,6 +377,7 @@ void LuaTool::getUserConfig(const string &_userDir, UserCfgStruct *pUserCfg)
     }
     getGoBoolean(pUserCfg->rememberPassword, "rememberPassword");
     getGoBoolean(pUserCfg->autoLogin, "autoLogin");
+    getGoString(pUserCfg->sendMsg, "sendMsg");
 }
 
 

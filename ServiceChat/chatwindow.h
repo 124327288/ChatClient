@@ -60,6 +60,10 @@ public:
     virtual bool eventFilter(QObject *watched, QEvent *event) override;
     bool isClear() const;
     void setIsClear(bool isClear);
+
+    // QWidget interface
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
 };
 
 #endif // CHATWINDOW_H

@@ -23,7 +23,10 @@ SettingDialog::SettingDialog(QWidget *parent) : QDialog(parent)
     nickLine->setText(TimTool::Instance().getNick());
     sendMsgLabel = new QLabel(tr("Send Message"));
     sendMsgComboBox = new QComboBox;
-    sendMsgComboBox->addItems({"Enter", "Ctrl + Enter"});
+    sendMsgComboBox->addItems({"Enter", "Ctrl+Enter"});
+    int sendMsgWay = LuaTool::Instance().getSendMsg() == "Enter" ? 0 : 1;
+    DEBUG_VAR(LuaInstance.getSendMsg());
+    sendMsgComboBox->setCurrentIndex(sendMsgWay);
     gridLayout = new QGridLayout;
     gridLayout->addWidget(idLabel, 0, 0);
     gridLayout->addWidget(idLine, 0, 1);
@@ -73,26 +76,33 @@ SettingDialog::SettingDialog(QWidget *parent) : QDialog(parent)
         {
             case 0:
             {
-                TimTool::Instance().SetNickName(nickLine->text());
+                std::string sendMsgWay = sendMsgComboBox->currentText().toStdString();
+                LuaInstance.setSendMsg(sendMsgWay);
+                TimInstance.SetNickName(nickLine->text());
                 break;
             }
             case 1:
             {
-                int i = langCombo->currentIndex();
-                if(i != langComboCurIndex)
-                {
-                    langComboCurIndex = i;
-                    if(langComboCurIndex == 0)
-                        LuaTool::Instance().setLanguage("en");
-                    else if(langComboCurIndex == 1)
-                        LuaTool::Instance().setLanguage("cn");
-                    else
-                        break;
-                    LuaTool::Instance().updateAppCfgFile();
-                }
+//                int i = langCombo->currentIndex();
+//                if(i != langComboCurIndex)
+//                {
+//                    langComboCurIndex = i;
+//                    if(langComboCurIndex == 0)
+//                        LuaTool::Instance().setLanguage("en");
+//                    else if(langComboCurIndex == 1)
+//                        LuaTool::Instance().setLanguage("cn");
+//                    else
+//                        break;
+//                    LuaTool::Instance().updateAppCfgFile();
+//                }
+                std::string lang = langCombo->currentIndex() == 0 ? "en" : "cn";
+                LuaInstance.setLanguage(lang);
                 break;
             }
         }
+        DEBUG_VAR(LuaInstance.getSendMsg());
+        LuaInstance.updateAppCfgFile();
+        LuaInstance.updateUserCfgFile();
         close();
     });
 }

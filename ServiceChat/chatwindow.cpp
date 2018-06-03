@@ -28,7 +28,10 @@ ChatWindow::ChatWindow(const Linkman &linkman, QWidget *parent) :
     ui(new Ui::ChatWindow)
 {
     ui->setupUi(this);
-    ui->sendBtn->setShortcut(QString("Ctrl+Return"));
+    QString sendMsgWay = QString::fromStdString(LuaInstance.getSendMsg());
+    sendMsgWay = sendMsgWay.replace(QLatin1String("Enter"), QLatin1String("Return"));
+    DEBUG_VAR(sendMsgWay);
+    ui->sendBtn->setShortcut(sendMsgWay);
     ui->widget->setStyleSheet(QString::fromUtf8("border:1px solid #5CACEE"));
     ui->textEdit->installEventFilter(this);
     QWebChannel *channel = new QWebChannel;
@@ -273,6 +276,11 @@ bool ChatWindow::eventFilter(QObject *watched, QEvent *event)
         if(event->type() == QEvent::KeyPress)
         {
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if(LuaInstance.getSendMsg() == "Enter" && keyEvent->key() == Qt::Key_Return)
+            {
+                on_sendBtn_clicked();
+                return true;
+            }
             if(keyEvent->modifiers() == Qt::ControlModifier && keyEvent->key() == Qt::Key_V)
             {
                 QClipboard *board = QApplication::clipboard();
@@ -424,4 +432,16 @@ bool ChatWindow::isClear() const
 void ChatWindow::setIsClear(bool isClear)
 {
     m_isClear = isClear;
+}
+
+void ChatWindow::keyPressEvent(QKeyEvent *event)
+{
+    if(LuaInstance.getSendMsg() == "Enter")
+    {
+        if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return)
+        {
+            on_sendBtn_clicked();
+        }
+    }
+
 }

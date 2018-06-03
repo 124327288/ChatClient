@@ -94,8 +94,9 @@ struct AppCfgStruct
 
 struct UserCfgStruct
 {
-    bool rememberPassword;
-    bool autoLogin;
+    bool        rememberPassword;
+    bool        autoLogin;
+    std::string sendMsg;
 };
 
 struct TimMsg

@@ -118,4 +118,5 @@ public:
     QList<Linkman> getFriendList() const;
     void setFriendList(const QList<Linkman> &value);
 };
+#define TimInstance (TimTool::Instance())
 #endif // TIMTOOL_H
